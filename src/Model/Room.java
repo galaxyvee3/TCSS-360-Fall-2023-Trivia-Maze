@@ -1,71 +1,60 @@
 package Model;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Random;
-import javax.swing.JPanel;
 
 /**
  * Room class for Trivia Maze, Team 2.
  * @author rick_adams.
  * @author Viktoria Dolojan.
  */
-public class Room extends JPanel implements KeyListener {
-    private final int myNumDoors;
+public class Room {
     private boolean myDoorLocked;
     private boolean myQuestionAnsweredCorrectly;
-
+    private final boolean myClueStatus;
+    private String myClueContent;
     private static final int MAX_DOORS = 2;
-
     private static final Random RANDOM = new Random();
 
     public Room() {
-        super();
-        myNumDoors = RANDOM.nextInt(MAX_DOORS) + 1;
+        int myNumDoors = RANDOM.nextInt(MAX_DOORS) + 1;
         myDoorLocked = true;
         myQuestionAnsweredCorrectly = false;
-        addKeyListener(this);
-        setFocusable(true);
-    }
-
-    @Override
-    public void keyTyped(final KeyEvent theE) {
-        // Handle user input for door selection only if the door is not locked.
-        if (!myDoorLocked) {
-            int doorNumber = theE.getKeyChar() - '1';
-            // More door selection, as needed.
-            repaint();
+        myClueStatus = RANDOM.nextBoolean();
+        if (myClueStatus) {
+            myClueContent = generateClueContent();
         }
     }
 
-    @Override
-    public void keyPressed(final KeyEvent e) {
-        // Handle key press events (if needed).
-    }
-
-    @Override
-    public void keyReleased(final KeyEvent e) {
-        // Handle key release events (if needed).
-    }
-
-    public void answerTriviaQuestion(final String theAnswer) {
+    public void answerTriviaQuestion(String playerAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
-        // Replace with the actual correct answer.
-        final String correctAnswer = "Your correct answer";
-        if (theAnswer.equals(correctAnswer)) {
+        // Replace with the actual correct answer retrieval logic.
+        String correctAnswer = "Your correct answer";
+        if (playerAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
             myDoorLocked = false; // Unlock the door.
         } else {
             myQuestionAnsweredCorrectly = false; // The player answered incorrectly.
         }
-        repaint();
     }
 
-    public boolean getIsDoorLocked() {
+    public boolean isDoorLocked() {
         return myDoorLocked;
     }
 
-    public boolean getIsQuestionAnsweredCorrectly() {
+    public boolean isQuestionAnsweredCorrectly() {
         return myQuestionAnsweredCorrectly;
+    }
+
+    public boolean isCluePresent() {
+        return myClueStatus;
+    }
+
+    public String getMyClueContent() {
+        return myClueContent;
+    }
+
+    private String generateClueContent() {
+       //TODO: Install mechanics to generate the clue!
+        return "This is a clue to help you answer the trivia question.";
     }
 }

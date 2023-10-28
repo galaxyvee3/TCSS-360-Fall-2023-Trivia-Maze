@@ -17,21 +17,26 @@ class RoomTest {
 
     @Test
     public void testRoomInit() {
-        assertTrue(myRoom.getIsDoorLocked());
-        assertFalse(myRoom.getIsQuestionAnsweredCorrectly());
+        assertTrue(myRoom.isDoorLocked());
+        assertFalse(myRoom.isQuestionAnsweredCorrectly());
     }
 
     @Test
     public void testDoorLocks() {
         myRoom.answerTriviaQuestion("Your correct answer");
-        assertFalse(myRoom.getIsDoorLocked());
-        assertTrue(myRoom.getIsQuestionAnsweredCorrectly());
+        assertFalse(myRoom.isDoorLocked());
+        assertTrue(myRoom.isQuestionAnsweredCorrectly());
     }
 
     @Test
     void testIncorrectAnswer() {
-        myRoom.answerTriviaQuestion("Incorrect answer");
-        assertTrue(myRoom.getIsDoorLocked());
-        assertFalse(myRoom.getIsQuestionAnsweredCorrectly());
+        myRoom.answerTriviaQuestion( "Incorrect answer");
+        assertTrue(myRoom.isDoorLocked());
+        assertFalse(myRoom.isQuestionAnsweredCorrectly());
+    }
+
+    @Test
+    void testCluePresence() {
+        assertTrue(myRoom.isCluePresent());
     }
 }
