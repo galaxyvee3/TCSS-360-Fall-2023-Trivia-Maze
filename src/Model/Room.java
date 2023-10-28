@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -37,8 +37,6 @@ public class Room extends JPanel implements KeyListener {
             repaint();
         }
     }
-
-
 
     @Override
     public void keyPressed(final KeyEvent e) {
