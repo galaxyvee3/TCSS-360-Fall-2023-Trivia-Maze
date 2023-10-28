@@ -1,4 +1,4 @@
-package Tests;
+package tests;
 
 import model.Room;
 import org.junit.jupiter.api.Test;
@@ -15,21 +15,21 @@ class RoomTest {
 
     @Test
     public void testRoomInit() {
-        assertTrue(myRoom.getDoorLockStatus());
-        assertFalse(myRoom.getQuestionAnsweredCorrectly());
+        assertTrue(myRoom.getIsDoorLocked());
+        assertFalse(myRoom.getIsQuestionAnsweredCorrectly());
     }
 
     @Test
     public void testDoorLocks() {
         myRoom.answerTriviaQuestion("Your correct answer");
-        assertEquals(false, myRoom.getDoorLockStatus());
-        assertEquals(true, myRoom.getQuestionAnsweredCorrectly());
+        assertEquals(false, myRoom.getIsDoorLocked());
+        assertEquals(true, myRoom.getIsQuestionAnsweredCorrectly());
     }
 
     @Test
     void testIncorrectAnswer() {
         myRoom.answerTriviaQuestion("Incorrect answer");
-        assertEquals(true, myRoom.getDoorLockStatus());
-        assertEquals(false, myRoom.getQuestionAnsweredCorrectly());
+        assertEquals(true, myRoom.getIsDoorLocked());
+        assertEquals(false, myRoom.getIsQuestionAnsweredCorrectly());
     }
 }

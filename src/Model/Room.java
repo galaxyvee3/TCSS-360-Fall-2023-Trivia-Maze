@@ -17,13 +17,8 @@ public class Room extends JPanel implements KeyListener {
 
     private static final int MAX_DOORS = 2;
 
-    private static final int CORRECT_DOOR_NUMBER = 0; // Replace with the actual correct door number.
-
     private static final Random RANDOM = new Random();
 
-    /**
-     * Public constructor.
-     */
     public Room() {
         super();
         myNumDoors = RANDOM.nextInt(MAX_DOORS) + 1;
@@ -38,17 +33,12 @@ public class Room extends JPanel implements KeyListener {
         // Handle user input for door selection only if the door is not locked.
         if (!myDoorLocked) {
             int doorNumber = theE.getKeyChar() - '1';
-            if (doorNumber >= 0 && doorNumber < myNumDoors) {
-                if (doorNumber == CORRECT_DOOR_NUMBER) {
-                    // Player selected the correct door.
-                    myDoorLocked = false; // Unlock the door.
-                }
-                // More door selection, as needed.
-            }
-            // Repaint the room.
+            // More door selection, as needed.
             repaint();
         }
     }
+
+
 
     @Override
     public void keyPressed(final KeyEvent e) {
@@ -63,8 +53,8 @@ public class Room extends JPanel implements KeyListener {
     public void answerTriviaQuestion(final String theAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
         // Replace with the actual correct answer.
-        String myCorrectAnswer = "Your correct answer";
-        if (theAnswer.equals(myCorrectAnswer)) {
+        final String correctAnswer = "Your correct answer";
+        if (theAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
             myDoorLocked = false; // Unlock the door.
         } else {
@@ -72,18 +62,12 @@ public class Room extends JPanel implements KeyListener {
         }
         repaint();
     }
-    /**
-     * Public accessor method for the door lock status.
-     * @return Returns the door lock status.
-     */
-    public boolean getDoorLockStatus() {
+
+    public boolean getIsDoorLocked() {
         return myDoorLocked;
     }
-    /**
-     * Public accessor method for the correct answers.
-     * @return Returns the door lock status.
-     */
-    public boolean getQuestionAnsweredCorrectly() {
+
+    public boolean getIsQuestionAnsweredCorrectly() {
         return myQuestionAnsweredCorrectly;
     }
 }
