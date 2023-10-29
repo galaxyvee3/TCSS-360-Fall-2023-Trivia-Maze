@@ -27,7 +27,6 @@ public class Room {
 
     public void answerTriviaQuestion(String playerAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
-        // Replace with the actual correct answer retrieval logic.
         String correctAnswer = "Your correct answer";
         if (playerAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
