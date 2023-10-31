@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,7 +9,9 @@ import javax.swing.JPanel;
  * Room class for Trivia Maze, Team 2.
  * @author rick_adams.
  * @author Viktoria Dolojan.
+ * @author Justin Ho
  */
+
 public class Room extends JPanel implements KeyListener {
     private final int myNumDoors;
     private boolean myDoorLocked;
@@ -38,6 +40,16 @@ public class Room extends JPanel implements KeyListener {
         }
     }
 
+    private void handleDoorSelection (int selectDoor) {
+        // Handle what happens when user select door
+        // Display Trivia Question and wait for user answers
+        displayTriviaQuestion();
+    }
+
+    private void displayTriviaQuestion() {
+        // Display Questions using UI Components
+        // JLabel to display Questions
+    }
 
 
     @Override
@@ -49,6 +61,7 @@ public class Room extends JPanel implements KeyListener {
     public void keyReleased(final KeyEvent e) {
         // Handle key release events (if needed).
     }
+
 
     public void answerTriviaQuestion(final String theAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
