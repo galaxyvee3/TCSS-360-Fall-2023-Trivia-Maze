@@ -8,37 +8,39 @@ import java.util.Random;
  * @author Viktoria Dolojan.
  */
 public class Room {
-    private boolean myDoorLocked;
     private boolean myQuestionAnsweredCorrectly;
     private final boolean myClueStatus;
     private String myClueContent;
-    private static final int MAX_DOORS = 2;
+
+    /** Object of the Door class. */
+    private final Door myDoor;
+
     private static final Random RANDOM = new Random();
 
     public Room() {
-        int myNumDoors = RANDOM.nextInt(MAX_DOORS) + 1;
-        myDoorLocked = true;
-        myQuestionAnsweredCorrectly = false;
+        myDoor = new Door();
         myClueStatus = RANDOM.nextBoolean();
         if (myClueStatus) {
             myClueContent = generateClueContent();
         }
     }
 
-    public void answerTriviaQuestion(String playerAnswer) {
+    public void answerTriviaQuestion(final String thePlayerAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
-        String correctAnswer = "Your correct answer";
-        if (playerAnswer.equals(correctAnswer)) {
+        final String correctAnswer = "Your correct answer"; // Replace with the actual correct answer.
+
+        if (thePlayerAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
-            myDoorLocked = false; // Unlock the door.
+            myDoor.openDoor(); // Open the door if the answer is correct.
         } else {
             myQuestionAnsweredCorrectly = false; // The player answered incorrectly.
         }
     }
 
-    public boolean isDoorLocked() {
-        return myDoorLocked;
-    }
+//  Probably obsolete.
+//    public boolean isDoorLocked() {
+//        return myDoor.getStatus();
+//    }
 
     public boolean isQuestionAnsweredCorrectly() {
         return myQuestionAnsweredCorrectly;
