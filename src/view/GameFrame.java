@@ -9,8 +9,8 @@ import javax.swing.*;
 
 /**
  * Frame class for Trivia Maze.
- * @author rick_adams.
- * @author Viktoria Dolojan.
+ * @author rick_adams
+ * @author Viktoria Dolojan
  */
 public class
 GameFrame extends JFrame implements PropertyChangeListener {

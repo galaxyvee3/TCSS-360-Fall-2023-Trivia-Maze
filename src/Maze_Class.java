@@ -3,8 +3,6 @@ import java.util.Arrays;
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
- *
- *
  */
 
 public class Maze_Class {
@@ -25,16 +23,5 @@ public class Maze_Class {
         for (char[] row: myGrid) {
             Arrays.fill(row, ' ');
         }
-
-
-
-
-
-
     }
-
-
-
-
 }
-

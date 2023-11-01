@@ -4,6 +4,8 @@ import java.awt.*;
  *
  */
 public class Question_Answer {
+    // TODO: SQLite
+
     private List myQuestions;
     private String myAnswer;
 

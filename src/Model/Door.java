@@ -2,7 +2,7 @@ package Model;
 
 /**
  * Door class for Trivia Maze Fall 2023 Team 2.
- * @author Viktoria Dolojan.
+ * @author Viktoria Dolojan
  */
 public class Door {
     /* Door number. */
