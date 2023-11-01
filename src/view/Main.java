@@ -16,8 +16,6 @@ public class Main {
      * @param thrArgs command line args.
      */
     public static void main(final String[] thrArgs) {
-        SwingUtilities.invokeLater(() -> {
-           final GameFrame gameFrame = new GameFrame();
-        });
+        SwingUtilities.invokeLater(GameFrame::new);
     }
 }
