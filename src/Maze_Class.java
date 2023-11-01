@@ -13,6 +13,7 @@ public class Maze_Class {
     private int myExitRow;
     private int myEntryCol;
     private int myExitCol;
+    private int myPeople;
 
     public Maze_Class (int rows, int columns)  {
         myEntryRow = 0;
