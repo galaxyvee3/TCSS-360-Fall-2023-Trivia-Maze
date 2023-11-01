@@ -4,8 +4,8 @@ import javax.swing.SwingUtilities;
 
 /**
  * view.Main driver for Trivia Maze.
- * @author rick_adams.
- * @author Viktoria Dolojan.
+ * @author rick_adams
+ * @author Viktoria Dolojan
  */
 public class Main {
     /**Private constructor.*/

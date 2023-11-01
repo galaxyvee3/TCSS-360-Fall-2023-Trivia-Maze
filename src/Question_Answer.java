@@ -1,23 +1,21 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
- *
+ * Question_Answer class for Trivia Maze.
+ * @author Viktoria Dolojan
  */
 public class Question_Answer {
     // TODO: SQLite
 
-    private List myQuestions;
-    private String myAnswer;
+    /* ArrayList of Trivia questions. */
+    private ArrayList myQuestions;
 
     public Question_Answer() {
 
     }
 
     public List getQuestions() {
-        return null;
-    }
-
-    public String getAnswer() {
         return null;
     }
 
