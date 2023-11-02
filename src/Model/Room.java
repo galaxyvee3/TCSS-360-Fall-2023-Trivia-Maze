@@ -50,12 +50,10 @@ public class Room {
      * Constructs a Room object.
      * @param theRow row of Room in maze
      * @param theColumn column of Room in maze
-     * @param theDoors all doors in the Room
      */
-    public Room(final int theRow, final int theColumn, final Map<Direction, Door> theDoors) {
+    public Room(final int theRow, final int theColumn) {
         myRow = theRow;
         myColumn = theColumn;
-        myDoors = theDoors;
         myDoorLocked = true;
         myQuestionAnsweredCorrectly = false;
         myClueStatus = RANDOM.nextBoolean();

@@ -31,12 +31,6 @@ public class Door implements Serializable {
 
     /**
      * Constructs a Door object.
-     */
-    public Door() {
-    }
-
-    /**
-     * Constructs a Door object.
      * @param theNumber door number
      * @param theRoom1 first room connected by door
      * @param theRoom2 second room connected by door
