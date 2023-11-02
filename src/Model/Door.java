@@ -1,10 +1,16 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Door class for Trivia Maze Fall 2023 Team 2.
  * @author Viktoria Dolojan
  */
-public class Door {
+public class Door implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /* Door number. */
     private int myDoorNumber = 0;
 

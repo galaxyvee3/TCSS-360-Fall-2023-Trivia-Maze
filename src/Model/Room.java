@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -9,6 +10,15 @@ import java.util.Random;
  * @author Justin Ho
  */
 public class Room {
+    /* Map of Doors contained in the Room. */
+    private Map<Direction, Door> myDoors;
+
+    /* The row of the Room in the Maze. */
+    private int myRow;
+
+    /* The column of the Room in the Maze. */
+    private int myColumn;
+
     /* Boolean for whether the door is locked. */
     private boolean myDoorLocked;
 
@@ -21,9 +31,6 @@ public class Room {
     /* The clue for the trivia question. */
     private String myClueContent;
 
-    /* The maximum number of doors a room can have. */
-    private static final int MAX_DOORS = 2;
-
     /* Random object. */
     private static final Random RANDOM = new Random();
 
@@ -31,7 +38,24 @@ public class Room {
      * Constructs a Room object.
      */
     public Room() {
-        int myNumDoors = RANDOM.nextInt(MAX_DOORS) + 1;
+        myDoorLocked = true;
+        myQuestionAnsweredCorrectly = false;
+        myClueStatus = RANDOM.nextBoolean();
+        if (myClueStatus) {
+            myClueContent = generateClueContent();
+        }
+    }
+
+    /**
+     * Constructs a Room object.
+     * @param theRow row of Room in maze
+     * @param theColumn column of Room in maze
+     * @param theDoors all doors in the Room
+     */
+    public Room(final int theRow, final int theColumn, final Map<Direction, Door> theDoors) {
+        myRow = theRow;
+        myColumn = theColumn;
+        myDoors = theDoors;
         myDoorLocked = true;
         myQuestionAnsweredCorrectly = false;
         myClueStatus = RANDOM.nextBoolean();
