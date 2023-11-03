@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,13 +13,10 @@ public class Room {
     private final boolean myClueStatus;
     private String myClueContent;
 
-    /** Object of the Door class. */
-    private final Door myDoor;
-
     private static final Random RANDOM = new Random();
 
     public Room() {
-        myDoor = new Door();
+
         myClueStatus = RANDOM.nextBoolean();
         if (myClueStatus) {
             myClueContent = generateClueContent();
@@ -31,7 +29,7 @@ public class Room {
 
         if (thePlayerAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
-            myDoor.openDoor(); // Open the door if the answer is correct.
+//            myDoor.openDoor(); // Open the door if the answer is correct.
         } else {
             myQuestionAnsweredCorrectly = false; // The player answered incorrectly.
         }
