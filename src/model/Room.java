@@ -1,6 +1,5 @@
-package Model;
+package model;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -10,35 +9,35 @@ import java.util.Random;
  */
 public class Room {
     private boolean myQuestionAnsweredCorrectly;
+    private final Door myDoor;
     private final boolean myClueStatus;
     private String myClueContent;
-
     private static final Random RANDOM = new Random();
 
     public Room() {
-
+        myDoor = new Door();
+        myQuestionAnsweredCorrectly = false;
         myClueStatus = RANDOM.nextBoolean();
         if (myClueStatus) {
-            myClueContent = generateClueContent();
+            myClueContent = "This is a clue to help you answer the trivia question.";
         }
     }
 
-    public void answerTriviaQuestion(final String thePlayerAnswer) {
+    public void answerTriviaQuestion(String playerAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
-        final String correctAnswer = "Your correct answer"; // Replace with the actual correct answer.
+        String correctAnswer = "Your correct answer"; // Replace with the actual correct answer.
 
-        if (thePlayerAnswer.equals(correctAnswer)) {
+        if (playerAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
-//            myDoor.openDoor(); // Open the door if the answer is correct.
+            myDoor.openDoor(); // Open the door if the answer is correct.
         } else {
             myQuestionAnsweredCorrectly = false; // The player answered incorrectly.
         }
     }
 
-//  Probably obsolete.
-//    public boolean isDoorLocked() {
-//        return myDoor.getStatus();
-//    }
+    public boolean isDoorLocked() {
+        return myDoor.getStatus();
+    }
 
     public boolean isQuestionAnsweredCorrectly() {
         return myQuestionAnsweredCorrectly;
@@ -51,9 +50,5 @@ public class Room {
     public String getMyClueContent() {
         return myClueContent;
     }
-
-    private String generateClueContent() {
-       //TODO: Install mechanics to generate the clue!
-        return "This is a clue to help you answer the trivia question.";
-    }
 }
+

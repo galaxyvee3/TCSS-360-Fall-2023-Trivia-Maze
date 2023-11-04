@@ -1,6 +1,6 @@
 package tests;
 
-import Model.Room;
+import model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
