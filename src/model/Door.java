@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,6 +17,12 @@ public class Door implements Serializable {
     /* Status of whether door is open or not. */
     private boolean myIsOpen = false;
 
+    /* The trivia question assigned to this Door. */
+    private String myQuestion = null;
+
+    /* The answer to the trivia question. */
+    private String myAnswer = null;
+
     /* First room the door is connected to. */
     private Room myRoom1 = null;
 
@@ -28,6 +34,12 @@ public class Door implements Serializable {
 
     /* Direction of the door to relative to Room 2. */
     private Direction myDirection2 = null;
+
+    /**
+     * Default constructor.
+     */
+    public Door() {
+    }
 
     /**
      * Constructs a Door object.
@@ -44,6 +56,22 @@ public class Door implements Serializable {
         myRoom2 = theRoom2;
         myDirection1 = theDirection1;
         myDirection2 = theDirection2;
+    }
+
+    /**
+     * Return the trivia question assigned to the door.
+     * @return the trivia question
+     */
+    public String getQuestion() {
+        return myQuestion;
+    }
+
+    /**
+     * Return the answer to the trivia question.
+     * @return the answer
+     */
+    public String getAnswer() {
+        return myAnswer;
     }
 
     /**
@@ -92,6 +120,22 @@ public class Door implements Serializable {
      */
     public boolean getStatus() {
         return myIsOpen;
+    }
+
+    /**
+     * Assigns a trivia question to the door.
+     * @param theQuestion the trivia question
+     */
+    public void setQuestion(final String theQuestion) {
+        myQuestion = theQuestion;
+    }
+
+    /**
+     * Assigns the answer of the trivia question.
+     * @param theAnswer the answer
+     */
+    public void setAnswer(final String theAnswer) {
+        myAnswer = theAnswer;
     }
 
     /**

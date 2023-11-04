@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.Map;
 import java.util.Random;
@@ -10,9 +10,6 @@ import java.util.Random;
  * @author Justin Ho
  */
 public class Room {
-    /* Map of Doors contained in the Room. */
-    private Map<Direction, Door> myDoors;
-
     /* The row of the Room in the Maze. */
     private int myRow;
 
@@ -60,6 +57,22 @@ public class Room {
         if (myClueStatus) {
             myClueContent = generateClueContent();
         }
+    }
+
+    /**
+     * Retrieve the current trivia question from the door.
+     * @param theDoor the current door the user is trying to get through
+     */
+    public String retrieveQuestion(final Door theDoor) {
+        return theDoor.getQuestion();
+    }
+
+    /**
+     * Retrieve the current answer for the trivia question from the door.
+     * @param theDoor the current door the user is trying to get through
+     */
+    public String retrieveAnswer(final Door theDoor) {
+        return theDoor.getAnswer();
     }
 
     /**

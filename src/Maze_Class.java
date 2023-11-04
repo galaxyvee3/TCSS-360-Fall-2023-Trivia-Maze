@@ -1,10 +1,4 @@
-import Model.Direction;
-import Model.Door;
-import Model.Room;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import model.Room;
 
 /**
  * Maze class for Trivia Maze, Team 2.

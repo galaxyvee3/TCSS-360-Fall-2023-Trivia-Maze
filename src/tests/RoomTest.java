@@ -1,15 +1,14 @@
 package tests;
 
-import Model.Room;
+import model.Door;
+import model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTest {
     private Room myRoom;
-
 
     @BeforeEach
     void setUp() {
@@ -40,5 +39,14 @@ class RoomTest {
             }
         }
         assertTrue(cluePresent, "At least one room should have a clue.");
+    }
+
+    @Test
+    void testDoorQuestionAnswer() {
+        Door door = new Door();
+        door.setQuestion("What are the 4 Pillars of OOP?");
+        door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
+        assertEquals("What are the 4 Pillars of OOP?", myRoom.retrieveQuestion(door));
+        assertEquals("Abstraction, Encapsulation, Inheritance, and Polymorphism", myRoom.retrieveAnswer(door));
     }
 }

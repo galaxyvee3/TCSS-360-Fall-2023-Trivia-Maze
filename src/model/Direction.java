@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Direction enumeration class for Trivia Maze Fall 2023 Team 2.
