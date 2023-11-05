@@ -13,9 +13,10 @@ public class Main {
     }
     /**
      * view.Main method.
-     * @param thrArgs command line args.
+     * @param theArgs command line args.
      */
-    public static void main(final String[] thrArgs) {
+    public static void main(final String[] theArgs) {
+        QuestionDatabase.initializeDatabase();
         SwingUtilities.invokeLater(GameFrame::new);
     }
 }
