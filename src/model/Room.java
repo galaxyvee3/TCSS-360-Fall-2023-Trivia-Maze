@@ -83,9 +83,10 @@ public class Room {
         String correctAnswer = "Your correct answer";
         if (playerAnswer.equals(correctAnswer)) {
             myQuestionAnsweredCorrectly = true; // The player answered correctly.
-            myDoorLocked = false; // Unlock the door.
+            myDoorLocked = false; // Door status
         } else {
             myQuestionAnsweredCorrectly = false; // The player answered incorrectly.
+            myDoorLocked = true;
         }
     }
 
