@@ -1,5 +1,6 @@
 package model;
 
+import javax.swing.*;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -36,9 +37,11 @@ public class Door implements Serializable {
     private Direction myDirection2 = null;
 
     /**
-     * Default constructor.
+     * Constructs a Door object.
+     * @param theNumber door number
      */
-    public Door() {
+    public Door(final int theNumber) {
+        myDoorNumber = theNumber;
     }
 
     /**

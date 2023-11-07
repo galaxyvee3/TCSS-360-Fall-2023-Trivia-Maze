@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DoorTest {
     @Test
     void testDoorInit() {
-        Door door = new Door();
+        Door door = new Door(0);
         assertEquals(0, door.getDoorNumber());
         assertEquals(false, door.getStatus());
         assertEquals(null, door.getQuestion());
@@ -20,7 +20,7 @@ public class DoorTest {
 
     @Test
     void testSetQuestionAnswer() {
-        Door door = new Door();
+        Door door = new Door(0);
         door.setQuestion("What are the 4 Pillars of OOP?");
         door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
         assertEquals("What are the 4 Pillars of OOP?", door.getQuestion());

@@ -3,18 +3,25 @@ package view;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import org.sqlite.SQLiteDataSource;
 
+/**
+ * QuestionDatabase class for Trivia Maze Fall 2023 Team 2.
+ * @author rick_adams
+ */
 public class QuestionDatabase {
     private static final Logger logger = Logger.getLogger(QuestionDatabase.class.getName());
 
     public QuestionDatabase() {
-
     }
 
     public static void main(String[] args) {
         QuestionDatabase.initializeDatabase();
+
+        List<String> questions = new ArrayList<>();
     }
 
     private static SQLiteDataSource createDataSource() {

@@ -8,8 +8,6 @@ import java.util.ArrayList;
  * @author Viktoria Dolojan
  */
 public class Question_Answer {
-    // TODO: SQLite
-
     /* ArrayList of Trivia questions. */
     private ArrayList myQuestions;
 

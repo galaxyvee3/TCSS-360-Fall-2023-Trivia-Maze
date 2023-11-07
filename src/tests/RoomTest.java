@@ -43,7 +43,7 @@ class RoomTest {
 
     @Test
     void testDoorQuestionAnswer() {
-        Door door = new Door();
+        Door door = new Door(0);
         door.setQuestion("What are the 4 Pillars of OOP?");
         door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
         assertEquals("What are the 4 Pillars of OOP?", myRoom.retrieveQuestion(door));

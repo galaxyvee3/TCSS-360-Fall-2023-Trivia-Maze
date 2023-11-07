@@ -37,29 +37,40 @@ public class Maze {
     /* Boolean of whether player has reached the exit of the maze. */
     private boolean myGameOver = false;
 
-    public Maze(final int theRows, int theColumns)  {
-        if (theRows < 1 || theColumns  < 1) {
-            throw new IndexOutOfBoundsException("Maze cannot be smaller than a 2x2.");
+    public Maze(final String theSize)  {
+        int rows = 0;
+        int columns = 0;
+        if (theSize.equalsIgnoreCase("easy")) {
+            rows = 4;
+            columns = 4;
+        } else if (theSize.equalsIgnoreCase("medium")) {
+            rows = 7;
+            columns = 7;
+        } else if (theSize.equalsIgnoreCase("hard")) {
+            rows = 10;
+            columns = 10;
+        } else {
+            throw new IllegalArgumentException("Choose Trivia Maze Difficulty");
         }
 
         // Default Exit at Bottom Right Corner
-        myExitRow = theRows - 1;
-        myExitCol = theColumns - 1;
-        myMaze = new Room[theRows][theColumns];
+        myExitRow = rows - 1;
+        myExitCol = columns - 1;
+        myMaze = new Room[rows][columns];
         // the total number of doors in the trivia maze
-        int numDoors = ((theColumns - 1) * theRows) + ((theRows - 1) * theColumns);
+        int numDoors = ((columns - 1) * rows) + ((rows - 1) * columns);
         myDoors = new Door[numDoors];
 
         // fill maze with rooms
-        for (int i = 0; i < theRows; i++) {
-            for (int k = 0; k < theColumns; k++) {
+        for (int i = 0; i < rows; i++) {
+            for (int k = 0; k < columns; k++) {
                 myMaze[i][k] = new Room();
             }
         }
 
         // fill array with doors
         for (int i = 0; i < numDoors; i++) {
-            myDoors[i] = new Door();
+            myDoors[i] = new Door(i);
         }
     }
 
@@ -69,6 +80,22 @@ public class Maze {
      */
     public Door[] getDoors() {
         return myDoors;
+    }
+
+    /**
+     * Return the total number rows in the maze.
+     * @return total rows in maze
+     */
+    public int getRows() {
+        return myExitRow + 1;
+    }
+
+    /**
+     * Return the total number columns in the maze.
+     * @return total columns in maze
+     */
+    public int getCols() {
+        return myExitCol + 1;
     }
 
     /**
