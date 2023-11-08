@@ -7,24 +7,23 @@ import java.util.logging.Logger;
 import org.sqlite.SQLiteDataSource;
 
 public class QuestionDatabase {
-    private static final Logger logger = Logger.getLogger(QuestionDatabase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
 
-    private static SQLiteDataSource ds;
+    private static SQLiteDataSource myDs;
 
-    public QuestionDatabase() {
+    protected QuestionDatabase() {
 
     }
     private static SQLiteDataSource  createDataSource() {
-        ds = new SQLiteDataSource();
-        ds.setUrl("jdbc:sqlite:questions.db");
-        return ds;
+        myDs = new SQLiteDataSource();
+        myDs.setUrl("jdbc:sqlite:questions.db");
+        return myDs;
     }
     private static void createQuestionsTable() throws SQLException {
-        String query = "CREATE TABLE IF NOT EXISTS questions ( " +
-                       "QUESTION TEXT NOT NULL, " +
-                       "ANSWER TEXT NOT NULL )";
+        String query = "CREATE TABLE IF NOT EXISTS questions ( "
+                       + "QUESTION TEXT NOT NULL, " + "ANSWER TEXT NOT NULL )";
 
-        try (Connection conn = ds.getConnection();
+        try (Connection conn = myDs.getConnection();
              Statement stmt = conn.createStatement()) {
              stmt.executeUpdate(query);
         }
@@ -33,7 +32,7 @@ public class QuestionDatabase {
     private static void insertQuestions() throws SQLException {
         String query1 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Will a giant meteor hit?', 'Fingers crossed' )";
         String query2 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Last forever?', 'November Rain' )";
-        try (Connection conn = ds.getConnection();
+        try (Connection conn = myDs.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(query1);
             stmt.executeUpdate(query2);
@@ -41,12 +40,12 @@ public class QuestionDatabase {
     }
 
     public static void initializeDatabase() {
-        ds = createDataSource();
+        myDs = createDataSource();
         try {
             createQuestionsTable();
             insertQuestions();
         } catch (SQLException e) {
-            logger.severe("Database initialization failed: " + e.getMessage());
+            LOGGER.severe("Database initialization failed: " + e.getMessage());
             System.exit(1);
         }
     }
