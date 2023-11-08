@@ -31,7 +31,7 @@ GameFrame extends JFrame implements PropertyChangeListener {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(200, 200));
 
-        DrawMaze maze = new DrawMaze(new Maze("medium"));
+        DrawMaze maze = new DrawMaze(new Maze());
         panel.add(maze, BorderLayout.CENTER);
 
         add(panel);

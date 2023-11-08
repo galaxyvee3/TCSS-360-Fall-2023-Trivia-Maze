@@ -1,6 +1,7 @@
 package view;
 
 import controller.Maze;
+import model.Room;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,16 +13,20 @@ import java.beans.PropertyChangeListener;
  * @author Viktoria Dolojan
  */
 public class DrawMaze extends JPanel implements PropertyChangeListener {
-    private int myRows = 0;
+    /* The maze being drawn. */
+    private Maze myMaze = null;
 
-    private int myColumns = 0;
+    /* The size of the maze. */
+    private static final int MAZE_SIZE = 6;
+
+    /* The size of the rectangles when painting rooms. */
+    private static final int RECT_SIZE = 50;
 
     public DrawMaze(final Maze theMaze) {
         super();
-        myRows = theMaze.getRows();
-        myColumns = theMaze.getCols();
+        myMaze = theMaze;
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(myRows * 20,myColumns * 20));
+        setPreferredSize(new Dimension(MAZE_SIZE * 20, MAZE_SIZE * 20));
     }
 
     @Override
@@ -32,10 +37,9 @@ public class DrawMaze extends JPanel implements PropertyChangeListener {
         g2d.setPaint(Color.BLACK);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int rec = 35;
-        for (int rows = 0; rows < myRows; rows++) {
-            for (int cols = 0; cols < myColumns; cols++) {
-                g2d.drawRect(cols * rec, rows * rec, rec, rec);
+        for (int rows = 0; rows < MAZE_SIZE; rows++) {
+            for (int cols = 0; cols < MAZE_SIZE; cols++) {
+                g2d.drawRect(cols * RECT_SIZE, rows * RECT_SIZE, RECT_SIZE, RECT_SIZE);
             }
         }
     }
