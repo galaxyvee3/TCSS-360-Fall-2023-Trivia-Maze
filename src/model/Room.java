@@ -19,13 +19,15 @@ public class Room {
     private boolean myDoorLocked;
 
     /* Boolean for whether the user answers the question correctly. */
-    private boolean myQuestionAnsweredCorrectly;
+    private boolean myCorrectAnswer;
 
     /* Boolean for whether there is a clue available. */
-    private final boolean myClueStatus;
+    private boolean myClueStatus;
 
     /* The clue for the trivia question. */
     private String myClueContent;
+
+    private ClueManager myCM;
 
     /* Random object. */
     private static final Random RANDOM = new Random();
@@ -34,14 +36,8 @@ public class Room {
      * Constructs a Room object.
      */
     public Room() {
-        myDoorLocked = true;
-        myQuestionAnsweredCorrectly = false;
-        myClueStatus = RANDOM.nextBoolean();
-        if (myClueStatus) {
-            myClueContent = generateClueContent();
-        }
+        myCM = new ClueManager();
     }
-
     /**
      * Constructs a Room object.
      * @param theRow row of Room in maze
@@ -51,13 +47,12 @@ public class Room {
         myRow = theRow;
         myColumn = theColumn;
         myDoorLocked = true;
-        myQuestionAnsweredCorrectly = false;
+        myCorrectAnswer = false;
         myClueStatus = RANDOM.nextBoolean();
         if (myClueStatus) {
             myClueContent = generateClueContent();
         }
     }
-
     /**
      * Retrieve the current trivia question from the door.
      * @param theDoor the current door the user is trying to get through
@@ -65,7 +60,6 @@ public class Room {
     public String retrieveQuestion(final Door theDoor) {
         return theDoor.getQuestion();
     }
-
     /**
      * Retrieve the current answer for the trivia question from the door.
      * @param theDoor the current door the user is trying to get through
@@ -73,22 +67,21 @@ public class Room {
     public String retrieveAnswer(final Door theDoor) {
         return theDoor.getAnswer();
     }
-
     /**
      * Takes the user's answer and opens the door if it is correct or block the door otherwise.
      * @param playerAnswer the user answer for the trivia question
      */
-    public void answerTriviaQuestion(String playerAnswer) {
+    public void answerTriviaQuestion(final String playerAnswer) {
         // Check if the player's answer is correct and update the state accordingly.
         String correctAnswer = "Your correct answer";
         if (playerAnswer.equals(correctAnswer)) {
-            myQuestionAnsweredCorrectly = true; // The player answered correctly.
-            myDoorLocked = false; // Unlock the door.
+            myCorrectAnswer = true; // The player answered correctly.
+            myDoorLocked = false; // Door status
         } else {
-            myQuestionAnsweredCorrectly = false; // The player answered incorrectly.
+            myCorrectAnswer = false; // The player answered incorrectly.
+            myDoorLocked = true;
         }
     }
-
     /**
      * Returns whether the door is locked.
      * @return true if door is locked
@@ -96,15 +89,13 @@ public class Room {
     public boolean isDoorLocked() {
         return myDoorLocked;
     }
-
     /**
      * Returns whether the user answered the question correctly.
      * @return true if the user answered the question correctly
      */
     public boolean isQuestionAnsweredCorrectly() {
-        return myQuestionAnsweredCorrectly;
+        return myCorrectAnswer;
     }
-
     /**
      * Returns whether a clue is available.
      * @return true if there is a clue available
@@ -112,7 +103,6 @@ public class Room {
     public boolean isCluePresent() {
         return myClueStatus;
     }
-
     /**
      * Returns the clue to help the user answer the trivia question.
      * @return clue
@@ -120,13 +110,17 @@ public class Room {
     public String getMyClueContent() {
         return myClueContent;
     }
-
     /**
      * Generates a clue for the trivia question.
      * @return clue
      */
     private String generateClueContent() {
-       //TODO: Install mechanics to generate the clue!
-        return "This is a clue to help you answer the trivia question.";
+        myClueStatus = RANDOM.nextBoolean();
+        if (myClueStatus) {
+            myClueContent = myCM.getClues();
+        } else {
+            myClueContent = "No bonus item present.";
+        }
+        return myClueContent;
     }
 }
