@@ -28,12 +28,6 @@ public class ClueManager {
         this.myClues = loadFromFile();
     }
 
-    public ClueManager(String theClues) {
-        this.myClues = theClues;
-    }
-
-
-
     private String loadFromFile() {
         try {
             final List<String> clueLines = Files.readAllLines(Paths.get(CLUE_FILE_PATH));
