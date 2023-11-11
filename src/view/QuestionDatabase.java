@@ -19,7 +19,7 @@ public class QuestionDatabase {
         return myDs;
     }
     private static void createQuestionsTable() throws SQLException {
-        String query = "CREATE TABLE IF NOT EXISTS questions ( "
+        final String query = "CREATE TABLE IF NOT EXISTS questions ( "
                        + "QUESTION TEXT NOT NULL, " + "ANSWER TEXT NOT NULL )";
 
         try (final Connection conn = myDs.getConnection();
@@ -28,21 +28,21 @@ public class QuestionDatabase {
         }
     }
 
-    private static void insertQuestions() throws SQLException {
-        String query1 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Will a giant meteor hit?', 'Fingers crossed' )";
-        String query2 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Last forever?', 'November Rain' )";
-        try (final Connection conn = myDs.getConnection();
-             final Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(query1);
-            stmt.executeUpdate(query2);
-        }
-    }
+//    private static void insertQuestions() throws SQLException {
+//        String query1 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Will a giant meteor hit?', 'Fingers crossed' )";
+//        String query2 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Last forever?', 'November Rain' )";
+//        try (final Connection conn = myDs.getConnection();
+//             final Statement stmt = conn.createStatement()) {
+//            stmt.executeUpdate(query1);
+//            stmt.executeUpdate(query2);
+//        }
+//    }
 
     public static void initializeDatabase() {
         myDs = createDataSource();
         try {
             createQuestionsTable();
-            insertQuestions();
+//            insertQuestions();
         } catch (final SQLException theE) {
             LOGGER.severe("Database initialization failed: " + theE.getMessage());
             System.exit(1);
