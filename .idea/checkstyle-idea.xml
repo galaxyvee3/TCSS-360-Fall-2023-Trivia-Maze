@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CheckStyle-IDEA" serialisationVersion="2">
-    <checkstyleVersion>10.12.3</checkstyleVersion>
+    <checkstyleVersion>10.12.4</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds" />
@@ -9,6 +9,8 @@
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="fa89ebd2-da7b-41b5-869d-2bb5faf27606" type="LOCAL_FILE" scope="All" description="TCSS 360A/tcss305_checkstyle_nextline">$PROJECT_DIR$/../tcss305_checkstyle_nextline.xml</ConfigurationLocation>
+        <ConfigurationLocation id="8445b4a6-b1c1-4b46-b60f-d9527b853e9c" type="LOCAL_FILE" scope="All" description="TCSS 360A/tcss305_checkstyle_sameline">$PROJECT_DIR$/../tcss305_checkstyle_sameline.xml</ConfigurationLocation>
       </list>
     </option>
   </component>
