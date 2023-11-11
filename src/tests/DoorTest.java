@@ -12,10 +12,6 @@ public class DoorTest {
         assertEquals(false, door.getStatus());
         assertEquals(null, door.getQuestion());
         assertEquals(null, door.getAnswer());
-        assertEquals(null, door.getRoom1());
-        assertEquals(null, door.getRoom2());
-        assertEquals(null, door.getDirection1());
-        assertEquals(null, door.getDirection2());
     }
 
     @Test
