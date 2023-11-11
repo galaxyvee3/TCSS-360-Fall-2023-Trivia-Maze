@@ -34,6 +34,10 @@ public class Maze {
     /* The exit column for the maze. */
     private int myExitCol;
 
+    private int MyUnlockedDoors = 0;
+
+    private int MyVisitedRooms = 0;
+
     /* Boolean of whether player has reached the exit of the maze. */
     private boolean myGameOver = false;
 
@@ -62,6 +66,15 @@ public class Maze {
             myDoors[i] = new Door();
         }
     }
+    /* Method to unlock a door */
+    public void unlockDoor() {
+        MyUnlockedDoors++;
+    }
+
+    /* Method to mark a room as visited */
+    public void visitRoom() {
+        MyVisitedRooms++;
+    }
 
     /**
      * Return array of doors.
@@ -86,6 +99,23 @@ public class Maze {
     public int getMyCurrentCol() {
         return myCurrentCol;
     }
+
+    /**
+     * Return # of Doors currently unlocked
+     * @return current doors unlocked by player
+     */
+    public int getUnlockedDoors() {
+        return MyUnlockedDoors;
+    }
+
+    /**
+     * Return # of Rooms currently visited
+     * @return current rooms visited by player
+     */
+    public int getVisitedRooms() {
+        return MyVisitedRooms;
+    }
+
 
     /**
      * FOR TESTING PURPOSES
