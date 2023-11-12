@@ -3,6 +3,9 @@ package controller;
 import model.Door;
 import model.Room;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
@@ -106,6 +109,58 @@ public class Maze {
     }
 
     /**
+     * Moves the player up one row.
+     * @return true if player can move up
+     */
+    public boolean moveUp() {
+        if (myCurrentRow - 1 < 0) {
+            return false;
+        } else {
+            myCurrentRow -= 1;
+            return true;
+        }
+    }
+
+    /**
+     * Moves the player down one row.
+     * @return true if player can move down
+     */
+    public boolean moveDown() {
+        if (myCurrentRow + 1 >= MAZE_SIZE) {
+            return false;
+        } else {
+            myCurrentRow += 1;
+            return true;
+        }
+    }
+
+    /**
+     * Moves the player left one column.
+     * @return true if player can move left
+     */
+    public boolean moveLeft() {
+        if (myCurrentCol - 1 < 0) {
+            return false;
+        } else {
+            myCurrentCol -= 1;
+            return true;
+        }
+    }
+
+    /**
+     * Moves the player right one column.
+     * @return true if player can move right
+     */
+    public boolean moveRight() {
+        if (myCurrentCol + 1 >= MAZE_SIZE) {
+            return false;
+        } else {
+            myCurrentCol += 1;
+            return true;
+        }
+    }
+
+    /**
      * Checks the current location of the player in the maze.
      */
     public void checkCurrentLocation() {
@@ -118,6 +173,28 @@ public class Maze {
     public void checkGameOver() {
         if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
             myGameOver = true;
+        }
+    }
+
+    // TODO: MOVE TO GUI CLASS THAT WILL HANDLE MAZE
+    /**
+     * Private class that allows the player to traverse the maze using the keyboard.
+     * @author Viktoria Dolojan
+     * @version Fall 2023.
+     */
+    private class MovePlayer extends KeyAdapter {
+        @Override
+        public void keyPressed(final KeyEvent theEvent) {
+            // WASD and arrow keys
+            if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
+                moveUp();
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+                moveDown();
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
+                moveLeft();
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+                moveRight();
+            }
         }
     }
 }
