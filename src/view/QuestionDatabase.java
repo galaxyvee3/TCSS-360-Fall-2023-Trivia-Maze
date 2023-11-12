@@ -7,48 +7,44 @@ import java.util.logging.Logger;
 import org.sqlite.SQLiteDataSource;
 
 public class QuestionDatabase {
-    private static final Logger logger = Logger.getLogger(QuestionDatabase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
 
-    public QuestionDatabase() {
+    private static SQLiteDataSource myDs = null;
 
+    protected QuestionDatabase() {
     }
-
-    public static void main(String[] args) {
-        QuestionDatabase.initializeDatabase();
+    private static SQLiteDataSource  createDataSource() {
+        myDs = new SQLiteDataSource();
+        myDs.setUrl("jdbc:sqlite:QuestionsDB.sql");
+        return myDs;
     }
+    private static void createQuestionsTable() throws SQLException {
+        final String query = "CREATE TABLE IF NOT EXISTS QuestionsDB.sql ( "
+                       + "QUESTION TEXT NOT NULL, " + "ANSWER TEXT NOT NULL )";
 
-    private static SQLiteDataSource createDataSource() {
-        SQLiteDataSource ds = new SQLiteDataSource();
-        ds.setUrl("jdbc:sqlite:questions.db");
-        return ds;
-    }
-
-    private static void createQuestionsTable(Connection conn) throws SQLException {
-        String query = "CREATE TABLE IF NOT EXISTS questions ( " +
-                "QUESTION TEXT NOT NULL, " +
-                "ANSWER TEXT NOT NULL )";
-
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(query);
+        try (final Connection conn = myDs.getConnection();
+             Statement stmt = conn.createStatement()) {
+             stmt.executeUpdate(query);
         }
     }
 
-    private static void insertQuestions(Connection conn) throws SQLException {
-        String query1 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Will a giant meteor hit?', 'Fingers crossed' )";
-        String query2 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Last forever?', 'November Rain' )";
-
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(query1);
-            stmt.executeUpdate(query2);
-        }
-    }
+//    private static void insertQuestions() throws SQLException {
+//        String query1 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Will a giant meteor hit?', 'Fingers crossed' )";
+//        String query2 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Last forever?', 'November Rain' )";
+//        try (final Connection conn = myDs.getConnection();
+//             final Statement stmt = conn.createStatement()) {
+//            stmt.executeUpdate(query1);
+//            stmt.executeUpdate(query2);
+//        }
+//    }
 
     public static void initializeDatabase() {
-        try (Connection conn = createDataSource().getConnection()) {
-            createQuestionsTable(conn);
-            insertQuestions(conn);
-        } catch (SQLException e) {
-            logger.severe("Database initialization failed: " + e.getMessage());
+        myDs = createDataSource();
+        try {
+            createQuestionsTable();
+//            insertQuestions();
+        } catch (final SQLException theE) {
+            LOGGER.severe("Database initialization failed: " + theE.getMessage());
             System.exit(1);
         }
     }

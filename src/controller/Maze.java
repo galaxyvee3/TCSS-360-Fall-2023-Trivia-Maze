@@ -13,8 +13,11 @@ public class Maze {
     /* 2D Room array representing the Trivia Maze. */
     private Room[][] myMaze = null;
 
-    /* Array of Doors in the Trivia Maze. */
-    private Door[] myDoors = null;
+    /* 2d Door array representing all the vertical doors in the maze. */
+    private Door[][] myVertDoors = null;
+
+    /* 2d Door array representing all the horizontal doors in the maze. */
+    private Door[][] myHorzDoors = null;
 
     /* The entry row of the player. */
     private int myEntryRow = 0;
@@ -28,60 +31,46 @@ public class Maze {
     /* The current column of the player in the maze. */
     private int myCurrentCol = 0;
 
-    /* The exit row for the maze. */
-    private int myExitRow;
-
-    /* The exit column for the maze. */
-    private int myExitCol;
-
-    private int MyUnlockedDoors = 0;
-
-    private int MyVisitedRooms = 0;
-
     /* Boolean of whether player has reached the exit of the maze. */
     private boolean myGameOver = false;
 
-    public Maze(final int theRows, int theColumns)  {
-        if (theRows < 1 || theColumns  < 1) {
-            throw new IndexOutOfBoundsException("Maze cannot be smaller than a 2x2.");
-        }
+    /* The size of the maze. */
+    private static final int MAZE_SIZE = 6;
 
-        // Default Exit at Bottom Right Corner
-        myExitRow = theRows - 1;
-        myExitCol = theColumns - 1;
-        myMaze = new Room[theRows][theColumns];
-        // the total number of doors in the trivia maze
-        int numDoors = ((theColumns - 1) * theRows) + ((theRows - 1) * theColumns);
-        myDoors = new Door[numDoors];
+    public Maze()  {
+        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
 
         // fill maze with rooms
-        for (int i = 0; i < theRows; i++) {
-            for (int k = 0; k < theColumns; k++) {
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
                 myMaze[i][k] = new Room();
             }
         }
-
-        // fill array with doors
-        for (int i = 0; i < numDoors; i++) {
-            myDoors[i] = new Door();
+        
+        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
+        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
+        
+        for (int i = 0; i < MAZE_SIZE - 1; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
+                myVertDoors[i][k] = new Door();
+            }
         }
-    }
-    /* Method to unlock a door */
-    public void unlockDoor() {
-        MyUnlockedDoors++;
-    }
 
-    /* Method to mark a room as visited */
-    public void visitRoom() {
-        MyVisitedRooms++;
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE - 1; k++) {
+                myHorzDoors[i][k] = new Door();
+            }
+        }
     }
 
     /**
-     * Return array of doors.
-     * @return all the doors in the trivia maze
+     * Return the room at the given location.
+     * @param theRow row of the room
+     * @param theCol column of the room
+     * @return the room at the given location
      */
-    public Door[] getDoors() {
-        return myDoors;
+    public Room getRoom(final int theRow, final int theCol) {
+        return myMaze[theRow][theCol];
     }
 
     /**
@@ -101,24 +90,22 @@ public class Maze {
     }
 
     /**
-     * Return # of Doors currently unlocked
-     * @return current doors unlocked by player
+     * Update the current row of the player.
+     * @param theRow new current row
      */
-    public int getUnlockedDoors() {
-        return MyUnlockedDoors;
+    public void setMyCurrentRow(final int theRow) {
+        myCurrentRow = theRow;
     }
 
     /**
-     * Return # of Rooms currently visited
-     * @return current rooms visited by player
+     * Update the current column of the player.
+     * @param theCol new current column
      */
-    public int getVisitedRooms() {
-        return MyVisitedRooms;
+    public void setMyCurrentCol(final int theCol) {
+        myCurrentCol = theCol;
     }
 
-
     /**
-     * FOR TESTING PURPOSES
      * Checks the current location of the player in the maze.
      */
     public void checkCurrentLocation() {
@@ -129,7 +116,7 @@ public class Maze {
      * Checks if the player has reached the end of the maze.
      */
     public void checkGameOver() {
-        if(myCurrentRow == myExitRow && myCurrentCol == myExitCol) {
+        if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
             myGameOver = true;
         }
     }

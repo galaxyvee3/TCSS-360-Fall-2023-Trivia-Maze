@@ -1,8 +1,8 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.List;
+import controller.Maze;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
@@ -28,11 +28,14 @@ GameFrame extends JFrame implements PropertyChangeListener {
     public GameFrame() {
         super();
         // Panel is for testing purposes only.
-        JPanel panel = new JPanel();
-        Dimension panelDim = new Dimension(100, 100);
-        panel.setPreferredSize(panelDim);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(200, 200));
+
+        DrawMaze maze = new DrawMaze(new Maze());
+        panel.add(maze, BorderLayout.CENTER);
+
         add(panel);
-        panel.setBackground(Color.PINK);
+        panel.setBackground(Color.LIGHT_GRAY);
         frameHelper();
 
         setFocusable(true);
@@ -121,11 +124,11 @@ GameFrame extends JFrame implements PropertyChangeListener {
     /**
      * This method gets called when a bound property is changed.
      *
-     * @param theEvt A PropertyChangeEvent object describing the event source
+     * @param theEvent A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent theEvt) {
+    public void propertyChange(final PropertyChangeEvent theEvent) {
 
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import javax.swing.*;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -23,39 +24,10 @@ public class Door implements Serializable {
     /* The answer to the trivia question. */
     private String myAnswer = null;
 
-    /* First room the door is connected to. */
-    private Room myRoom1 = null;
-
-    /* Second room the door is connected to. */
-    private Room myRoom2 = null;
-
-    /* Direction of the door to relative to Room 1. */
-    private Direction myDirection1 = null;
-
-    /* Direction of the door to relative to Room 2. */
-    private Direction myDirection2 = null;
-
-    /**
-     * Default constructor.
-     */
-    public Door() {
-    }
-
     /**
      * Constructs a Door object.
-     * @param theNumber door number
-     * @param theRoom1 first room connected by door
-     * @param theRoom2 second room connected by door
-     * @param theDirection1 direction of door relative to room 1
-     * @param theDirection2 direction of door relative to room 2
      */
-    public Door(final int theNumber, final Room theRoom1, final Room theRoom2,
-                final Direction theDirection1, final Direction theDirection2) {
-        myDoorNumber = theNumber;
-        myRoom1 = theRoom1;
-        myRoom2 = theRoom2;
-        myDirection1 = theDirection1;
-        myDirection2 = theDirection2;
+    public Door() {
     }
 
     /**
@@ -80,38 +52,6 @@ public class Door implements Serializable {
      */
     public int getDoorNumber() {
         return myDoorNumber;
-    }
-
-    /**
-     * Returns the first room connected to the door.
-     * @return room object
-     */
-    public Room getRoom1() {
-        return myRoom1;
-    }
-
-    /**
-     * Returns the second room connected to the door.
-     * @return room object
-     */
-    public Room getRoom2() {
-        return myRoom2;
-    }
-
-    /**
-     * Returns the direction of the door relative to room 1.
-     * @return cardinal direction
-     */
-    public Direction getDirection1() {
-        return myDirection1;
-    }
-
-    /**
-     *
-     * @return cardinal direction
-     */
-    public Direction getDirection2() {
-        return myDirection2;
     }
 
     /**
