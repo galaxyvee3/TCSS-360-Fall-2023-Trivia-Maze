@@ -15,11 +15,11 @@ public class QuestionDatabase {
     }
     private static SQLiteDataSource  createDataSource() {
         myDs = new SQLiteDataSource();
-        myDs.setUrl("jdbc:sqlite:questions.db");
+        myDs.setUrl("jdbc:sqlite:QuestionsDB.sql");
         return myDs;
     }
     private static void createQuestionsTable() throws SQLException {
-        final String query = "CREATE TABLE IF NOT EXISTS questions ( "
+        final String query = "CREATE TABLE IF NOT EXISTS QuestionsDB.sql ( "
                        + "QUESTION TEXT NOT NULL, " + "ANSWER TEXT NOT NULL )";
 
         try (final Connection conn = myDs.getConnection();
