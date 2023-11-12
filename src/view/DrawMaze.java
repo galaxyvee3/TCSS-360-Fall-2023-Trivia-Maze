@@ -35,6 +35,8 @@ public class DrawMaze extends JPanel implements PropertyChangeListener {
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponents(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
+        final int curRow = myMaze.getMyCurrentRow();
+        final int curCol = myMaze.getMyCurrentCol();
 
         // draw rooms
         g2d.setPaint(Color.DARK_GRAY);
@@ -47,18 +49,22 @@ public class DrawMaze extends JPanel implements PropertyChangeListener {
 
         // draw doors
         g2d.setPaint(new Color(100,75,50));
-
+        // for vertical doors
         for (int rows = 0; rows < MAZE_SIZE; rows++) {
             for (int cols = 1; cols < MAZE_SIZE; cols++) {
                 g2d.fillRect(cols * ROOM_SIZE - 5, rows * ROOM_SIZE + 15, DOOR_SIZE/3, DOOR_SIZE);
             }
         }
-
+        // for horizontal doors
         for (int rows = 1; rows < MAZE_SIZE; rows++) {
             for (int cols = 0; cols < MAZE_SIZE; cols++) {
                 g2d.fillRect(cols * ROOM_SIZE + 15, rows * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE/3);
             }
         }
+
+        // draw user current location
+        g2d.setPaint(Color.BLUE);
+        g2d.fillOval(curRow * ROOM_SIZE + 15, curCol * ROOM_SIZE + 15, DOOR_SIZE, DOOR_SIZE);
     }
 
     @Override

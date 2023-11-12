@@ -16,7 +16,7 @@ public class Main {
      * @param theArgs command line args.
      */
     public static void main(final String[] theArgs) {
-        QuestionDatabase.initializeDatabase();
+        //QuestionDatabase.initializeDatabase();
         SwingUtilities.invokeLater(GameFrame::new);
     }
 }
