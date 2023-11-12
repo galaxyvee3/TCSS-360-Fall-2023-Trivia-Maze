@@ -15,37 +15,10 @@ public class QuestionDatabase {
     }
     private static SQLiteDataSource  createDataSource() {
         myDs = new SQLiteDataSource();
-        myDs.setUrl("jdbc:sqlite:QuestionsDB.sql");
+        myDs.setUrl("jdbc:sqlite:QuestionsDB.db");
         return myDs;
     }
-    private static void createQuestionsTable() throws SQLException {
-        final String query = "CREATE TABLE IF NOT EXISTS QuestionsDB.sql ( "
-                       + "QUESTION TEXT NOT NULL, " + "ANSWER TEXT NOT NULL )";
-
-        try (final Connection conn = myDs.getConnection();
-             Statement stmt = conn.createStatement()) {
-             stmt.executeUpdate(query);
-        }
-    }
-
-//    private static void insertQuestions() throws SQLException {
-//        String query1 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Will a giant meteor hit?', 'Fingers crossed' )";
-//        String query2 = "INSERT INTO questions ( QUESTION, ANSWER ) VALUES ( 'Last forever?', 'November Rain' )";
-//        try (final Connection conn = myDs.getConnection();
-//             final Statement stmt = conn.createStatement()) {
-//            stmt.executeUpdate(query1);
-//            stmt.executeUpdate(query2);
-//        }
-//    }
-
     public static void initializeDatabase() {
         myDs = createDataSource();
-        try {
-            createQuestionsTable();
-//            insertQuestions();
-        } catch (final SQLException theE) {
-            LOGGER.severe("Database initialization failed: " + theE.getMessage());
-            System.exit(1);
-        }
     }
 }
