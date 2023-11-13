@@ -10,20 +10,21 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Frame class for Trivia Maze.
- * @author rick_adams
+ * Frame class for the GUI representing the Trivia Maze.
+ * @author Rick Adams
  * @author Viktoria Dolojan
+ * @version Fall 2023
  */
 public class GameFrame extends JFrame implements PropertyChangeListener {
-    /* The current Trivia Maze being played. */
+    /** The current Trivia Maze being played. */
     private static Maze myMaze = null;
 
     private static JFrame myGameFrame;
 
-    /* Boolean for whether the game is over. */
+    /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
 
-    /* Boolean for whether player has escaped the maze. */
+    /** Boolean for whether player has escaped the maze. */
     private static boolean myEscape = false;
 
     private static final Dimension DIMENSION = new Dimension(500, 500);

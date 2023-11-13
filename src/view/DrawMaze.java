@@ -10,20 +10,26 @@ import java.beans.PropertyChangeListener;
 /**
  * Class creates the visual representation of the Trivia Maze with the rooms and doors.
  * @author Viktoria Dolojan
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 public class DrawMaze extends JPanel implements PropertyChangeListener {
-    /* The maze being drawn. */
+    /** The maze being drawn. */
     private Maze myMaze = null;
 
-    /* The size of the maze. */
+    /** Size of the maze. */
     private static final int MAZE_SIZE = 6;
 
-    /* The size of the rooms. */
+    /** Size of the rooms. */
     private static final int ROOM_SIZE = 60;
 
-    /* The size of the doors. */
+    /** Size of the doors. */
     private static final int DOOR_SIZE = 30;
 
+    /**
+     * Default constructor.
+     * @param theMaze current maze being played
+     */
     public DrawMaze(final Maze theMaze) {
         super();
         myMaze = theMaze;

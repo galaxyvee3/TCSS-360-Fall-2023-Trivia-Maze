@@ -1,11 +1,16 @@
 package view;
 
+/**
+ * Class for true or false questions.
+ * @author Rick Adams
+ * @version Fall 2023
+ * Trivia Maze - Team 2
+ */
 public class TrueFalseQuestions extends Question{
     /**
      * Public constructor for object instantiation.
-     *
      * @param theQuestionText Question text in string.
-     * @param theAnswerText   Answer text in string.
+     * @param theAnswerText Answer text in string.
      */
     public TrueFalseQuestions(String theQuestionText, String theAnswerText) {
         super(theQuestionText, theAnswerText);
@@ -13,7 +18,7 @@ public class TrueFalseQuestions extends Question{
 
     /**
      * Accessor method that returns the question type.
-     * @return The question type.
+     * @return the question type.
      */
     @Override
     public String getQuestionType() {

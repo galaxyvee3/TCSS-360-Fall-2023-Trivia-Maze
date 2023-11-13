@@ -1,31 +1,32 @@
 package model;
 
-import javax.swing.*;
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * Door class for Trivia Maze Fall 2023 Team 2.
+ * Door object in the maze.
  * @author Viktoria Dolojan
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 public class Door implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /* Door number. */
+    /** Door number. */
     private int myDoorNumber = 0;
 
-    /* Status of whether door is open or not. */
+    /** Status of whether door is open or not. */
     private boolean myIsOpen = false;
 
-    /* The trivia question assigned to this Door. */
+    /** The trivia question assigned to this Door. */
     private String myQuestion = null;
 
-    /* The answer to the trivia question. */
+    /** The answer to the trivia question. */
     private String myAnswer = null;
 
     /**
-     * Constructs a Door object.
+     * Default constructor.
      */
     public Door() {
     }

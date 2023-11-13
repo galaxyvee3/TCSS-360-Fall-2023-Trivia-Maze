@@ -7,30 +7,35 @@ import model.Room;
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
  * @author Viktoria Dolojan
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 
 public class Maze {
-    /* 2D Room array representing the Trivia Maze. */
+    /** 2D Room array representing the Trivia Maze. */
     private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
 
-    /* 2d Door array representing all the vertical doors in the maze. */
+    /** 2d Door array representing all the vertical doors in the maze. */
     private Door[][] myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
 
-    /* 2d Door array representing all the horizontal doors in the maze. */
+    /** 2d Door array representing all the horizontal doors in the maze. */
     private Door[][] myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
 
-    /* The current row of the player in the maze. */
+    /** The current row of the player in the maze. */
     private int myCurrentRow = 0;
 
-    /* The current column of the player in the maze. */
+    /** The current column of the player in the maze. */
     private int myCurrentCol = 0;
 
-    /* Boolean of whether player has reached the exit of the maze. */
+    /** Boolean of whether player has reached the exit of the maze. */
     private boolean myGameOver = false;
 
-    /* The size of the maze. */
+    /** The size of the maze. */
     private static final int MAZE_SIZE = 6;
 
+    /**
+     * Default constructor.
+     */
     public Maze()  {
         createRoomsAndDoors();
     }

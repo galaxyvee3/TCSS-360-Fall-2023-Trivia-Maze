@@ -12,25 +12,42 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Question_Answer class for Trivia Maze.
+ * Question factory for the trivia questions in the game.
  * @author Viktoria Dolojan
+ * @author Rick Adams
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 public class Question_Answer {
     private static final Logger LOGGER = Logger.getLogger(Question_Answer.class.getName());
+
     private List<Map<String, String>> myQuestions;
+
+    /**
+     * Default constructor.
+     */
     public Question_Answer() {
         myQuestions = new ArrayList<>();
         fetchQuestionsFromDatabase();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Map<String, String>> getQuestions() {
         return myQuestions;
     }
 
-
+    /**
+     *
+     * @param theChoice
+     * @return
+     */
     public boolean userAnswer(char theChoice) {
         return false;
     }
+
     private void fetchQuestionsFromDatabase() {
         try (final Connection connection = DriverManager.getConnection("jdbc:sqlite:QuestionsDB.db")) {
             fetchQuestionsFromTable(connection, "MultipleChoiceQuestions");
@@ -40,6 +57,13 @@ public class Question_Answer {
            LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", theErr);
         }
     }
+
+    /**
+     *
+     * @param theConn
+     * @param theTableName
+     * @throws SQLException
+     */
     private void fetchQuestionsFromTable(final Connection theConn,
                                          final String theTableName) throws SQLException {
         String query = "SELECT QUESTION, ANSWER FROM " + theTableName;

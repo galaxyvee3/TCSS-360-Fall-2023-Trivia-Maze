@@ -9,25 +9,30 @@ import java.util.logging.Logger;
 
 /**
  * Class that handles the bonus clue content.
- * @author rick_adams.
+ * @author Rick Adams
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 public class ClueManager {
     private final String myClues;
-    /**
-     * .txt file that contains the bonus clues.
-     */
+
+    /** .txt file that contains the bonus clues. */
     private static final String CLUE_FILE_PATH = "ClueFile.txt";
 
     private static final Logger LOGGER = Logger.getLogger(ClueManager.class.getName());
 
     /**
-     * Public constructor.
+     * Default constructor.
      * Calls loadFromFile to read in cles from a .txt.
      */
     public ClueManager() {
         this.myClues = loadFromFile();
     }
 
+    /**
+     *
+     * @return
+     */
     private String loadFromFile() {
         try {
             final List<String> clueLines = Files.readAllLines(Paths.get(CLUE_FILE_PATH));
@@ -38,6 +43,11 @@ public class ClueManager {
             return null;
         }
     }
+
+    /**
+     * Return the clue.
+     * @return clue for trivia question
+     */
     public String getClues() {
         return this.myClues;
     }
