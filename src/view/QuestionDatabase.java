@@ -21,12 +21,19 @@ public class QuestionDatabase {
     protected QuestionDatabase() {
     }
 
+    /**
+     *
+     * @return
+     */
     private static SQLiteDataSource createDataSource() {
         myDs = new SQLiteDataSource();
         myDs.setUrl("jdbc:sqlite:QuestionsDB.db");
         return myDs;
     }
 
+    /**
+     *
+     */
     public static void initializeDatabase() {
         myDs = createDataSource();
     }

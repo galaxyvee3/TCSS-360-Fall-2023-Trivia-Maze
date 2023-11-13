@@ -19,18 +19,35 @@ import java.util.logging.Logger;
 public class QuestionAnswer {
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
     private final List<Map<String, String>> myQuestions;
+
+    /**
+     * Default constructor.
+     */
     public QuestionAnswer() {
         myQuestions = new ArrayList<>();
         fetchQuestionsFromDatabase();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Map<String, String>> getQuestions() {
         return myQuestions;
     }
 
+    /**
+     *
+     * @param theChoice
+     * @return
+     */
     public boolean userAnswer(final char theChoice) {
         return false;
     }
+
+    /**
+     *
+     */
     private void fetchQuestionsFromDatabase() {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:QuestionsDB.db")) {
             fetchQuestionsFromTable(conn, "MultipleChoiceQuestions");
@@ -40,6 +57,13 @@ public class QuestionAnswer {
             LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", e);
         }
     }
+
+    /**
+     *
+     * @param theConn
+     * @param theTableName
+     * @throws SQLException
+     */
     private void fetchQuestionsFromTable(final Connection theConn,
                                          final String theTableName) throws SQLException {
         final String query = "SELECT QUESTION, ANSWER FROM " + theTableName;
@@ -59,6 +83,7 @@ public class QuestionAnswer {
             }
         }
     }
+
     /**
      * Question object creator.
      * (Factory design pattern).
@@ -80,6 +105,7 @@ public class QuestionAnswer {
         };
         return question;
     }
+
     @Override
     public String toString() {
         return "QuestionAnswer{" + "myQuestions =" + myQuestions + '}';

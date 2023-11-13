@@ -7,9 +7,10 @@ package view;
  * Trivia Maze - Team 2
  */
 public abstract class Question {
-
+    /** The trivia question. */
     private final String myQuestionText;
 
+    /** The answer to the trivia question. */
     private final String myAnswerText;
 
     /**
@@ -24,7 +25,7 @@ public abstract class Question {
 
     /**
      * Accessor method that returns the question type.
-     * @return The question type.
+     * @return the question type.
      */
     public abstract String getQuestionType();
 

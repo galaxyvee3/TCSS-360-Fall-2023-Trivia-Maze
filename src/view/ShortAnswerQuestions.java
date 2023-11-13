@@ -12,8 +12,7 @@ public class ShortAnswerQuestions extends Question {
      * @param theQuestionText Question text in string.
      * @param theAnswerText Answer text in string.
      */
-    public ShortAnswerQuestions(final String theQuestionText,
-                                final String theAnswerText) {
+    public ShortAnswerQuestions(final String theQuestionText, final String theAnswerText) {
         super(theQuestionText, theAnswerText);
     }
 

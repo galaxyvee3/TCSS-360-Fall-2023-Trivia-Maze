@@ -12,7 +12,7 @@ public class MultipleChoiceQuestions extends Question{
      * @param theQuestionText Question text in string.
      * @param theAnswerText Answer text in string.
      */
-    public MultipleChoiceQuestions(String theQuestionText, String theAnswerText) {
+    public MultipleChoiceQuestions(final String theQuestionText, final String theAnswerText) {
         super(theQuestionText, theAnswerText);
     }
 
