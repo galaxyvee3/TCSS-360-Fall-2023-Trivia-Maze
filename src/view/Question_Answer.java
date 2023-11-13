@@ -60,6 +60,27 @@ public class Question_Answer {
         }
     }
 
+    /**
+     * Question object creator.
+     * (Factory design pattern).
+     * @param type The question type.
+     * @param param1 The question text.
+     * @param param2 The Answer text.
+     * @return returns Question object.
+     */
+    public Question createQuestion(final String type,
+                                   final String param1,
+                                   final String param2) {
+        final Question question = switch (type.toLowerCase()) {
+            case "true/false" -> new TrueFalseQuestions(param1, param2);
+            case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
+            case "short answer" -> new ShortAnswerQuestions(param1, param2);
+            default ->
+                // Handle unknown type or throw an exception
+                    throw new IllegalArgumentException("Invalid question type: " + type);
+        };
+        return question;
+    }
     @Override
     public String toString() {
         return "Question_Answer{" + "myQuestions =" + myQuestions + '}';
