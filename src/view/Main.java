@@ -1,6 +1,6 @@
 package view;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 /**
  * view.Main driver for Trivia Maze.
@@ -17,6 +17,6 @@ public class Main {
      */
     public static void main(final String[] theArgs) {
         QuestionDatabase.initializeDatabase();
-        SwingUtilities.invokeLater(GameFrame::new);
+        SwingUtilities.invokeLater(GameFrame::createGUI);
     }
 }

@@ -3,9 +3,6 @@ package controller;
 import model.Door;
 import model.Room;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
@@ -14,19 +11,13 @@ import java.awt.event.KeyEvent;
 
 public class Maze {
     /* 2D Room array representing the Trivia Maze. */
-    private Room[][] myMaze = null;
+    private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
 
     /* 2d Door array representing all the vertical doors in the maze. */
-    private Door[][] myVertDoors = null;
+    private Door[][] myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
 
     /* 2d Door array representing all the horizontal doors in the maze. */
-    private Door[][] myHorzDoors = null;
-
-    /* The entry row of the player. */
-    private int myEntryRow = 0;
-
-    /* The entry column of the player. */
-    private int myEntryCol = 0;
+    private Door[][] myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
 
     /* The current row of the player in the maze. */
     private int myCurrentRow = 0;
@@ -41,29 +32,7 @@ public class Maze {
     private static final int MAZE_SIZE = 6;
 
     public Maze()  {
-        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
-
-        // fill maze with rooms
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int k = 0; k < MAZE_SIZE; k++) {
-                myMaze[i][k] = new Room();
-            }
-        }
-        
-        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
-        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
-        
-        for (int i = 0; i < MAZE_SIZE - 1; i++) {
-            for (int k = 0; k < MAZE_SIZE; k++) {
-                myVertDoors[i][k] = new Door();
-            }
-        }
-
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int k = 0; k < MAZE_SIZE - 1; k++) {
-                myHorzDoors[i][k] = new Door();
-            }
-        }
+        createRoomsAndDoors();
     }
 
     /**
@@ -161,6 +130,44 @@ public class Maze {
     }
 
     /**
+     * Resets all stats for a new game.
+     */
+    public void newGame() {
+        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
+        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
+        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
+        createRoomsAndDoors();
+        myCurrentRow = 0;
+        myCurrentCol = 0;
+    }
+
+    /**
+     * Fill arrays with rooms and doors in the maze.
+     */
+    public void createRoomsAndDoors() {
+        // fill maze with rooms
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
+                myMaze[i][k] = new Room();
+            }
+        }
+
+        // fill array with vertical doors
+        for (int i = 0; i < MAZE_SIZE - 1; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
+                myVertDoors[i][k] = new Door();
+            }
+        }
+
+        // fill array with horizontal doors
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE - 1; k++) {
+                myHorzDoors[i][k] = new Door();
+            }
+        }
+    }
+
+    /**
      * Checks the current location of the player in the maze.
      */
     public void checkCurrentLocation() {
@@ -173,28 +180,6 @@ public class Maze {
     public void checkGameOver() {
         if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
             myGameOver = true;
-        }
-    }
-
-    // TODO: MOVE TO GUI CLASS THAT WILL HANDLE MAZE
-    /**
-     * Private class that allows the player to traverse the maze using the keyboard.
-     * @author Viktoria Dolojan
-     * @version Fall 2023.
-     */
-    private class MovePlayer extends KeyAdapter {
-        @Override
-        public void keyPressed(final KeyEvent theEvent) {
-            // WASD and arrow keys
-            if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                moveUp();
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                moveDown();
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                moveLeft();
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                moveRight();
-            }
         }
     }
 }
