@@ -1,13 +1,14 @@
 package view;
 
-public class TrueFalseQuestions extends Question{
+public class TrueFalseQuestions extends Question {
     /**
      * Public constructor for object instantiation.
      *
      * @param theQuestionText Question text in string.
      * @param theAnswerText   Answer text in string.
      */
-    public TrueFalseQuestions(String theQuestionText, String theAnswerText) {
+    public TrueFalseQuestions(final String theQuestionText,
+                              final String theAnswerText) {
         super(theQuestionText, theAnswerText);
     }
 
@@ -17,6 +18,6 @@ public class TrueFalseQuestions extends Question{
      */
     @Override
     public String getQuestionType() {
-        return null;
+        return "true/false";
     }
 }

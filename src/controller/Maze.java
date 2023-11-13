@@ -20,10 +20,10 @@ public class Maze {
     private Door[][] myHorzDoors = null;
 
     /* The entry row of the player. */
-    private int myEntryRow = 0;
+    private final int myEntryRow = 0;
 
     /* The entry column of the player. */
-    private int myEntryCol = 0;
+    private final int myEntryCol = 0;
 
     /* The current row of the player in the maze. */
     private int myCurrentRow = 0;

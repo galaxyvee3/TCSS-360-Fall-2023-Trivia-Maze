@@ -13,7 +13,7 @@ public class Door implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /* Door number. */
-    private int myDoorNumber = 0;
+    private final int myDoorNumber = 0;
 
     /* Status of whether door is open or not. */
     private boolean myIsOpen = false;

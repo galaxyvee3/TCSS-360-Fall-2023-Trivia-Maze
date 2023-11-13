@@ -12,13 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Question_Answer class for Trivia Maze.
+ * QuestionAnswer class for Trivia Maze.
  * @author Viktoria Dolojan
+ * @version Fall 2023
  */
-public class Question_Answer {
-    private static final Logger LOGGER = Logger.getLogger(Question_Answer.class.getName());
-    private List<Map<String, String>> myQuestions;
-    public Question_Answer() {
+public class QuestionAnswer {
+    private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
+    private final List<Map<String, String>> myQuestions;
+    public QuestionAnswer() {
         myQuestions = new ArrayList<>();
         fetchQuestionsFromDatabase();
     }
@@ -27,30 +28,29 @@ public class Question_Answer {
         return myQuestions;
     }
 
-
-    public boolean userAnswer(char theChoice) {
+    public boolean userAnswer(final char theChoice) {
         return false;
     }
     private void fetchQuestionsFromDatabase() {
-        try (final Connection connection = DriverManager.getConnection("jdbc:sqlite:QuestionsDB.db")) {
-            fetchQuestionsFromTable(connection, "MultipleChoiceQuestions");
-            fetchQuestionsFromTable(connection, "True_False_Questions");
-            fetchQuestionsFromTable(connection, "ShortAnswerQuestions");
-        } catch (final SQLException theErr) {
-           LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", theErr);
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:QuestionsDB.db")) {
+            fetchQuestionsFromTable(conn, "MultipleChoiceQuestions");
+            fetchQuestionsFromTable(conn, "True_False_Questions");
+            fetchQuestionsFromTable(conn, "ShortAnswerQuestions");
+        } catch (final SQLException e) {
+            LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", e);
         }
     }
     private void fetchQuestionsFromTable(final Connection theConn,
                                          final String theTableName) throws SQLException {
-        String query = "SELECT QUESTION, ANSWER FROM " + theTableName;
-        try (final Statement statement = theConn.createStatement();
-             final ResultSet resultSet = statement.executeQuery(query)) {
+        final String query = "SELECT QUESTION, ANSWER FROM " + theTableName;
+        try (Statement statement = theConn.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
                 final String questionText = resultSet.getString("QUESTION");
                 final String answerText = resultSet.getString("ANSWER");
 
-                final  Map<String, String> question = new HashMap <>();
+                final  Map<String, String> question = new HashMap<>();
                 question.put("question", questionText);
                 question.put("answer", answerText);
 //                 question.setQuestionType(tableName);
@@ -59,7 +59,6 @@ public class Question_Answer {
             }
         }
     }
-
     /**
      * Question object creator.
      * (Factory design pattern).
@@ -83,6 +82,6 @@ public class Question_Answer {
     }
     @Override
     public String toString() {
-        return "Question_Answer{" + "myQuestions =" + myQuestions + '}';
+        return "QuestionAnswer{" + "myQuestions =" + myQuestions + '}';
     }
 }

@@ -8,7 +8,8 @@ public class ShortAnswerQuestions extends Question {
      * @param theQuestionText Question text in string.
      * @param theAnswerText   Answer text in string.
      */
-    public ShortAnswerQuestions(String theQuestionText, String theAnswerText) {
+    public ShortAnswerQuestions(final String theQuestionText,
+                                final String theAnswerText) {
         super(theQuestionText, theAnswerText);
     }
 
@@ -18,6 +19,6 @@ public class ShortAnswerQuestions extends Question {
      */
     @Override
     public String getQuestionType() {
-        return null;
+        return "short answer";
     }
 }

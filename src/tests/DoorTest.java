@@ -9,9 +9,9 @@ public class DoorTest {
     void testDoorInit() {
         Door door = new Door();
         assertEquals(0, door.getDoorNumber());
-        assertEquals(false, door.getStatus());
-        assertEquals(null, door.getQuestion());
-        assertEquals(null, door.getAnswer());
+        assertFalse(door.getStatus());
+        assertNull(door.getQuestion());
+        assertNull(door.getAnswer());
     }
 
     @Test
