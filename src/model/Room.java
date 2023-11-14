@@ -1,5 +1,7 @@
 package model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -11,7 +13,7 @@ import java.util.logging.Logger;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Room {
+public class Room implements PropertyChangeListener {
 
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
@@ -210,5 +212,16 @@ public class Room {
     private void logDoorCount() {
         final int doorCount = doorCounter();
         LOGGER.info("Door Count: " + doorCount);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

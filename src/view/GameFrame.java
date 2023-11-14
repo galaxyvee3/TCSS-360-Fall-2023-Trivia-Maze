@@ -2,6 +2,7 @@ package view;
 
 import controller.Maze;
 
+import java.beans.PropertyChangeSupport;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -18,6 +19,8 @@ import java.beans.PropertyChangeListener;
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze = null;
+
+    private PropertyChangeSupport myChangeSupport;
 
     private static JFrame myGameFrame;
 
@@ -50,6 +53,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         setVisible(true);
     }
 
+    public GameFrame(PropertyChangeSupport myChangeSupport) {
+        super();
+        this.myChangeSupport = myChangeSupport;
+    }
     /**
      *
      */

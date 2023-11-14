@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
  */
 public class DrawMaze extends JPanel implements PropertyChangeListener {
     /** The maze being drawn. */
-    private Maze myMaze = null;
+    private final Maze myMaze;
 
     /** Size of the maze. */
     private static final int MAZE_SIZE = 6;
