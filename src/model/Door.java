@@ -13,11 +13,8 @@ public class Door implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /** Door number. */
-    private int myDoorNumber = 0;
-
-    /** Status of whether door is open or not. */
-    private boolean myIsOpen = false;
+    /** Status of whether door is unlocked or not. */
+    private boolean myUnlocked = false;
 
     /** The trivia question assigned to this Door. */
     private String myQuestion = null;
@@ -48,19 +45,11 @@ public class Door implements Serializable {
     }
 
     /**
-     * Return the door number.
-     * @return number associated with door
-     */
-    public int getDoorNumber() {
-        return myDoorNumber;
-    }
-
-    /**
      * Returns the status of the door.
      * @return true if door is open
      */
-    public boolean getStatus() {
-        return myIsOpen;
+    public boolean getUnlocked() {
+        return myUnlocked;
     }
 
     /**
@@ -82,12 +71,12 @@ public class Door implements Serializable {
     /**
      * Open door if question is answered correctly.
      */
-    public void openDoor() {
-        myIsOpen = true;
+    public void unlockDoor() {
+        myUnlocked = true;
     }
 
     @Override
     public String toString() {
-        return "Door #" + myDoorNumber;
+        return "Unlocked: " + myUnlocked;
     }
 }

@@ -20,8 +20,7 @@ public class TrueFalseQuestions extends Question{
      * @param theQuestionText Question text in string.
      * @param theAnswerText Answer text in string.
      */
-    public TrueFalseQuestions(final String theQuestionText,
-                              final String theAnswerText) {
+    public TrueFalseQuestions(final String theQuestionText, final String theAnswerText) {
         super(theQuestionText, theAnswerText);
         this.myQuestionText = theQuestionText;
         this.myAnswerText = theAnswerText;
@@ -31,8 +30,7 @@ public class TrueFalseQuestions extends Question{
      * @param theQuestionText Question text in string.
      * @param theCorrect Boolean indicating the correct answer.
      */
-    private TrueFalseQuestions(final String theQuestionText,
-                               final boolean theCorrect) {
+    private TrueFalseQuestions(final String theQuestionText, final boolean theCorrect) {
         super(theQuestionText, String.valueOf(theCorrect));
         this.myAnswer = theCorrect;
     }

@@ -83,54 +83,110 @@ public class Maze {
     }
 
     /**
-     * Moves the player up one row.
-     * @return true if player can move up
+     * Check if the door is unlocked and player can traverse through.
+     * @param theDoor the door being checked
+     * @return true if door is unlocked
      */
-    public boolean moveUp() {
-        if (myCurrentRow - 1 < 0) {
-            return false;
+    public boolean doorUnlocked(final Door theDoor) {
+        return theDoor.getUnlocked();
+    }
+
+
+    public boolean canMove(final String theString) {
+        if (theString.equalsIgnoreCase("Up")) {
+            if (getMyCurrentRow() - 1 > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (theString.equalsIgnoreCase("Down")) {
+            if (getMyCurrentRow() + 1 < MAZE_SIZE) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (theString.equalsIgnoreCase("Left")) {
+            if (getMyCurrentCol() - 1 > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (theString.equalsIgnoreCase("Right")) {
+            if (getMyCurrentCol() + 1 < MAZE_SIZE) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            myCurrentRow -= 1;
-            return true;
+            return false;
+        }
+    }
+
+    /**
+     * Moves the player up one row.
+     * @return if move was successful or why it failed
+     */
+    public String moveUp() {
+        if (canMove("Up")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
+                setMyCurrentRow(getMyCurrentRow() + 1);
+                return "Moved up.";
+            } else {
+                return "Door is locked.";
+            }
+        } else {
+            return "Edge of maze.";
         }
     }
 
     /**
      * Moves the player down one row.
-     * @return true if player can move down
+     * @return if move was successful or why it failed
      */
-    public boolean moveDown() {
-        if (myCurrentRow + 1 >= MAZE_SIZE) {
-            return false;
+    public String moveDown() {
+        if (canMove("Down")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
+                setMyCurrentRow(getMyCurrentRow() - 1);
+                return "Moved down.";
+            } else {
+                return "Door is locked.";
+            }
         } else {
-            myCurrentRow += 1;
-            return true;
+            return "Edge of maze.";
         }
     }
 
     /**
      * Moves the player left one column.
-     * @return true if player can move left
+     * @return if move was successful or why it failed
      */
-    public boolean moveLeft() {
-        if (myCurrentCol - 1 < 0) {
-            return false;
+    public String moveLeft() {
+        if (canMove("Left")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
+                setMyCurrentCol(getMyCurrentCol() - 1);
+                return "Moved left.";
+            } else {
+                return "Door is locked.";
+            }
         } else {
-            myCurrentCol -= 1;
-            return true;
+            return "Edge of maze.";
         }
     }
 
     /**
      * Moves the player right one column.
-     * @return true if player can move right
+     * @return if move was successful or why it failed
      */
-    public boolean moveRight() {
-        if (myCurrentCol + 1 >= MAZE_SIZE) {
-            return false;
+    public String moveRight() {
+        if (canMove("Right")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
+                setMyCurrentCol(getMyCurrentCol() + 1);
+                return "Moved right.";
+            } else {
+                return "Door is locked.";
+            }
         } else {
-            myCurrentCol += 1;
-            return true;
+            return "Edge of maze.";
         }
     }
 
@@ -182,9 +238,16 @@ public class Maze {
     /**
      * Checks if the player has reached the end of the maze.
      */
-    public void checkGameOver() {
+    public void gameOverSuccess() {
         if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
             myGameOver = true;
         }
+    }
+
+    /**
+     * Checks if player is trapped in the maze because all possible doors are locked.
+     */
+    public void gameOverFail() {
+
     }
 }
