@@ -4,16 +4,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * QuestionAnswer class for Trivia Maze.
  * @author Viktoria Dolojan
+ * @author rick_adams
  * @version Fall 2023
  */
 public class QuestionAnswer {
@@ -27,7 +25,6 @@ public class QuestionAnswer {
         myQuestions = new ArrayList<>();
         fetchQuestionsFromDatabase();
     }
-
     /**
      *
      * @return
@@ -35,23 +32,13 @@ public class QuestionAnswer {
     public List<Map<String, String>> getQuestions() {
         return myQuestions;
     }
-
-    /**
-     *
-     * @param theChoice
-     * @return
-     */
-    public boolean userAnswer(final char theChoice) {
-        return false;
-    }
-
     /**
      *
      */
     private void fetchQuestionsFromDatabase() {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:QuestionsDB.db")) {
             fetchQuestionsFromTable(conn, "MultipleChoiceQuestions");
-            fetchQuestionsFromTable(conn, "True_False_Questions");
+            fetchQuestionsFromTable(conn, "TrueFalseQuestions");
             fetchQuestionsFromTable(conn, "ShortAnswerQuestions");
         } catch (final SQLException e) {
             LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", e);
@@ -84,27 +71,29 @@ public class QuestionAnswer {
         }
     }
 
-    /**
-     * Question object creator.
-     * (Factory design pattern).
-     * @param type The question type.
-     * @param param1 The question text.
-     * @param param2 The Answer text.
-     * @return returns Question object.
-     */
     public Question createQuestion(final String type,
                                    final String param1,
                                    final String param2) {
-        final Question question = switch (type.toLowerCase()) {
-            case "true/false" -> new TrueFalseQuestions(param1, param2);
-            case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
-            case "short answer" -> new ShortAnswerQuestions(param1, param2);
-            default ->
-                // Handle unknown type or throw an exception
+        try {
+            Objects.requireNonNull(type);
+            Objects.requireNonNull(param1);
+            Objects.requireNonNull(param2);
+
+            return switch (type.toLowerCase()) {
+                case "true/false" -> new TrueFalseQuestions(param1, param2);
+                case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
+                case "short answer" -> new ShortAnswerQuestions(param1, param2);
+                default -> {
+                    LOGGER.log(Level.SEVERE, "Invalid question type: " + type);
                     throw new IllegalArgumentException("Invalid question type: " + type);
-        };
-        return question;
+                }
+            };
+        } catch (NullPointerException e) {
+            LOGGER.log(Level.SEVERE, "Invalid parameters for creating a question.", e);
+            throw e;
+        }
     }
+
 
     @Override
     public String toString() {

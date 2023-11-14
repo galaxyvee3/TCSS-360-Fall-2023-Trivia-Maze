@@ -1,5 +1,6 @@
 package view;
 
+import java.util.logging.Level;
 import org.sqlite.SQLiteDataSource;
 
 import java.util.logging.Logger;
@@ -12,29 +13,32 @@ import java.util.logging.Logger;
  */
 public class QuestionDatabase {
     private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
-
     private static SQLiteDataSource myDs = null;
 
-    /**
-     * Default constructor.
-     */
-    protected QuestionDatabase() {
+    private QuestionDatabase() {
+        // Private constructor to prevent instantiation
     }
 
-    /**
-     *
-     * @return
-     */
-    private static SQLiteDataSource createDataSource() {
-        myDs = new SQLiteDataSource();
-        myDs.setUrl("jdbc:sqlite:QuestionsDB.db");
+    private static synchronized SQLiteDataSource createDataSource() {
+        if (myDs == null) {
+            myDs = new SQLiteDataSource();
+            myDs.setUrl("jdbc:sqlite:QuestionsDB.db");
+        }
         return myDs;
     }
 
-    /**
-     *
-     */
-    public static void initializeDatabase() {
-        myDs = createDataSource();
+    public static synchronized void initializeDatabase() {
+        try {
+            myDs = createDataSource();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Database initialization failed.", e);
+        }
+    }
+
+    public static synchronized SQLiteDataSource getDataSource() {
+        if (myDs == null) {
+            initializeDatabase();
+        }
+        return myDs;
     }
 }
