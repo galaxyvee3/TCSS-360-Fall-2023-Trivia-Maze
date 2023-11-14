@@ -8,8 +8,7 @@ public class DoorTest {
     @Test
     void testDoorInit() {
         Door door = new Door();
-        assertEquals(0, door.getDoorNumber());
-        assertFalse(door.getStatus());
+        assertFalse(door.getUnlocked());
         assertNull(door.getQuestion());
         assertNull(door.getAnswer());
     }
