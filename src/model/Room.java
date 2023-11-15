@@ -53,6 +53,10 @@ public class Room implements PropertyChangeListener {
      */
     public Room() {
         myCM = new ClueManager();
+        initializeState();
+        initializeClue();
+        generateClueContent();
+        logDoorCount();
     }
 
     /**
@@ -65,9 +69,7 @@ public class Room implements PropertyChangeListener {
                 final int theRowCnt,
                 final int theColCnt) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
-        initializeState();
-        initializeClue();
-        logDoorCount();
+
     }
 
     /**
