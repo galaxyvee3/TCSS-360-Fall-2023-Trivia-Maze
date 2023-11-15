@@ -38,6 +38,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public GameFrame() {
         super();
         myMaze = new Maze();
+        addKeyListener(new MovePlayer());
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(200, 200));
 
@@ -169,6 +170,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * Create the GUI for the Trivia Maze.
      */
     public static void createGUI() {
+        // create new frame for game
         final GameFrame mazeFrame = new GameFrame();
 
 
@@ -197,13 +199,13 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys
             if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                myMaze.moveUp();
+                System.out.println(myMaze.moveUp());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                myMaze.moveDown();
+                System.out.println(myMaze.moveDown());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                myMaze.moveLeft();
+                System.out.println(myMaze.moveLeft());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                myMaze.moveRight();
+                System.out.println(myMaze.moveRight());
             }
         }
     }

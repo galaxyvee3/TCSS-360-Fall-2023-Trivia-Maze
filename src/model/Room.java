@@ -226,4 +226,9 @@ public class Room implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
+
+    @Override
+    public String toString() {
+        return "Room init";
+    }
 }
