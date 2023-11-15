@@ -16,7 +16,12 @@ class RoomTest {
     }
 
     @Test
-    public void testAnswerTriviaQuestionCorrectly() {
+    void testRoomInit() {
+        assertEquals("Room init", myRoom.toString());
+    }
+
+    @Test
+    void testAnswerTriviaQuestionCorrectly() {
         myRoom.answerTriviaQuestion("Your correct answer");
         assertTrue(myRoom.isQuestionAnsweredCorrectly());
     }

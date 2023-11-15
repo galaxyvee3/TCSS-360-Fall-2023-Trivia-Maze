@@ -95,6 +95,6 @@ public class Door implements Serializable {
 
     @Override
     public String toString() {
-        return "Unlocked: " + myUnlocked;
+        return "Door init";
     }
 }

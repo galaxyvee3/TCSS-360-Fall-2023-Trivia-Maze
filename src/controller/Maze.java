@@ -99,7 +99,11 @@ public class Maze {
         return theDoor.getUnlocked();
     }
 
-
+    /**
+     * Checks whether the player can move up, down, left, or right.
+     * @param theString where to move the player
+     * @return true if move was successful
+     */
     public boolean canMove(final String theString) {
         if (theString.equalsIgnoreCase("Up")) {
             if (getMyCurrentRow() - 1 > 0) {
@@ -136,8 +140,8 @@ public class Maze {
      */
     public String moveUp() {
         if (canMove("Up")) {
-            if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
-                setMyCurrentRow(getMyCurrentRow() + 1);
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
+                setMyCurrentRow(getMyCurrentRow() - 1);
                 return "Moved up.";
             } else {
                 return "Door is locked.";
@@ -153,8 +157,8 @@ public class Maze {
      */
     public String moveDown() {
         if (canMove("Down")) {
-            if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
-                setMyCurrentRow(getMyCurrentRow() - 1);
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
+                setMyCurrentRow(getMyCurrentRow() + 1);
                 return "Moved down.";
             } else {
                 return "Door is locked.";
@@ -257,5 +261,10 @@ public class Maze {
      */
     public void gameOverFail() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Maze init";
     }
 }
