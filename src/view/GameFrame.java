@@ -27,6 +27,7 @@ GameFrame extends JFrame implements PropertyChangeListener {
     
     public GameFrame() {
         super();
+        showDifficultyMenu();
         // Panel is for testing purposes only.
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(200, 200));
@@ -41,6 +42,74 @@ GameFrame extends JFrame implements PropertyChangeListener {
         setFocusable(true);
         requestFocus();
         setVisible(true);
+    }
+    private void startGame() {
+        // Instantiate the maze with the selected difficulty
+        Maze maze = new Maze();
+        // Pass the maze to the DrawMaze panel
+        DrawMaze drawMaze = new DrawMaze(maze);
+
+        // Add the DrawMaze panel to the frame
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(500, 500));
+        panel.add(drawMaze, BorderLayout.CENTER);
+        add(panel);
+        panel.setBackground(Color.LIGHT_GRAY);
+
+    }
+
+    private void showDifficultyMenu() {
+        Object[] options = {"Easy", "Medium", "Hard"};
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                "Select Difficulty",
+                "Difficulty Selection",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        switch (choice) {
+            case 0:
+                setDifficulty(difficultyLevel.EASY);
+                break;
+            case 1:
+                setDifficulty(difficultyLevel.MEDIUM);
+                break;
+            case 2:
+                setDifficulty(difficultyLevel.HARD);
+                break;
+            default:
+                setDifficulty(difficultyLevel.MEDIUM);
+        }
+        // Start the game with the selected difficulty
+        startGame();
+    }
+
+    private enum difficultyLevel {
+        EASY, MEDIUM, HARD
+    }
+
+    /**
+     * Method to set the game difficulty based on the user's selection
+     * Adjust game parameters based on difficulty
+     **/
+    private void setDifficulty (difficultyLevel level) {
+        switch(level) {
+            case EASY:
+                break;
+            // Code here
+            case MEDIUM:
+                break;
+
+            case HARD:
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void frameHelper() {
