@@ -22,6 +22,9 @@ public class Door implements Serializable {
     /** The answer to the trivia question. */
     private String myAnswer = null;
 
+    /** Status of whether door is closed forever because player answered incorrectly. */
+    private boolean myClosed = false;
+
     /**
      * Default constructor.
      */
@@ -45,11 +48,19 @@ public class Door implements Serializable {
     }
 
     /**
-     * Returns the status of the door.
-     * @return true if door is open
+     * Returns the unlock status of the door.
+     * @return true if door is unlocked
      */
     public boolean getUnlocked() {
         return myUnlocked;
+    }
+
+    /**
+     * Returns the close status of the door.
+     * @return true if door is closed forever
+     */
+    public boolean getClosed() {
+        return myClosed;
     }
 
     /**
@@ -69,10 +80,17 @@ public class Door implements Serializable {
     }
 
     /**
-     * Open door if question is answered correctly.
+     * Unlock door if question is answered correctly.
      */
     public void unlockDoor() {
         myUnlocked = true;
+    }
+
+    /**
+     * Close door forever if player answers incorrectly.
+     */
+    public void closeDoor() {
+        myClosed = true;
     }
 
     @Override

@@ -2,13 +2,13 @@ package view;
 
 import controller.Maze;
 
-import java.beans.PropertyChangeSupport;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
