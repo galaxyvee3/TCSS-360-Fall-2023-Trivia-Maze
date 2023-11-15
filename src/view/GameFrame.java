@@ -173,6 +173,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         // create new frame for game
         final GameFrame mazeFrame = new GameFrame();
 
+        // addPropertyChangeListener for all GUI
+        myMaze.addPropertyChangeListener(mazeFrame);
 
         // reset game stats
         myMaze.newGame();
@@ -186,7 +188,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-
+        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_GAME_OVER)) {
+            myGameOver = (boolean) theEvent.getNewValue();
+            gameOver();
+        }
     }
 
     /**

@@ -3,6 +3,9 @@ package controller;
 import model.Door;
 import model.Room;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
@@ -12,6 +15,15 @@ import model.Room;
  */
 
 public class Maze {
+
+    /** Property name for game over. */
+    public static final String PROPERTY_GAME_OVER = "Game over";
+
+
+
+    private final PropertyChangeSupport myPCS;
+
+
     /** 2D Room array representing the Trivia Maze. */
     private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
 
@@ -37,6 +49,7 @@ public class Maze {
      * Default constructor.
      */
     public Maze()  {
+        myPCS = new PropertyChangeSupport(this);
         createRoomsAndDoors();
     }
 
@@ -203,18 +216,6 @@ public class Maze {
     }
 
     /**
-     * Resets all stats for a new game.
-     */
-    public void newGame() {
-        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
-        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
-        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
-        createRoomsAndDoors();
-        myCurrentRow = 0;
-        myCurrentCol = 0;
-    }
-
-    /**
      * Fill arrays with rooms and doors in the maze.
      */
     public void createRoomsAndDoors() {
@@ -241,6 +242,29 @@ public class Maze {
     }
 
     /**
+     * Resets all stats for a new game.
+     */
+    public void newGame() {
+        // save old values for firePropertyChange
+        final Room[][] maze = myMaze;
+        final boolean oldGameOver = myGameOver;
+
+
+        // replace old values with new values
+        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
+        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
+        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
+        createRoomsAndDoors();
+        myCurrentRow = 0;
+        myCurrentCol = 0;
+        myGameOver = false;
+
+
+        // firePropertyChange
+        myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
+    }
+
+    /**
      * Checks the current location of the player in the maze.
      */
     public void checkCurrentLocation() {
@@ -252,7 +276,9 @@ public class Maze {
      */
     public void gameOverSuccess() {
         if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
+            final boolean oldGameOver = myGameOver;
             myGameOver = true;
+            myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
         }
     }
 
@@ -261,6 +287,22 @@ public class Maze {
      */
     public void gameOverFail() {
 
+    }
+
+    /**
+     * Adds a PropertyChangeListener to PropertyChangeSupport.
+     * @param theListener the PropertyChangeListener to be added
+     */
+    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
+        myPCS.addPropertyChangeListener(theListener);
+    }
+
+    /**
+     * Removes a PropertyChangeListener from PropertyChangeSupport.
+     * @param theListener the PropertyChangeListener to be removed
+     */
+    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
+        myPCS.removePropertyChangeListener(theListener);
     }
 
     @Override
