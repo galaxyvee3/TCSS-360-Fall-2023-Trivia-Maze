@@ -50,6 +50,14 @@ public class Maze {
         return myMaze[theRow][theCol];
     }
 
+    public Door[][] getVertDoors() {
+        return myVertDoors;
+    }
+
+    public Door[][] getHorzDoors() {
+        return myHorzDoors;
+    }
+
     /**
      * Return the current row.
      * @return current row of the player
