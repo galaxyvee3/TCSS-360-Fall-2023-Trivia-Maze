@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class DrawMaze extends JPanel implements PropertyChangeListener {
+public class MazePanel extends JPanel implements PropertyChangeListener {
     /** The maze being drawn. */
     private final Maze myMaze;
 
@@ -31,11 +31,11 @@ public class DrawMaze extends JPanel implements PropertyChangeListener {
      * Default constructor.
      * @param theMaze current maze being played
      */
-    public DrawMaze(final Maze theMaze) {
+    public MazePanel(final Maze theMaze) {
         super();
         myMaze = theMaze;
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(MAZE_SIZE * 20, MAZE_SIZE * 20));
+        setPreferredSize(new Dimension(200, 200));
     }
 
     @Override
@@ -91,28 +91,26 @@ public class DrawMaze extends JPanel implements PropertyChangeListener {
             a++;
         }
 
-        /*
-        // for vertical doors
-        for (int rows = 0; rows < MAZE_SIZE; rows++) {
-            for (int cols = 1; cols < MAZE_SIZE; cols++) {
-                g2d.fillRect(cols * ROOM_SIZE - 5, rows * ROOM_SIZE + 15, DOOR_SIZE/3, DOOR_SIZE);
-            }
-
-        // for horizontal doors
-        for (int rows = 1; rows < MAZE_SIZE; rows++) {
-            for (int cols = 0; cols < MAZE_SIZE; cols++) {
-                g2d.fillRect(cols * ROOM_SIZE + 15, rows * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE/3);
-            }
-        }
-        }*/
-
         // draw user current location
         g2d.setPaint(Color.BLUE);
         g2d.fillOval(curRow * ROOM_SIZE + 15, curCol * ROOM_SIZE + 15, DOOR_SIZE, DOOR_SIZE);
     }
 
+    /**
+     * Repaint maze whenever player has moved within the maze and when a door is unlocked or closed.
+     * @param theEvent A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        repaint();
+        /*
+        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_PLAYER_MOVED)
+        || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_UNLOCKED)
+        || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_CLOSED)) {
+            repaint();
+        }*/
+        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_UPDATE_MAZE)) {
+            repaint();
+        }
     }
 }
