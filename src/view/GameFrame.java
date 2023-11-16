@@ -37,21 +37,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public GameFrame() {
         super();
-        myMaze = new Maze();
-        addKeyListener(new MovePlayer());
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(200, 200));
-
-        DrawMaze maze = new DrawMaze(new Maze());
-        panel.add(maze, BorderLayout.CENTER);
-
-        add(panel);
-        panel.setBackground(Color.LIGHT_GRAY);
+        myMaze = new Maze(); // create new maze game
+        addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper();
-
         setFocusable(true);
         requestFocus();
-        setVisible(true);
+        setVisible(true); // make frame visible
     }
 
     public GameFrame(PropertyChangeSupport myChangeSupport) {
@@ -170,19 +161,21 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * Create the GUI for the Trivia Maze.
      */
     public static void createGUI() {
-        // create new frame for game
-        final GameFrame mazeFrame = new GameFrame();
+        final JPanel gamePanel = new JPanel(new BorderLayout()); // panel for all info in game
+        final GameFrame mazeFrame = new GameFrame(); // frame for game
+        final MazePanel mazePanel = new MazePanel(myMaze); // panel for maze
+        final QuestionPanel qPanel = new QuestionPanel(); // panel for trivia questions
 
-        // addPropertyChangeListener for all GUI
-        myMaze.addPropertyChangeListener(mazeFrame);
+        gamePanel.add(mazePanel, BorderLayout.CENTER); // add maze panel to game panel
+        gamePanel.add(qPanel, BorderLayout.SOUTH); // add question panel to game panel
+        mazeFrame.add(gamePanel); // add game panel to frame
 
-        // reset game stats
-        myMaze.newGame();
+        myMaze.addPropertyChangeListener(mazeFrame); // addPropertyChangeListener for all GUI
+        myMaze.newGame(); // reset game stats
     }
 
     /**
-     * This method gets called when a bound property is changed.
-     *
+     * Show game over GUI when player has completed the game, either in success or failure.
      * @param theEvent A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */

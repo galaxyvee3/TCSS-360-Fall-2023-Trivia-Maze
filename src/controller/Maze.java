@@ -19,7 +19,17 @@ public class Maze {
     /** Property name for game over. */
     public static final String PROPERTY_GAME_OVER = "Game over";
 
+    /** Property name for updating the maze when player has moved or door has changed status. */
+    public static final String PROPERTY_UPDATE_MAZE = "Update maze";
 
+    /** Property name for when the player has moved within the maze. */
+    //public static final String PROPERTY_PLAYER_MOVED = "Player moved";
+
+    /** Property name for when a door is unlocked. */
+    //public static final String PROPERTY_DOOR_UNLOCKED = "Door unlocked";
+
+    /** Property name for when a door is closed. */
+    //public static final String PROPERTY_DOOR_CLOSED = "Door closed";
 
     private final PropertyChangeSupport myPCS;
 
