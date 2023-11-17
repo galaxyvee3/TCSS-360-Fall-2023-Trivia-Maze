@@ -64,7 +64,6 @@ public class QuestionAnswer {
                 final  Map<String, String> question = new HashMap<>();
                 question.put("question", questionText);
                 question.put("answer", answerText);
-//                 question.setQuestionType(tableName);
 
                 myQuestions.add(question);
             }
@@ -96,7 +95,9 @@ public class QuestionAnswer {
 
 
     @Override
-    public String toString() {
-        return "QuestionAnswer{" + "myQuestions =" + myQuestions + '}';
+        public String toString() {
+        String sb = "QuestionAnswer { " + "myQuestions  = " + myQuestions +
+                '}';
+            return sb;
+        }
     }
-}
