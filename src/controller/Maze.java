@@ -319,4 +319,41 @@ public class Maze {
     public String toString() {
         return "Maze init";
     }
+
+
+    /**
+     * Checks if the player can move in the given direction.
+     * If there's a locked door, prompts the user with a trivia question.
+     * @param rowChange change in row for the player's movement
+     * @param colChange change in column for the player's movement
+     * @return true if the player can move, false otherwise
+     */
+    /*
+    public boolean canMove (int rowChange, int colChange) {
+        int newRow = myCurrentRow + rowChange;
+        int newCol = myCurrentCol + colChange;
+
+        // Check if new player position within the bounds
+        if (newRow >= MAZE_SIZE || newRow < 0 || newCol >= MAZE_SIZE || newCol < 0) {
+            return false;
+        }
+
+        // Get new room and new door for player
+        Room nextRoom = myMaze[newRow][newCol];
+        Door door = (rowChange == 0) ?
+                myHorzDoors[newRow][Math.min(newCol, myCurrentRow)]:
+                myVertDoors[Math.min(newRow, myCurrentRow)][newCol];
+
+        if (Door)
+
+        String question = door.getQuestion();
+        String answer = door.getAnswer();
+
+
+
+        return false;
+
+    }
+*/
+
 }
