@@ -8,10 +8,11 @@ public class DoorTest {
     @Test
     void testDoorInit() {
         Door door = new Door();
-        assertEquals(0, door.getDoorNumber());
-        assertEquals(false, door.getStatus());
-        assertEquals(null, door.getQuestion());
-        assertEquals(null, door.getAnswer());
+        assertFalse(door.getUnlocked());
+        assertFalse(door.getClosed());
+        assertNull(door.getQuestion());
+        assertNull(door.getAnswer());
+        assertEquals("Door init", door.toString());
     }
 
     @Test
@@ -21,5 +22,21 @@ public class DoorTest {
         door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
         assertEquals("What are the 4 Pillars of OOP?", door.getQuestion());
         assertEquals("Abstraction, Encapsulation, Inheritance, and Polymorphism", door.getAnswer());
+    }
+
+    @Test
+    void testUnlockedDoor() {
+        Door door = new Door();
+        assertFalse(door.getUnlocked());
+        door.unlockDoor();
+        assertTrue(door.getUnlocked());
+    }
+
+    @Test
+    void testClosedDoor() {
+        Door door = new Door();
+        assertFalse(door.getClosed());
+        door.closeDoor();
+        assertTrue(door.getClosed());
     }
 }

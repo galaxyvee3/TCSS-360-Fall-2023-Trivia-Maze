@@ -1,31 +1,32 @@
 package model;
 
-import javax.swing.*;
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * Door class for Trivia Maze Fall 2023 Team 2.
+ * Door object in the maze.
  * @author Viktoria Dolojan
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 public class Door implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /* Door number. */
-    private int myDoorNumber = 0;
+    /** Status of whether door is unlocked or not. */
+    private boolean myUnlocked = false;
 
-    /* Status of whether door is open or not. */
-    private boolean myIsOpen = false;
-
-    /* The trivia question assigned to this Door. */
+    /** The trivia question assigned to this Door. */
     private String myQuestion = null;
 
-    /* The answer to the trivia question. */
+    /** The answer to the trivia question. */
     private String myAnswer = null;
 
+    /** Status of whether door is closed forever because player answered incorrectly. */
+    private boolean myClosed = false;
+
     /**
-     * Constructs a Door object.
+     * Default constructor.
      */
     public Door() {
     }
@@ -47,19 +48,19 @@ public class Door implements Serializable {
     }
 
     /**
-     * Return the door number.
-     * @return number associated with door
+     * Returns the unlock status of the door.
+     * @return true if door is unlocked
      */
-    public int getDoorNumber() {
-        return myDoorNumber;
+    public boolean getUnlocked() {
+        return myUnlocked;
     }
 
     /**
-     * Returns the status of the door.
-     * @return true if door is open
+     * Returns the close status of the door.
+     * @return true if door is closed forever
      */
-    public boolean getStatus() {
-        return myIsOpen;
+    public boolean getClosed() {
+        return myClosed;
     }
 
     /**
@@ -79,14 +80,21 @@ public class Door implements Serializable {
     }
 
     /**
-     * Open door if question is answered correctly.
+     * Unlock door if question is answered correctly.
      */
-    public void openDoor() {
-        myIsOpen = true;
+    public void unlockDoor() {
+        myUnlocked = true;
+    }
+
+    /**
+     * Close door forever if player answers incorrectly.
+     */
+    public void closeDoor() {
+        myClosed = true;
     }
 
     @Override
     public String toString() {
-        return "Door #" + myDoorNumber;
+        return "Door init";
     }
 }

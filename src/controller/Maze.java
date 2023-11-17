@@ -3,69 +3,41 @@ package controller;
 import model.Door;
 import model.Room;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
  * @author Viktoria Dolojan
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 
 public class Maze {
+    /** 2D Room array representing the Trivia Maze. */
+    private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
 
-    Door
-    /* 2D Room array representing the Trivia Maze. */
-    private Room[][] myMaze = null;
+    /** 2d Door array representing all the vertical doors in the maze. */
+    private Door[][] myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
 
-    /* 2d Door array representing all the vertical doors in the maze. */
-    private Door[][] myVertDoors = null;
+    /** 2d Door array representing all the horizontal doors in the maze. */
+    private Door[][] myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
 
-    /* 2d Door array representing all the horizontal doors in the maze. */
-    private Door[][] myHorzDoors = null;
-
-    /* The entry row of the player. */
-    private int myEntryRow = 0;
-
-    /* The entry column of the player. */
-    private int myEntryCol = 0;
-
-    /* The current row of the player in the maze. */
+    /** The current row of the player in the maze. */
     private int myCurrentRow = 0;
 
-    /* The current column of the player in the maze. */
+    /** The current column of the player in the maze. */
     private int myCurrentCol = 0;
 
-    /* Boolean of whether player has reached the exit of the maze. */
+    /** Boolean of whether player has reached the exit of the maze. */
     private boolean myGameOver = false;
 
-    /* The size of the maze. */
+    /** The size of the maze. */
     private static final int MAZE_SIZE = 6;
 
+    /**
+     * Default constructor.
+     */
     public Maze()  {
-        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
-
-        // fill maze with rooms
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int k = 0; k < MAZE_SIZE; k++) {
-                myMaze[i][k] = new Room();
-            }
-        }
-        
-        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
-        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
-        
-        for (int i = 0; i < MAZE_SIZE - 1; i++) {
-            for (int k = 0; k < MAZE_SIZE; k++) {
-                myVertDoors[i][k] = new Door();
-            }
-        }
-
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int k = 0; k < MAZE_SIZE - 1; k++) {
-                myHorzDoors[i][k] = new Door();
-            }
-        }
+        createRoomsAndDoors();
     }
 
     /**
@@ -76,6 +48,14 @@ public class Maze {
      */
     public Room getRoom(final int theRow, final int theCol) {
         return myMaze[theRow][theCol];
+    }
+
+    public Door[][] getVertDoors() {
+        return myVertDoors;
+    }
+
+    public Door[][] getHorzDoors() {
+        return myHorzDoors;
     }
 
     /**
@@ -111,54 +91,152 @@ public class Maze {
     }
 
     /**
-     * Moves the player up one row.
-     * @return true if player can move up
+     * Check if the door is unlocked and player can traverse through.
+     * @param theDoor the door being checked
+     * @return true if door is unlocked
      */
-    public boolean moveUp() {
-        if (myCurrentRow - 1 < 0) {
-            return false;
+    public boolean doorUnlocked(final Door theDoor) {
+        return theDoor.getUnlocked();
+    }
+
+    /**
+     * Checks whether the player can move up, down, left, or right.
+     * @param theString where to move the player
+     * @return true if move was successful
+     */
+    public boolean canMove(final String theString) {
+        if (theString.equalsIgnoreCase("Up")) {
+            if (getMyCurrentRow() - 1 > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (theString.equalsIgnoreCase("Down")) {
+            if (getMyCurrentRow() + 1 < MAZE_SIZE) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (theString.equalsIgnoreCase("Left")) {
+            if (getMyCurrentCol() - 1 > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (theString.equalsIgnoreCase("Right")) {
+            if (getMyCurrentCol() + 1 < MAZE_SIZE) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            myCurrentRow -= 1;
-            return true;
+            return false;
+        }
+    }
+
+    /**
+     * Moves the player up one row.
+     * @return if move was successful or why it failed
+     */
+    public String moveUp() {
+        if (canMove("Up")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
+                setMyCurrentRow(getMyCurrentRow() - 1);
+                return "Moved up.";
+            } else {
+                return "Door is locked.";
+            }
+        } else {
+            return "Edge of maze.";
         }
     }
 
     /**
      * Moves the player down one row.
-     * @return true if player can move down
+     * @return if move was successful or why it failed
      */
-    public boolean moveDown() {
-        if (myCurrentRow + 1 >= MAZE_SIZE) {
-            return false;
+    public String moveDown() {
+        if (canMove("Down")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
+                setMyCurrentRow(getMyCurrentRow() + 1);
+                return "Moved down.";
+            } else {
+                return "Door is locked.";
+            }
         } else {
-            myCurrentRow += 1;
-            return true;
+            return "Edge of maze.";
         }
     }
 
     /**
      * Moves the player left one column.
-     * @return true if player can move left
+     * @return if move was successful or why it failed
      */
-    public boolean moveLeft() {
-        if (myCurrentCol - 1 < 0) {
-            return false;
+    public String moveLeft() {
+        if (canMove("Left")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
+                setMyCurrentCol(getMyCurrentCol() - 1);
+                return "Moved left.";
+            } else {
+                return "Door is locked.";
+            }
         } else {
-            myCurrentCol -= 1;
-            return true;
+            return "Edge of maze.";
         }
     }
 
     /**
      * Moves the player right one column.
-     * @return true if player can move right
+     * @return if move was successful or why it failed
      */
-    public boolean moveRight() {
-        if (myCurrentCol + 1 >= MAZE_SIZE) {
-            return false;
+    public String moveRight() {
+        if (canMove("Right")) {
+            if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
+                setMyCurrentCol(getMyCurrentCol() + 1);
+                return "Moved right.";
+            } else {
+                return "Door is locked.";
+            }
         } else {
-            myCurrentCol += 1;
-            return true;
+            return "Edge of maze.";
+        }
+    }
+
+    /**
+     * Resets all stats for a new game.
+     */
+    public void newGame() {
+        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
+        myVertDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
+        myHorzDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
+        createRoomsAndDoors();
+        myCurrentRow = 0;
+        myCurrentCol = 0;
+    }
+
+    /**
+     * Fill arrays with rooms and doors in the maze.
+     */
+    public void createRoomsAndDoors() {
+        // fill maze with rooms
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
+                myMaze[i][k] = new Room();
+            }
+        }
+
+        // fill array with vertical doors
+        for (int i = 0; i < MAZE_SIZE - 1; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
+                myVertDoors[i][k] = new Door();
+            }
+        }
+
+        // fill array with horizontal doors
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE - 1; k++) {
+                myHorzDoors[i][k] = new Door();
+            }
         }
     }
 
@@ -172,33 +250,24 @@ public class Maze {
     /**
      * Checks if the player has reached the end of the maze.
      */
-    public void checkGameOver() {
+    public void gameOverSuccess() {
         if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
             myGameOver = true;
         }
     }
 
-    // TODO: MOVE TO GUI CLASS THAT WILL HANDLE MAZE
     /**
-     * Private class that allows the player to traverse the maze using the keyboard.
-     * @author Viktoria Dolojan
-     * @version Fall 2023.
+     * Checks if player is trapped in the maze because all possible doors are locked.
      */
-    private class MovePlayer extends KeyAdapter {
-        @Override
-        public void keyPressed(final KeyEvent theEvent) {
-            // WASD and arrow keys
-            if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                moveUp();
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                moveDown();
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                moveLeft();
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                moveRight();
-            }
-        }
+    public void gameOverFail() {
+
     }
+
+    @Override
+    public String toString() {
+        return "Maze init";
+    }
+
 
     /**
      * Checks if the player can move in the given direction.
@@ -207,6 +276,7 @@ public class Maze {
      * @param colChange change in column for the player's movement
      * @return true if the player can move, false otherwise
      */
+    /*
     public boolean canMove (int rowChange, int colChange) {
         int newRow = myCurrentRow + rowChange;
         int newCol = myCurrentCol + colChange;
@@ -232,6 +302,6 @@ public class Maze {
         return false;
 
     }
-
+*/
 
 }

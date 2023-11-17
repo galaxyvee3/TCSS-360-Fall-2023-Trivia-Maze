@@ -4,12 +4,13 @@ package view;
  * Abstract class extended to question classes.
  * @author Rick Adams
  * @version Fall 2023
- * Trivia Maze - team 2
+ * Trivia Maze - Team 2
  */
 public abstract class Question {
+    /** The trivia question. */
+    private final String myQuestionText;
 
-    private final String myQuestionTest;
-
+    /** The answer to the trivia question. */
     private final String myAnswerText;
 
     /**
@@ -18,20 +19,28 @@ public abstract class Question {
      * @param theAnswerText Answer text in string.
      */
     public Question(final String theQuestionText, final String theAnswerText) {
-        this.myQuestionTest = theQuestionText;
+        this.myQuestionText = theQuestionText;
         this.myAnswerText = theAnswerText;
     }
 
     /**
      * Accessor method that returns the question type.
-     * @return The question type.
+     * @return the question type.
      */
     public abstract String getQuestionType();
 
+    /**
+     * Return the question.
+     * @return trivia question
+     */
     public String getQuestionText() {
-        return myQuestionTest;
+        return myQuestionText;
     }
 
+    /**
+     * Return the answer.
+     * @return answer to trivia question
+     */
     public String getAnswerText() {
         return myAnswerText;
     }

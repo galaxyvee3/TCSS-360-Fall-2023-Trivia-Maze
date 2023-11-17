@@ -4,9 +4,10 @@ import controller.Maze;
 
 /**
  * Class that operates a Trivia Maze game.
- * @author rick_adams
+ * @author Rick Adams
  * @author Viktoria Dolojan
- * @version Fall 2023.
+ * @version Fall 2023
+ * Trivia Maze - Team 2
  */
 public class GameEngine {
     /* The current Trivia Maze being played. */
