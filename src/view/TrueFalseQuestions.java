@@ -44,4 +44,12 @@ public class TrueFalseQuestions extends Question{
     public String getQuestionType() {
         return "True/False";
     }
+    /**
+     * Check if the provided answer is correct.
+     * @param userAnswer The user's answer as a boolean (true/false).
+     * @return true if the answer is correct, false otherwise.
+     */
+    public boolean authenticateAnswer(boolean userAnswer) {
+        return userAnswer == Boolean.parseBoolean(getAnswer());
+    }
 }

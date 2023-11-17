@@ -41,7 +41,7 @@ public abstract class Question {
      * Return the answer.
      * @return answer to trivia question
      */
-    public String getAnswerText() {
+    public String getAnswer() {
         return myAnswerText;
     }
 }
