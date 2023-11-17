@@ -39,7 +39,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         super();
         myMaze = new Maze(); // create new maze game
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
-        frameHelper();
+        frameHelper(); // add info to frame
+        showDifficultyMenu(); //
         setFocusable(true);
         requestFocus();
         setVisible(true); // make frame visible
@@ -49,6 +50,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         super();
         this.myChangeSupport = myChangeSupport;
     }
+
     /**
      *
      */
@@ -115,11 +117,11 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
         help.addActionListener(e -> JOptionPane.showMessageDialog(null,
                 """
-                       There is no help for you, only pain and algorithms class.
-                       
-                       (This message is under further construction, and does not reflect thoughts,
-                       feelings and opinions of Team 2.
-                       Math is fun.)\s"""));
+                        There is no help for you, only pain and algorithms class.
+                                               
+                        (This message is under further construction, and does not reflect thoughts,
+                        feelings and opinions of Team 2.
+                        Math is fun.)\s"""));
         infoMenu.add(help);
 
         about.addActionListener(e -> JOptionPane.showMessageDialog(null,
@@ -133,12 +135,60 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
         return infoMenu;
     }
-    public void saveAndLoad() {
 
+    /**
+     * Enum for game difficulty levels.
+     */
+    private enum difficultyLevel {
+        EASY, MEDIUM, HARD
     }
 
-    public void gameDifficulty() {
+    /**
+     * Method to set the game difficulty based on the user's selection
+     * Adjust game parameters based on difficulty
+     **/
+    private void setDifficulty (difficultyLevel level) {
+        switch(level) {
+            case EASY:
+                break;
+            // Code here
+            case MEDIUM:
+                break;
 
+            case HARD:
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void showDifficultyMenu() {
+        Object[] options = {"Easy", "Medium", "Hard"};
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                "Select Difficulty",
+                "Difficulty Selection",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        switch (choice) {
+            case 0:
+                setDifficulty(difficultyLevel.EASY);
+                break;
+            case 1:
+                setDifficulty(difficultyLevel.MEDIUM);
+                break;
+            case 2:
+                setDifficulty(difficultyLevel.HARD);
+                break;
+            default:
+                setDifficulty(difficultyLevel.MEDIUM);
+        }
     }
 
     /**
@@ -172,6 +222,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
         myMaze.addPropertyChangeListener(mazeFrame); // addPropertyChangeListener for all GUI
         myMaze.newGame(); // reset game stats
+    }
+
+    public void saveAndLoad() {
+
     }
 
     /**
