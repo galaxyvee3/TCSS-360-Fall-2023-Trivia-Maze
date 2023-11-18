@@ -2,13 +2,20 @@ package view;
 
 import controller.Maze;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
@@ -187,7 +194,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 setDifficulty(difficultyLevel.HARD);
                 break;
             default:
-                setDifficulty(difficultyLevel.MEDIUM);
+                throw new IllegalStateException("Not a valid option.");
         }
     }
 
@@ -246,7 +253,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * @author Viktoria Dolojan
      * @version Fall 2023.
      */
-    private class MovePlayer extends KeyAdapter {
+    private static class MovePlayer extends KeyAdapter {
         @Override
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys

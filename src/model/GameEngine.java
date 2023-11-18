@@ -1,6 +1,8 @@
 package model;
 
 import controller.Maze;
+import view.QuestionAnswer;
+import view.QuestionPanel;
 
 /**
  * Class that operates a Trivia Maze game.
@@ -10,18 +12,18 @@ import controller.Maze;
  * Trivia Maze - Team 2
  */
 public class GameEngine {
-    /* The current Trivia Maze being played. */
-    private Maze myMaze = null;
+    private final QuestionAnswer myQA;
 
-    /* Boolean for whether there is a running Trivia Maze game. */
-    private boolean myGameStatus = false;
+    private final QuestionPanel myQP;
+
 
     /**
      * Default constructor.
      */
-    public GameEngine() {
-        myMaze = new Maze();
-        myGameStatus = true;
+    public GameEngine(final QuestionAnswer theQA, final QuestionPanel theQP) {
+        super();
+        this.myQA = theQA;
+        this.myQP = theQP;
     }
 
     private void initialize() {

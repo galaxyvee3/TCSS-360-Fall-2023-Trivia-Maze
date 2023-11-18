@@ -13,11 +13,13 @@ import java.beans.PropertyChangeListener;
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
+    private final JLabel myLabel;
     public QuestionPanel() {
         super();
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 50));
-        add(new JLabel("Trivia Question: "));
+        myLabel = new JLabel("Trivia Question: ");
+        add(myLabel);
     }
 
     @Override
@@ -33,6 +35,14 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
+        if ("currentQuestion".equals(theEvent.getPropertyName())) {
+            String newQuestion = (String) theEvent.getNewValue();
+            setCurrentQuestion(newQuestion);
+            repaint(); // Repaint the panel
+        }
+    }
 
+    public void setCurrentQuestion(String question) {
+        myLabel.setText("Trivia Question: " + question);
     }
 }

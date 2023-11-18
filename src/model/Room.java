@@ -183,7 +183,10 @@ public class Room implements PropertyChangeListener {
     public int getDoorCount() {
         return doorCounter();
     }
-    private void initializePosition(final int theRow, final int theColumn, final int theRowCnt, final int theColCnt) {
+    private void initializePosition(final int theRow,
+                                    final int theColumn,
+                                    final int theRowCnt,
+                                    final int theColCnt) {
         myRow = theRow;
         myColumn = theColumn;
         myRowCnt = theRowCnt;

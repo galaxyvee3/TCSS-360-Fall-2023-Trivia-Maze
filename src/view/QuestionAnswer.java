@@ -69,6 +69,34 @@ public class QuestionAnswer {
             }
         }
     }
+    private void fetchMultipleChoiceQuestions(final Connection theConn) throws SQLException {
+        final String query = "SELECT QuestionID, QUESTION, choiceA, choiceB, choiceC, ANSWER FROM MultipleChoiceQuestions";
+        try (Statement statement = theConn.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                final String questionID = resultSet.getString("QuestionID");
+                final String questionText = resultSet.getString("QUESTION");
+                final String choiceA = resultSet.getString("choiceA");
+                final String choiceB = resultSet.getString("choiceB");
+                final String choiceC = resultSet.getString("choiceC");
+                final String answerText = resultSet.getString("ANSWER");
+
+                // Create a map to represent the question
+                final Map<String, String> question = new HashMap<>();
+                question.put("questionID", questionID);
+                question.put("questionText", questionText);
+                question.put("choiceA", choiceA);
+                question.put("choiceB", choiceB);
+                question.put("choiceC", choiceC);
+                question.put("answer", answerText);
+
+                myQuestions.add(question);
+            }
+        }
+    }
+
+// Similar methods for TrueFalseQuestions and ShortAnswerQuestions
 
     public Question createQuestion(final String type,
                                    final String param1,
