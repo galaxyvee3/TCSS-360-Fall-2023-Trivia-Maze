@@ -12,7 +12,8 @@ public class MultipleChoiceQuestions extends Question{
      * @param theQuestionText Question text in string.
      * @param theAnswerText Answer text in string.
      */
-    public MultipleChoiceQuestions(final String theQuestionText, final String theAnswerText) {
+    public MultipleChoiceQuestions(final String theQuestionText,
+                                   final String theAnswerText) {
         super(theQuestionText, theAnswerText);
     }
 
@@ -22,6 +23,6 @@ public class MultipleChoiceQuestions extends Question{
      */
     @Override
     public String getQuestionType() {
-        return "Multiple Choice";
+        return "multiple choice";
     }
 }

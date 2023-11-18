@@ -40,14 +40,14 @@ public class TrueFalseQuestions extends Question{
      */
     @Override
     public String getQuestionType() {
-        return "True/False";
+        return "true/false";
     }
     /**
      * Check if the provided answer is correct.
-     * @param userAnswer The user's answer as a boolean (true/false).
+     * @param theAnswer The user's answer as a boolean (true/false).
      * @return true if the answer is correct, false otherwise.
      */
-    public boolean authenticateAnswer(boolean userAnswer) {
-        return userAnswer == Boolean.parseBoolean(getAnswer());
+    public boolean authenticateAnswer(final boolean theAnswer) {
+        return theAnswer == Boolean.parseBoolean(getAnswer());
     }
 }
