@@ -1,15 +1,18 @@
 package model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * Door object in the maze.
  * @author Viktoria Dolojan
+ *
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Door implements Serializable {
+public class Door implements Serializable, PropertyChangeListener {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -96,5 +99,19 @@ public class Door implements Serializable {
     @Override
     public String toString() {
         return "Door init";
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        // Handle property changes from QuestionPanel
+        if ("myQuestion".equals(evt.getPropertyName())) {
+
+        }
     }
 }

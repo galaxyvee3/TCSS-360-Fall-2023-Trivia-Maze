@@ -25,7 +25,8 @@ import javax.swing.JPanel;
  */
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
-    private static Maze myMaze = null;
+    private static Maze myMaze;
+
 
     private PropertyChangeSupport myChangeSupport;
 
@@ -44,6 +45,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public GameFrame() {
         super();
+        myChangeSupport = new PropertyChangeSupport(this);
         myMaze = new Maze(); // create new maze game
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
@@ -53,10 +55,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         setVisible(true); // make frame visible
     }
 
-    public GameFrame(PropertyChangeSupport myChangeSupport) {
-        super();
-        this.myChangeSupport = myChangeSupport;
-    }
+//    public GameFrame(PropertyChangeSupport myChangeSupport) {
+//        super();
+//        this.myChangeSupport = myChangeSupport;
+//    }
 
     /**
      *
@@ -242,11 +244,17 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_GAME_OVER)) {
-            myGameOver = (boolean) theEvent.getNewValue();
-            gameOver();
+        switch (theEvent.getPropertyName()) {
+            case Maze.PROPERTY_GAME_OVER:
+                myGameOver = (boolean) theEvent.getNewValue();
+                gameOver();
+                break;
+            case Maze.PROPERTY_UPDATE_MAZE:
+                // Update maze-related UI components
+                break;
         }
     }
+
 
     /**
      * Private class that allows the player to traverse the maze using the keyboard.

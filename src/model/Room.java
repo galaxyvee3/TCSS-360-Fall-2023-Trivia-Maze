@@ -56,7 +56,7 @@ public class Room implements PropertyChangeListener {
         initializeState();
         initializeClue();
         generateClueContent();
-        logDoorCount();
+//        logDoorCount();
     }
 
     /**

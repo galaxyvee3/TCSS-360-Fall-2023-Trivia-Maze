@@ -92,7 +92,7 @@ public class QuestionAnswer {
             columnList.add(column);
         }
 
-        final String query = "SELECT " + columnList + " FROM " + tableName;
+        final String query = "SELECT " + String.join(", ", columns) + " FROM " + tableName;
         try (Statement statement = theConn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
