@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class MultipleChoiceQuestions extends Question{
+public class MultipleChoiceQuestions extends Question {
 
 
     /**
@@ -36,7 +36,7 @@ public class MultipleChoiceQuestions extends Question{
     private void validateAnswer() {
         final Pattern letterPattern = Pattern.compile("^[A-Z]$");
         if (!letterPattern.matcher(getAnswer()).matches()) {
-            throw new IllegalArgumentException("Invalid answer format for MultipleChoiceQuestion: "
+            throw new IllegalArgumentException("Invalid answer format : "
                                                + getAnswer());
         }
     }

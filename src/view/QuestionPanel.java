@@ -45,4 +45,10 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void setCurrentQuestion(String question) {
         myLabel.setText("Trivia Question: " + question);
     }
+
+    public void displayQuestion(Question myQuestion) {
+    }
+
+    public void firePropertyChange() {
+    }
 }

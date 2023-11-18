@@ -1,8 +1,6 @@
 package view;
 
-import java.util.logging.Level;
 import org.sqlite.SQLiteDataSource;
-
 import java.util.logging.Logger;
 
 /**
@@ -11,30 +9,49 @@ import java.util.logging.Logger;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class QuestionDatabase {
+public final class QuestionDatabase {
+    //======================Constants======================//
+    /** Logger constant. **/
     private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
+    /** Path for SQLite database. **/
+    private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+//=====================Fields==========================//
+    /** Data source object. **/
     private static SQLiteDataSource myDs = null;
 
+    /**
+     * Private constructor.
+     * No instantiation.
+     */
     private QuestionDatabase() {
-        // Private constructor to prevent instantiation
     }
-
+    /**
+     * Helper method that creates data source.
+     * @return returns the data source.
+     */
     private static synchronized SQLiteDataSource createDataSource() {
         if (myDs == null) {
             myDs = new SQLiteDataSource();
-            myDs.setUrl("jdbc:sqlite:QuestionsDB.db");
+            myDs.setUrl(URL);
         }
         return myDs;
     }
 
+    /**
+     * Helper method to initialize the database.
+     */
     public static synchronized void initializeDatabase() {
         try {
             myDs = createDataSource();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Database initialization failed.", e);
+            LOGGER.severe("Database initialization has failed" + e);
         }
     }
 
+    /**
+     * Data source accessor method.
+     * @return returns public data source.
+     */
     public static synchronized SQLiteDataSource getDataSource() {
         if (myDs == null) {
             initializeDatabase();

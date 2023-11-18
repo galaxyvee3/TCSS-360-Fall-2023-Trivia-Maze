@@ -4,7 +4,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,104 +20,114 @@ import java.util.logging.Logger;
  * @version Fall 2023
  */
 public class QuestionAnswer {
+//======================Constants======================//
+    /** Logger constant. **/
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
+
+    private static final String QUESTION = "QUESTION";
+
+    private static final  String ANSWER = "ANSWER";
+
+    private static final String QUESTION_ID = "QuestionID";
+
+    private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+//================Fields====================//
     private final List<Map<String, String>> myQuestions;
 
     /**
-     * Default constructor.
+     * Public constructor.
      */
     public QuestionAnswer() {
         myQuestions = new ArrayList<>();
         fetchQuestionsFromDatabase();
     }
+
     /**
-     *
-     * @return
+     * Public accessor method for the questions.
+     * @return returns a list of the questions.
      */
     public List<Map<String, String>> getQuestions() {
         return myQuestions;
     }
+
     /**
-     *
+     * Fetches questions from the SQLite database.
      */
     private void fetchQuestionsFromDatabase() {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:QuestionsDB.db")) {
-            fetchQuestionsFromTable(conn, "MultipleChoiceQuestions");
-            fetchQuestionsFromTable(conn, "TrueFalseQuestions");
-            fetchQuestionsFromTable(conn, "ShortAnswerQuestions");
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            fetchQuestionsFromTable(conn,
+                                    "MultipleChoiceQuestions",
+                                    QUESTION_ID,
+                                    QUESTION,
+                                    "choiceA",
+                                    "choiceB",
+                                    "choiceC",
+                                    ANSWER);
+            fetchQuestionsFromTable(conn, "TrueFalseQuestions",
+                                    QUESTION_ID,
+                                    QUESTION,
+                                    ANSWER);
+            fetchQuestionsFromTable(conn, "ShortAnswerQuestions",
+                                    "QuestionID",
+                                    QUESTION,
+                                    ANSWER);
         } catch (final SQLException e) {
             LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", e);
         }
     }
 
     /**
-     *
-     * @param theConn
-     * @param theTableName
-     * @throws SQLException
+     * Fetches questions from the question table.
+     * Helper called by fetchQuestionsFromDatabase.
+     * @param theConn sql connection object.
+     * @param tableName table name in string.
+     * @param columns column names in string.
+     * @throws SQLException throws an SQL exception if an invalid entry is made.
      */
     private void fetchQuestionsFromTable(final Connection theConn,
-                                         final String theTableName) throws SQLException {
-        final String query = "SELECT QUESTION, ANSWER FROM " + theTableName;
-        try (Statement statement = theConn.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-
-            while (resultSet.next()) {
-                final String questionText = resultSet.getString("QUESTION");
-                final String answerText = resultSet.getString("ANSWER");
-
-                final  Map<String, String> question = new HashMap<>();
-                question.put("question", questionText);
-                question.put("answer", answerText);
-
-                myQuestions.add(question);
-            }
+                                         final String tableName,
+                                         final String... columns) throws SQLException {
+        final StringJoiner columnList = new StringJoiner(", ");
+        for (String column : columns) {
+            columnList.add(column);
         }
-    }
-    private void fetchMultipleChoiceQuestions(final Connection theConn) throws SQLException {
-        final String query = "SELECT QuestionID, QUESTION, choiceA, choiceB, choiceC, ANSWER FROM MultipleChoiceQuestions";
+
+        final String query = "SELECT " + columnList + " FROM " + tableName;
         try (Statement statement = theConn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
-                final String questionID = resultSet.getString("QuestionID");
-                final String questionText = resultSet.getString("QUESTION");
-                final String choiceA = resultSet.getString("choiceA");
-                final String choiceB = resultSet.getString("choiceB");
-                final String choiceC = resultSet.getString("choiceC");
-                final String answerText = resultSet.getString("ANSWER");
-
-                // Create a map to represent the question
                 final Map<String, String> question = new HashMap<>();
-                question.put("questionID", questionID);
-                question.put("questionText", questionText);
-                question.put("choiceA", choiceA);
-                question.put("choiceB", choiceB);
-                question.put("choiceC", choiceC);
-                question.put("answer", answerText);
-
+                for (String column : columns) {
+                    question.put(column, resultSet.getString(column));
+                }
                 myQuestions.add(question);
             }
         }
     }
-
-// Similar methods for TrueFalseQuestions and ShortAnswerQuestions
-
-    public Question createQuestion(final String type,
+    /**
+     * Question maker that can be called to create question objects.
+     * Factory design.
+     * @param theType the question type.
+     * @param param1 the question in string.
+     * @param param2 the answer in string.
+     * @return returns Question - type object.
+     */
+    public Question createQuestion(final String theType,
                                    final String param1,
                                    final String param2) {
         try {
-            Objects.requireNonNull(type);
+            Objects.requireNonNull(theType);
             Objects.requireNonNull(param1);
             Objects.requireNonNull(param2);
 
-            return switch (type.toLowerCase()) {
+            return switch (theType.toLowerCase()) {
                 case "true/false" -> new TrueFalseQuestions(param1, param2);
                 case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
                 case "short answer" -> new ShortAnswerQuestions(param1, param2);
                 default -> {
-                    LOGGER.log(Level.SEVERE, "Invalid question type: " + type);
-                    throw new IllegalArgumentException("Invalid question type: " + type);
+                    LOGGER.log(Level.SEVERE, "Invalid question type: " + theType);
+                    throw new IllegalArgumentException("Invalid question type: " + theType);
                 }
             };
         } catch (NullPointerException e) {
@@ -121,11 +136,8 @@ public class QuestionAnswer {
         }
     }
 
-
     @Override
-        public String toString() {
-        String sb = "QuestionAnswer { " + "myQuestions  = " + myQuestions +
-                '}';
-            return sb;
-        }
+    public String toString() {
+        return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
     }
+}

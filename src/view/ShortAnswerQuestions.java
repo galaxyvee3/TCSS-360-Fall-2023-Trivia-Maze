@@ -3,8 +3,6 @@ package view;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-
-
 /**
  * Class for short answer questions.
  * @author Rick Adams
@@ -12,7 +10,8 @@ import java.util.regex.Pattern;
  * Trivia Maze - Team 2
  */
 public class ShortAnswerQuestions extends Question {
-
+//============+Constants====================//
+    /** Logger constant. **/
     private static final Logger LOGGER = Logger.getLogger(ShortAnswerQuestions.class.getName());
     /**
      * Public constructor for object instantiation.
@@ -34,8 +33,8 @@ public class ShortAnswerQuestions extends Question {
         return "short answer";
     }
     /**
-     * Authenticates the user's answer for short answer questions using regular expressions.
-     *
+     * Authenticates the user's answer for short answer questions.
+     * Uses regular expressions regex pattern.
      * @param theAnswer The user's answer to be authenticated.
      */
     public void authenticateAnswerWithRegex(final String theAnswer) {
