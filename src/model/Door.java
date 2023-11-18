@@ -1,17 +1,43 @@
 package model;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * Door object in the maze.
  * @author Viktoria Dolojan
+ * @author Justin Ho
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
 public class Door implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public static void main (String[] args) {
+        Door door = new Door(); // Create instance of object Class
+        try (FileOutputStream fileOut = new FileOutputStream("door.ser");
+             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+
+            objectOut.writeObject(door); // Serialize door object to room.ser
+
+            System.out.println("Door object has been serialized!\n" +
+                    "Data before serialization");
+        } catch (
+                IOException e
+        ) {
+            e.printStackTrace();
+
+        }
+        // Deserialization
+        try (FileInputStream fileIn = new FileInputStream("door.ser");
+             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+
+            door = (Door) objectIn.readObject(); // Deserialize the Maze object
+            System.out.println("Door object deserialized!");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     /** Status of whether door is unlocked or not. */
     private boolean myUnlocked = false;

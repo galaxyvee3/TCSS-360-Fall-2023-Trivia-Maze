@@ -3,6 +3,9 @@ package controller;
 import model.Door;
 import model.Room;
 
+import java.io.*;
+
+
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Justin Ho
@@ -11,7 +14,34 @@ import model.Room;
  * Trivia Maze - Team 2
  */
 
-public class Maze {
+public class Maze implements Serializable {
+    public static void main(String[] args) {
+        Maze maze = new Maze(); // Create instance of object class
+        try (FileOutputStream fileOut = new FileOutputStream("maze.ser");
+             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+
+            objectOut.writeObject(maze); // Serialize maze object to maze.ser
+
+            System.out.println("Maze object has been serialized!\n"
+                    + "Data before Deserialization.");
+
+
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+        // Deserialization
+        try (FileInputStream fileIn = new FileInputStream("maze.ser");
+             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+
+            maze = (Maze)objectIn.readObject(); // Deserialize the Maze object
+            System.out.println("Maze object deserialized!");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /** 2D Room array representing the Trivia Maze. */
     private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
 
