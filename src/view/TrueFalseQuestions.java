@@ -8,12 +8,6 @@ package view;
  */
 public class TrueFalseQuestions extends Question{
 
-    private String myQuestionText;
-
-    private String myAnswerText;
-
-    private Boolean myAnswer;
-
 
     /**
      * Public constructor for object instantiation.
@@ -22,8 +16,7 @@ public class TrueFalseQuestions extends Question{
      */
     public TrueFalseQuestions(final String theQuestionText, final String theAnswerText) {
         super(theQuestionText, theAnswerText);
-        this.myQuestionText = theQuestionText;
-        this.myAnswerText = theAnswerText;
+        authenticateAnswer(Boolean.parseBoolean(theAnswerText));
     }
     /**
      * Private constructor for object instantiation using a boolean.
@@ -32,7 +25,7 @@ public class TrueFalseQuestions extends Question{
      */
     private TrueFalseQuestions(final String theQuestionText, final boolean theCorrect) {
         super(theQuestionText, String.valueOf(theCorrect));
-        this.myAnswer = theCorrect;
+        Boolean myAnswer = theCorrect;
     }
     /**
      * Accessor method that returns the question type.

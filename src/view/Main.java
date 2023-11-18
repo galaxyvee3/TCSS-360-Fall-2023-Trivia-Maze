@@ -1,6 +1,6 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 /**
  * view.Main driver for Trivia Maze.
