@@ -129,29 +129,13 @@ public class Maze {
      */
     public boolean canMove(final String theString) {
         if (theString.equalsIgnoreCase("Up")) {
-            if (getMyCurrentRow() - 1 > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return getMyCurrentRow() - 1 > 0;
         } else if (theString.equalsIgnoreCase("Down")) {
-            if (getMyCurrentRow() + 1 < MAZE_SIZE) {
-                return true;
-            } else {
-                return false;
-            }
+            return getMyCurrentRow() + 1 < MAZE_SIZE;
         } else if (theString.equalsIgnoreCase("Left")) {
-            if (getMyCurrentCol() - 1 > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return getMyCurrentCol() - 1 > 0;
         } else if (theString.equalsIgnoreCase("Right")) {
-            if (getMyCurrentCol() + 1 < MAZE_SIZE) {
-                return true;
-            } else {
-                return false;
-            }
+            return getMyCurrentCol() + 1 < MAZE_SIZE;
         } else {
             return false;
         }

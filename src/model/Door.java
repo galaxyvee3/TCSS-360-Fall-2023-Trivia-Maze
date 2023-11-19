@@ -128,9 +128,8 @@ public class Door implements Serializable, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if ("myQuestion".equals(evt.getPropertyName())) {
             Object newValue = evt.getNewValue();
-            if (newValue instanceof String) {
+            if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
-                String newQuestion = (String) newValue;
 
 
             }

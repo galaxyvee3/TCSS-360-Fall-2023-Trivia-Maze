@@ -24,7 +24,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
     private final PropertyChangeSupport propertyChangeSupport;
 
-    private final Maze myMaze;
+    private Maze myMaze;
     private final JLabel myLabel;
 
     /**
@@ -36,10 +36,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 50));
         myLabel = new JLabel("Trivia Question: ");
-        myMaze = new Maze();
         add(myLabel);
-
-        myMaze.addPropertyChangeListener(this);
     }
 
     @Override
@@ -58,10 +55,13 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         if ("myQuestion".equals(theEvent.getPropertyName())) {
             String newQuestion = (String) theEvent.getNewValue();
             setCurrentQuestion(newQuestion);
-            repaint(); // Repaint the panel
+//            repaint(); // Repaint the panel
         }
     }
-
+    public void setQuestion(String question) {
+        setCurrentQuestion(question);
+        repaint(); // Repaint the panel
+    }
     public void setCurrentQuestion(final String question) {
         myLabel.setText("Trivia Question: " + question);
     }

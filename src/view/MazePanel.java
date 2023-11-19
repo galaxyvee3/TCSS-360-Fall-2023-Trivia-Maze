@@ -109,7 +109,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_CLOSED)) {
             repaint();
         }*/
-        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_UPDATE_MAZE)) {
+        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_UPDATE_MAZE)) {
             repaint();
         }
     }

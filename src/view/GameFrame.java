@@ -28,7 +28,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     private static Maze myMaze;
 
 
-    private PropertyChangeSupport myChangeSupport;
+    private final PropertyChangeSupport myChangeSupport;
 
     private static JFrame myGameFrame;
 
@@ -36,7 +36,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     private static boolean myGameOver = true;
 
     /** Boolean for whether player has escaped the maze. */
-    private static boolean myEscape = false;
+    private static final boolean myEscape = false;
 
     private static final Dimension DIMENSION = new Dimension(500, 500);
 
@@ -45,8 +45,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public GameFrame() {
         super();
-        myChangeSupport = new PropertyChangeSupport(this);
         myMaze = new Maze(); // create new maze game
+        myChangeSupport = new PropertyChangeSupport(this);
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
         showDifficultyMenu(); //
@@ -229,6 +229,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         gamePanel.add(qPanel, BorderLayout.SOUTH); // add question panel to game panel
         mazeFrame.add(gamePanel); // add game panel to frame
 
+        myMaze.addPropertyChangeListener(qPanel);
+
         myMaze.addPropertyChangeListener(mazeFrame); // addPropertyChangeListener for all GUI
         myMaze.newGame(); // reset game stats
     }
@@ -262,6 +264,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * @version Fall 2023.
      */
     private static class MovePlayer extends KeyAdapter {
+
         @Override
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys
@@ -275,5 +278,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 System.out.println(myMaze.moveRight());
             }
         }
+    }
+    private final MovePlayer myMove = new MovePlayer();
+
+    public void inputHandler(final KeyEvent theEvent) {
+        myMove.keyPressed(theEvent);
     }
 }

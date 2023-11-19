@@ -1,12 +1,14 @@
 package model;
 
 import controller.Maze;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import view.GameFrame;
 import view.Question;
 import view.QuestionAnswer;
 import view.QuestionPanel;
@@ -25,18 +27,19 @@ public class GameEngine implements PropertyChangeListener {
 
     private static final String PREVIOUS = "Nothing previous";
 
-
-
 //================Fields=====================//
-    private PropertyChangeSupport myPCS;
+    private final PropertyChangeSupport myPCS;
     private final QuestionAnswer myQA;
     private final QuestionPanel myQuestionPanel;
+    private final GameFrame myGFrame = new GameFrame();
     private Question myQuestion;
     private final Room myRoom;
 
-    private Maze myMaze;
+    private final Maze myMaze;
 
     private final Door myDoor;
+
+    private boolean myRunningGame;
 
     /**
      * Default constructor.
@@ -58,7 +61,7 @@ public class GameEngine implements PropertyChangeListener {
 
         myQuestionPanel.addPropertyChangeListener(myRoom);
         myQuestionPanel.addPropertyChangeListener(myDoor);
-
+        myRunningGame = true;
         showNextQuestion();
     }
 
@@ -66,9 +69,16 @@ public class GameEngine implements PropertyChangeListener {
         // Add any initialization logic here
     }
 
-    public void runGame() {
-        // Add logic to run the game
+    public void runGame(KeyEvent theEvent) {
+        while (myRunningGame) {
+            processUserInput(theEvent);
+        }
     }
+
+    private void processUserInput(final KeyEvent theEvent) {
+        myGFrame.inputHandler(theEvent);
+    }
+
     public void setMyQuestion(Question theQuestion) {
         Question oldQuestion = this.myQuestion;
         this.myQuestion = theQuestion;
@@ -88,7 +98,7 @@ public class GameEngine implements PropertyChangeListener {
 //            myQuestionPanel.firePropertyChange("myQuestion", PREVIOUS, myQuestion);
 
         } else {
-            System.exit(0);
+            myRunningGame = false; // End the game
         }
     }
 

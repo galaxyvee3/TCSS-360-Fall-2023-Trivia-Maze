@@ -1,19 +1,14 @@
 package tests;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import model.ClueManager;
-import view.QuestionAnswer;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import model.GameEngine;
+import view.Question;
+import view.QuestionPanel;
 
-public class TrialMain {
+public class TrialMain extends JFrame {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
     }
 }
