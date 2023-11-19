@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import view.Question;
 import view.QuestionAnswer;
 import view.QuestionPanel;
@@ -20,6 +21,13 @@ import view.QuestionPanel;
  */
 public class GameEngine implements PropertyChangeListener {
 
+//================Constants===================//
+
+    private static final String PREVIOUS = "Nothing previous";
+
+
+
+//================Fields=====================//
     private PropertyChangeSupport myPCS;
     private final QuestionAnswer myQA;
     private final QuestionPanel myQuestionPanel;
@@ -60,10 +68,10 @@ public class GameEngine implements PropertyChangeListener {
     public void runGame() {
         // Add logic to run the game
     }
-    public void setMyQuestion(Question myQuestion) {
+    public void setMyQuestion(Question theQuestion) {
         Question oldQuestion = this.myQuestion;
-        this.myQuestion = myQuestion;
-        myPCS.firePropertyChange("myQuestion", oldQuestion, myQuestion);
+        this.myQuestion = theQuestion;
+        myPCS.firePropertyChange("myQuestion", oldQuestion, theQuestion);
     }
 
     private void showNextQuestion() {
@@ -76,10 +84,10 @@ public class GameEngine implements PropertyChangeListener {
             myQuestionPanel.displayQuestion(myQuestion);
 
             // Notify QuestionPanel about the new question
-            myQuestionPanel.firePropertyChange("myQuestion", null, myQuestion);
+            myQuestionPanel.firePropertyChange("myQuestion", PREVIOUS, myQuestion);
 
         } else {
-            // No more questions, game over logic
+            System.exit(0);
         }
     }
 

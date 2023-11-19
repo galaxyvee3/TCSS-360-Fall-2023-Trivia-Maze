@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.GameEngine;
@@ -23,7 +24,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
     private final PropertyChangeSupport propertyChangeSupport;
 
-    private Maze myMaze;
+    private final Maze myMaze;
     private final JLabel myLabel;
 
     /**
@@ -31,12 +32,13 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     public QuestionPanel() {
         super();
+        propertyChangeSupport = new PropertyChangeSupport(this);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 50));
         myLabel = new JLabel("Trivia Question: ");
         myMaze = new Maze();
         add(myLabel);
-        propertyChangeSupport = new PropertyChangeSupport(this);
+
         myMaze.addPropertyChangeListener(this);
     }
 
@@ -68,8 +70,8 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     }
 
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        Objects.requireNonNull(oldValue);
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
