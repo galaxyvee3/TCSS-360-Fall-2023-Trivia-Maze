@@ -69,10 +69,10 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void displayQuestion(final Question myQuestion) {
     }
 
-    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        Objects.requireNonNull(oldValue);
-        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
+//    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+//
+//        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+//    }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);

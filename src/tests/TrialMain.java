@@ -14,8 +14,7 @@ import view.QuestionAnswer;
 public class TrialMain {
 
     public static void main(String[] args) throws IOException {
-        QuestionAnswer questionAnswer = new QuestionAnswer();
-        System.out.println(questionAnswer.getQuestions());
+
     }
 }
 

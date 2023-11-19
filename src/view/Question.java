@@ -13,6 +13,8 @@ public abstract class Question {
     /** The answer to the trivia question. */
     private final String myAnswerText;
 
+    private Type myType;
+
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
@@ -43,5 +45,20 @@ public abstract class Question {
      */
     public String getAnswer() {
         return myAnswerText;
+    }
+    public enum Type {
+        MULTIPLE_CHOICE,
+        TRUE_FALSE,
+        SHORT_ANSWER
+    }
+
+    private Type type;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

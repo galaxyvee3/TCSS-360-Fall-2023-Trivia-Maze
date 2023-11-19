@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import java.io.Serializable;
+import view.Question;
 
 /**
  * Door object in the maze.
@@ -27,6 +28,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /** Status of whether door is closed forever because player answered incorrectly. */
     private boolean myClosed = false;
+    private Question associatedQuestion;
 
     /**
      * Default constructor.
@@ -95,6 +97,21 @@ public class Door implements Serializable, PropertyChangeListener {
     public void closeDoor() {
         myClosed = true;
     }
+    /**
+     * Set the associated question for this door.
+     * @param question The question to be associated with this door.
+     */
+    public void setAssociatedQuestion(final Question question) {
+        this.associatedQuestion = question;
+    }
+
+    /**
+     * Get the associated question for this door.
+     * @return The associated question for this door.
+     */
+    public Question getAssociatedQuestion() {
+        return associatedQuestion;
+    }
 
     @Override
     public String toString() {
@@ -109,9 +126,14 @@ public class Door implements Serializable, PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // Handle property changes from QuestionPanel
         if ("myQuestion".equals(evt.getPropertyName())) {
+            Object newValue = evt.getNewValue();
+            if (newValue instanceof String) {
+                // Assume the newValue is the new question
+                String newQuestion = (String) newValue;
 
+
+            }
         }
     }
 }

@@ -53,6 +53,7 @@ public class GameEngine implements PropertyChangeListener {
         this.myRoom = theRoom;
         this.myDoor = theDoor;
         myMaze = new Maze();
+        myPCS = new PropertyChangeSupport(this);
         myQuestionPanel.addPropertyChangeListener(this);
 
         myQuestionPanel.addPropertyChangeListener(myRoom);
@@ -84,7 +85,7 @@ public class GameEngine implements PropertyChangeListener {
             myQuestionPanel.displayQuestion(myQuestion);
 
             // Notify QuestionPanel about the new question
-            myQuestionPanel.firePropertyChange("myQuestion", PREVIOUS, myQuestion);
+//            myQuestionPanel.firePropertyChange("myQuestion", PREVIOUS, myQuestion);
 
         } else {
             System.exit(0);
@@ -101,6 +102,11 @@ public class GameEngine implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if ("myQuestion".equals(evt.getPropertyName())) {
             final String newQuestion = (String) evt.getNewValue();
+            if (newQuestion != null) {
+                // Handle the non-null value
+            } else {
+                // Handle the case where newQuestion is null
+            }
         }
     }
 }
