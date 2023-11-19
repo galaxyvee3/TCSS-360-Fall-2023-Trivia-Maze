@@ -8,8 +8,8 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * Maze class for Trivia Maze, Team 2.
- * @author Justin Ho
  * @author Viktoria Dolojan
+ * @author Justin Ho
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
@@ -269,7 +269,7 @@ public class Maze {
      * Checks if the player has reached the end of the maze.
      */
     public void gameOverSuccess() {
-        if(myCurrentRow == MAZE_SIZE && myCurrentCol == MAZE_SIZE) {
+        if(myCurrentRow == (MAZE_SIZE - 1) && myCurrentCol == (MAZE_SIZE - 1)) {
             final boolean oldGameOver = myGameOver;
             myGameOver = true;
             myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
