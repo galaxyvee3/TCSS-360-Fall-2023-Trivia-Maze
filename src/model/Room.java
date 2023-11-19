@@ -1,9 +1,12 @@
 package model;
 
+import controller.Maze;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Random;
 import java.util.logging.Logger;
+import java.io.*;
 
 /**
  * Room object in the maze.
@@ -13,7 +16,38 @@ import java.util.logging.Logger;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Room implements PropertyChangeListener {
+public class Room implements PropertyChangeListener, Serializable {
+
+    @Serial
+    private static final long serialVersionUID =
+            2L;
+    public static void main (String[] args) {
+        Room room = new Room(); // Create instance of object Class
+        try (FileOutputStream fileOut = new FileOutputStream("room.ser");
+             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+
+            objectOut.writeObject(room); // Serialize room object to room.ser
+
+            System.out.println("Room object has been serialized!\n" +
+                    "Data before serialization");
+        }
+        catch (
+                IOException e
+        ){
+            e.printStackTrace();
+
+        }
+        // Deserialization
+        try (FileInputStream fileIn = new FileInputStream("room.ser");
+             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+
+            room = (Room)objectIn.readObject(); // Deserialize the Maze object
+            System.out.println("Room object deserialized!");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
