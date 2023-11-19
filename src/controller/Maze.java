@@ -119,7 +119,22 @@ public class Maze {
      * @return true if door is unlocked
      */
     public boolean doorUnlocked(final Door theDoor) {
+        if (theDoor.getUnlocked()) {
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        }
         return theDoor.getUnlocked();
+    }
+
+    /**
+     * Check if the door is closed and player cannot traverse through.
+     * @param theDoor the door being checked
+     * @return true if door is closed
+     */
+    public boolean doorClosed(final Door theDoor) {
+        if (theDoor.getClosed()) {
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        }
+        return theDoor.getClosed();
     }
 
     /**
@@ -149,6 +164,7 @@ public class Maze {
         if (canMove("Up")) {
             if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
                 setMyCurrentRow(getMyCurrentRow() - 1);
+                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved up.";
             } else {
                 return "Door is locked.";
@@ -166,6 +182,7 @@ public class Maze {
         if (canMove("Down")) {
             if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
                 setMyCurrentRow(getMyCurrentRow() + 1);
+                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved down.";
             } else {
                 return "Door is locked.";
@@ -183,6 +200,7 @@ public class Maze {
         if (canMove("Left")) {
             if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
                 setMyCurrentCol(getMyCurrentCol() - 1);
+                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved left.";
             } else {
                 return "Door is locked.";
@@ -200,6 +218,7 @@ public class Maze {
         if (canMove("Right")) {
             if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
                 setMyCurrentCol(getMyCurrentCol() + 1);
+                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved right.";
             } else {
                 return "Door is locked.";
