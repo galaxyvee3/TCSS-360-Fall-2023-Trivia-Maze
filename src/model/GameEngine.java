@@ -50,7 +50,7 @@ public class GameEngine implements PropertyChangeListener {
         super();
         this.myQA = theQA;
         this.myQuestionPanel = theQP;
-//        this.myQuestion = theQuestion;
+        this.myQuestion = theQuestion;
         this.myRoom = theRoom;
         this.myDoor = theDoor;
         myMaze = new Maze();
