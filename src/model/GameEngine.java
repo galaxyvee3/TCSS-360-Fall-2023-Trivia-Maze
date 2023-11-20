@@ -1,13 +1,11 @@
 package model;
 
 import controller.Maze;
-import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import view.GameFrame;
 import view.Question;
 import view.QuestionAnswer;
@@ -28,9 +26,9 @@ public class GameEngine implements PropertyChangeListener {
     private static final String PREVIOUS = "Nothing previous";
 
 //================Fields=====================//
-    private final PropertyChangeSupport myPCS;
+//    private final PropertyChangeSupport myPCS;
     private final QuestionAnswer myQA;
-    private final QuestionPanel myQuestionPanel;
+    private QuestionPanel myQuestionPanel;
     private final GameFrame myGFrame = new GameFrame();
     private Question myQuestion;
     private final Room myRoom;
@@ -48,45 +46,32 @@ public class GameEngine implements PropertyChangeListener {
                       final QuestionPanel theQP,
                       final Question theQuestion,
                       final Room theRoom,
-                      final Door theDoor) {
+                      final Door theDoor) throws SQLException {
         super();
         this.myQA = theQA;
         this.myQuestionPanel = theQP;
-        this.myQuestion = theQuestion;
+//        this.myQuestion = theQuestion;
         this.myRoom = theRoom;
         this.myDoor = theDoor;
         myMaze = new Maze();
-        myPCS = new PropertyChangeSupport(this);
-        myQuestionPanel.addPropertyChangeListener(this);
-
-        myQuestionPanel.addPropertyChangeListener(myRoom);
-        myQuestionPanel.addPropertyChangeListener(myDoor);
-        myRunningGame = true;
+        myQuestionPanel = (QuestionPanel) myGFrame.getQuestionPanel();
+//        myPCS = new PropertyChangeSupport(this);
+//        myQuestionPanel.addPropertyChangeListener(this);
+//
+//        myQuestionPanel.addPropertyChangeListener(myRoom);
+//        myQuestionPanel.addPropertyChangeListener(myDoor);
         showNextQuestion();
     }
 
-    private void initialize() {
-        // Add any initialization logic here
-    }
-
-    public void runGame(KeyEvent theEvent) {
-        while (myRunningGame) {
-            processUserInput(theEvent);
-        }
-    }
-
-    private void processUserInput(final KeyEvent theEvent) {
-        myGFrame.inputHandler(theEvent);
-    }
 
     public void setMyQuestion(Question theQuestion) {
         Question oldQuestion = this.myQuestion;
         this.myQuestion = theQuestion;
-        myPCS.firePropertyChange("myQuestion", oldQuestion, theQuestion);
+//        myPCS.firePropertyChange("myQuestion", oldQuestion, theQuestion);
     }
 
-    private void showNextQuestion() {
-        List<Map<String, String>> questions = myQA.getQuestions();
+    private void showNextQuestion() throws SQLException {
+        final List<Map<String, String>> questions = myQA.getQuestions();
         if (!questions.isEmpty()) {
             Map<String, String> questionData = questions.remove(0);
             myQuestion = myQA.createQuestion(questionData.get("theType"),
@@ -94,7 +79,6 @@ public class GameEngine implements PropertyChangeListener {
                                              questionData.get("param2"));
             myQuestionPanel.displayQuestion(myQuestion);
 
-            // Notify QuestionPanel about the new question
 //            myQuestionPanel.firePropertyChange("myQuestion", PREVIOUS, myQuestion);
 
         } else {

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -27,7 +28,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze;
 
-
+    private static QuestionPanel qPanel;
     private final PropertyChangeSupport myChangeSupport;
 
     private static JFrame myGameFrame;
@@ -223,18 +224,29 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JPanel gamePanel = new JPanel(new BorderLayout()); // panel for all info in game
         final GameFrame mazeFrame = new GameFrame(); // frame for game
         final MazePanel mazePanel = new MazePanel(myMaze); // panel for maze
-        final QuestionPanel qPanel = new QuestionPanel(); // panel for trivia questions
+        QuestionAnswer questionAnswer = new QuestionAnswer();
+        qPanel = new QuestionPanel(); // panel for trivia questions
 
         gamePanel.add(mazePanel, BorderLayout.CENTER); // add maze panel to game panel
         gamePanel.add(qPanel, BorderLayout.SOUTH); // add question panel to game panel
         mazeFrame.add(gamePanel); // add game panel to frame
 
         myMaze.addPropertyChangeListener(qPanel);
+        Map <String, String> randomQuestion = questionAnswer.getRandomQuestion();
+
+        // Set the question on the QuestionPanel
+        if (!randomQuestion.isEmpty()) {
+            String questionText = randomQuestion.get("QUESTION");
+            qPanel.setQuestion(questionText);
+        }
 
         myMaze.addPropertyChangeListener(mazeFrame); // addPropertyChangeListener for all GUI
         myMaze.newGame(); // reset game stats
     }
 
+    public JPanel getQuestionPanel() {
+        return qPanel;
+    }
     public void saveAndLoad() {
 
     }

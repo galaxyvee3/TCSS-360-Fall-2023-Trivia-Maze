@@ -9,7 +9,7 @@ import view.Question;
 /**
  * Door object in the maze.
  * @author Viktoria Dolojan
- *
+ * @author rick_adams
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
