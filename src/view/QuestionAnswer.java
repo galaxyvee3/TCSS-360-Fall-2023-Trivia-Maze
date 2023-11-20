@@ -4,12 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,18 +82,13 @@ public class QuestionAnswer {
     private void fetchQuestionsFromTable(final Connection theConn,
                                          final String tableName,
                                          final String... columns) throws SQLException {
-        final StringJoiner columnList = new StringJoiner(", ");
-        for (String column : columns) {
-            columnList.add(column);
-        }
-
         final String query = "SELECT " + String.join(", ", columns) + " FROM " + tableName;
         try (Statement statement = theConn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
                 final Map<String, String> question = new HashMap<>();
-                for (String column : columns) {
+                for (final String column : columns) {
                     question.put(column, resultSet.getString(column));
                 }
                 myQuestions.add(question);
@@ -115,27 +105,48 @@ public class QuestionAnswer {
      */
     public Question createQuestion(final String theType,
                                    final String param1,
-                                   final String param2) {
-        try {
-            Objects.requireNonNull(theType);
-            Objects.requireNonNull(param1);
-            Objects.requireNonNull(param2);
+                                   final String param2) throws SQLException {
+        Objects.requireNonNull(theType);
+        Objects.requireNonNull(param1);
+        Objects.requireNonNull(param2);
 
-            return switch (theType.toLowerCase()) {
-                case "true/false" -> new TrueFalseQuestions(param1, param2);
-                case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
-                case "short answer" -> new ShortAnswerQuestions(param1, param2);
-                default -> {
-                    LOGGER.log(Level.SEVERE, "Invalid question type: " + theType);
-                    throw new IllegalArgumentException("Invalid question type: " + theType);
-                }
-            };
-        } catch (NullPointerException e) {
-            LOGGER.log(Level.SEVERE, "Invalid parameters for creating a question.", e);
-            throw e;
+        return switch (theType.toLowerCase()) {
+            case "true/false" -> new TrueFalseQuestions(param1, param2);
+            case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
+            case "short answer" -> new ShortAnswerQuestions(param1, param2);
+            default -> {
+                LOGGER.severe( "Invalid question type: " + theType);
+                throw new IllegalArgumentException("Invalid question type: " + theType);
+            }
+        };
+    }
+    /**
+     * Retrieves a random question from the list of questions.
+     * @return a random question.
+     */
+    public String getQuestionFromDatabase() {
+        final List<Map<String, String>> questions = myQuestions;
+        if (!questions.isEmpty()) {
+            Map<String, String> questionData = getRandomQuestion();
+            return questionData.get(QUESTION);
+        } else {
+            return "No questions available";
         }
     }
 
+    /**
+     * Get a random question from the database.
+     * @return A map containing the question data.
+     */
+    public Map<String, String> getRandomQuestion() {
+        if (myQuestions.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        final Random random = new Random();
+        final int randomIndex = random.nextInt(myQuestions.size());
+        return myQuestions.get(randomIndex);
+    }
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";

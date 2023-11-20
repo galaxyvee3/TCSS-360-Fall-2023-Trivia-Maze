@@ -8,10 +8,8 @@ import java.awt.Graphics2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Objects;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import model.GameEngine;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -55,7 +53,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         if ("myQuestion".equals(theEvent.getPropertyName())) {
             String newQuestion = (String) theEvent.getNewValue();
             setCurrentQuestion(newQuestion);
-//            repaint(); // Repaint the panel
+            repaint(); // Repaint the panel
         }
     }
     public void setQuestion(String question) {
@@ -68,7 +66,10 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
     public void displayQuestion(final Question myQuestion) {
     }
-
+    public void setQuestionFromDatabase(String question) {
+        myLabel.setText("Trivia Question: " + question);
+        repaint();
+    }
 //    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
 //
 //        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
