@@ -31,32 +31,6 @@ public class Door implements Serializable, PropertyChangeListener {
     private boolean myClosed = false;
     private Question associatedQuestion;
 
-    public static void main (String[] args) {
-        Door door = new Door(); // Create instance of object Class
-        try (FileOutputStream fileOut = new FileOutputStream("door.ser");
-             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-
-            objectOut.writeObject(door); // Serialize door object to room.ser
-
-            System.out.println("Door object has been serialized!\n" +
-                    "Data before serialization");
-        } catch (
-                IOException e
-        ) {
-            e.printStackTrace();
-
-        }
-        // Deserialization
-        try (FileInputStream fileIn = new FileInputStream("door.ser");
-             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-
-            door = (Door) objectIn.readObject(); // Deserialize the Maze object
-            System.out.println("Door object deserialized!");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     /**
      * Default constructor.

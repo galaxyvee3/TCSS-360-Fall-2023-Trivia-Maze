@@ -3,6 +3,7 @@ package model;
 import controller.Maze;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import view.QuestionPanel;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class GameEngine implements PropertyChangeListener {
+public class GameEngine implements PropertyChangeListener, Serializable {
 
 //================Constants===================//
 
