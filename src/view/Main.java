@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Main {
+public final class Main {
     /**
      * Private default constructor.
      */
