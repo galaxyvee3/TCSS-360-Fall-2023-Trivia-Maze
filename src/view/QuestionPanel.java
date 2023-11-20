@@ -20,6 +20,9 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     /** JLabel to display trivia question. */
     private JLabel myLabel = null;
 
+    /** Keeps track of the type of trivia question being presented. */
+    private String myQuestionType = "";
+
     /**
      * Public constructor.
      */
@@ -36,6 +39,28 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponents(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
+
+        // repaint panel based off type of question
+        if (myQuestionType.equalsIgnoreCase("multiple choice")) {
+            // a b c
+            final ButtonGroup choices = new ButtonGroup();
+            final JRadioButtonMenuItem aButton = new JRadioButtonMenuItem("A");
+            final JRadioButtonMenuItem bButton = new JRadioButtonMenuItem("B");
+            final JRadioButtonMenuItem cButton = new JRadioButtonMenuItem("C");
+            choices.add(aButton);
+            choices.add(bButton);
+            choices.add(cButton);
+        } else if (myQuestionType.equalsIgnoreCase("short answer")) {
+            // one word string input
+
+        } else if (myQuestionType.equalsIgnoreCase("true/false")) {
+            // true false
+            final ButtonGroup choices = new ButtonGroup();
+            final JRadioButtonMenuItem trueButton = new JRadioButtonMenuItem("True");
+            final JRadioButtonMenuItem falseButton = new JRadioButtonMenuItem("False");
+            choices.add(trueButton);
+            choices.add(falseButton);
+        }
     }
 
     /**
@@ -47,7 +72,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if ("myQuestion".equals(theEvent.getPropertyName())) {
             String newQuestion = (String) theEvent.getNewValue();
-            setQuestion(newQuestion);
+            myQuestionType = setQuestion(newQuestion);
             //setCurrentQuestion(newQuestion);
             repaint(); // Repaint the panel
         }
@@ -56,10 +81,13 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     /**
      * Set the current trivia question.
      * @param theQuestion current trivia question
+     * @return String type of trivia question
      */
-    public void setQuestion(final String theQuestion) {
+    public String setQuestion(final String theQuestion) {
+        final String questionType = theQuestion.toString();
         myLabel.setText("Trivia Question: " + theQuestion);
         repaint(); // Repaint the panel
+        return questionType;
     }
 
 //    public void setCurrentQuestion(final String theQuestion) {
