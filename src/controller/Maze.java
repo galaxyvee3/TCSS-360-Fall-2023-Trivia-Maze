@@ -31,9 +31,11 @@ public class Maze {
     /** Property name for when a door is closed. */
     //public static final String PROPERTY_DOOR_CLOSED = "Door closed";
 
+    /**  Property name for when there is a trivia question. */
+    public static final String PROPERTY_TRIVIA_QUESTION = "Trivia question";
+
     /** Property change support for the class. */
     private final PropertyChangeSupport myPCS;
-
 
     /** 2D Room array representing the Trivia Maze. */
     private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
@@ -145,13 +147,13 @@ public class Maze {
      */
     public boolean canMove(final String theString) {
         if (theString.equalsIgnoreCase("Up")) {
-            return getMyCurrentRow() - 1 > 0;
+            return (getMyCurrentRow() - 1) > 0;
         } else if (theString.equalsIgnoreCase("Down")) {
-            return getMyCurrentRow() + 1 < MAZE_SIZE;
+            return (getMyCurrentRow() + 1) < MAZE_SIZE;
         } else if (theString.equalsIgnoreCase("Left")) {
-            return getMyCurrentCol() - 1 > 0;
+            return (getMyCurrentCol() - 1) > 0;
         } else if (theString.equalsIgnoreCase("Right")) {
-            return getMyCurrentCol() + 1 < MAZE_SIZE;
+            return (getMyCurrentCol() + 1) < MAZE_SIZE;
         } else {
             return false;
         }
@@ -166,11 +168,14 @@ public class Maze {
             if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
                 setMyCurrentRow(getMyCurrentRow() - 1);
                 myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-                return "Moved up.";
+                return "Moved up." + getMyCurrentRow();
+            } else if (doorClosed(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
+                return "Door is closed.";
             } else {
                 return "Door is locked.";
             }
         } else {
+            setMyCurrentRow(getMyCurrentRow()); // prevent player from leaving maze
             return "Edge of maze.";
         }
     }
@@ -181,14 +186,23 @@ public class Maze {
      */
     public String moveDown() {
         if (canMove("Down")) {
-            if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
-                setMyCurrentRow(getMyCurrentRow() + 1);
-                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-                return "Moved down.";
-            } else {
-                return "Door is locked.";
+            if (getMyCurrentCol() == myMaze.length - 1) { // edge of maze
+                // TODO: EDGE CASE BREAKING
+                setMyCurrentRow(getMyCurrentRow());
+                return "Edge of maze.";
+            } else { // inside maze
+                if (doorUnlocked(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
+                    setMyCurrentRow(getMyCurrentRow() + 1);
+                    myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+                    return "Moved down." + getMyCurrentRow();
+                } else if (doorClosed(myHorzDoors[getMyCurrentRow() + 1][getMyCurrentCol()])) {
+                    return "Door is closed.";
+                } else {
+                    return "Door is locked.";
+                }
             }
         } else {
+            setMyCurrentRow(getMyCurrentRow()); // prevent player from leaving maze
             return "Edge of maze.";
         }
     }
@@ -199,14 +213,17 @@ public class Maze {
      */
     public String moveLeft() {
         if (canMove("Left")) {
-            if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
+            if (doorUnlocked(myVertDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
                 setMyCurrentCol(getMyCurrentCol() - 1);
                 myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-                return "Moved left.";
+                return "Moved left." + getMyCurrentCol();
+            } else if (doorClosed(myVertDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
+                return "Door is closed.";
             } else {
                 return "Door is locked.";
             }
         } else {
+            setMyCurrentCol(getMyCurrentCol()); // prevent player from leaving maze
             return "Edge of maze.";
         }
     }
@@ -217,14 +234,22 @@ public class Maze {
      */
     public String moveRight() {
         if (canMove("Right")) {
-            if (doorUnlocked(myHorzDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
+            if (doorUnlocked(myVertDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
                 setMyCurrentCol(getMyCurrentCol() + 1);
                 myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-                return "Moved right.";
+                return "Moved right." + getMyCurrentCol();
+            } else if (doorClosed(myVertDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
+                return "Door is closed.";
             } else {
+                // player has encountered a locked door
+                // prompt trivia question from door
+                Door door = myVertDoors[getMyCurrentRow()][getMyCurrentCol() + 1];
+                door.getQuestion();
+                System.out.println(door.getQuestion());
                 return "Door is locked.";
             }
         } else {
+            setMyCurrentCol(getMyCurrentCol()); // prevent player from leaving maze
             return "Edge of maze.";
         }
     }

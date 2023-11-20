@@ -19,7 +19,7 @@ public class Door implements Serializable, PropertyChangeListener {
     private static final long serialVersionUID = 1L;
 
     /** Status of whether door is unlocked or not. */
-    private boolean myUnlocked = false;
+    private boolean myUnlocked = true;
 
     /** The trivia question assigned to this Door. */
     private String myQuestion = null;
