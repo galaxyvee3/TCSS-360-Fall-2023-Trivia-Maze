@@ -27,7 +27,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      * Public constructor.
      */
     public QuestionPanel() {
-        super();
+        super(new GridLayout(4, 1));
         propertyChangeSupport = new PropertyChangeSupport(this);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 150));
@@ -42,25 +42,40 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
         // repaint panel based off type of question
         if (myQuestionType.equalsIgnoreCase("multiple choice")) {
-            // a b c
-            final ButtonGroup choices = new ButtonGroup();
-            final JRadioButtonMenuItem aButton = new JRadioButtonMenuItem("A");
-            final JRadioButtonMenuItem bButton = new JRadioButtonMenuItem("B");
-            final JRadioButtonMenuItem cButton = new JRadioButtonMenuItem("C");
-            choices.add(aButton);
-            choices.add(bButton);
-            choices.add(cButton);
+            remove(1); // remove previous answer options
+
         } else if (myQuestionType.equalsIgnoreCase("short answer")) {
-            // one word string input
+            remove(1); // remove previous answer options
 
         } else if (myQuestionType.equalsIgnoreCase("true/false")) {
-            // true false
-            final ButtonGroup choices = new ButtonGroup();
-            final JRadioButtonMenuItem trueButton = new JRadioButtonMenuItem("True");
-            final JRadioButtonMenuItem falseButton = new JRadioButtonMenuItem("False");
-            choices.add(trueButton);
-            choices.add(falseButton);
+            remove(1); // remove previous answer options
+
         }
+    }
+
+    public void multipleChoice() {
+        final JRadioButtonMenuItem aButton = new JRadioButtonMenuItem("A");
+        final JRadioButtonMenuItem bButton = new JRadioButtonMenuItem("B");
+        final JRadioButtonMenuItem cButton = new JRadioButtonMenuItem("C");
+        add(aButton);
+        add(bButton);
+        add(cButton);
+        aButton.addActionListener(e -> {        });
+        bButton.addActionListener(e -> {        });
+        cButton.addActionListener(e -> {        });
+    }
+
+    public void shortAnswer() {
+
+    }
+
+    public void trueFalse() {
+        final JRadioButtonMenuItem trueButton = new JRadioButtonMenuItem("True");
+        final JRadioButtonMenuItem falseButton = new JRadioButtonMenuItem("False");
+        add(trueButton);
+        add(falseButton);
+        trueButton.addActionListener(e -> {        });
+        falseButton.addActionListener(e -> {        });
     }
 
     /**
