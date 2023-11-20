@@ -1,5 +1,7 @@
 package view;
 
+import controller.Maze;
+
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -39,6 +41,8 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponents(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
+
+        System.out.println("INIT QUESTION REPAINT"); // for testing purposes
 
         // repaint panel based off type of question
         if (myQuestionType.equalsIgnoreCase("multiple choice")) {
@@ -85,11 +89,18 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if ("myQuestion".equals(theEvent.getPropertyName())) {
+        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
             String newQuestion = (String) theEvent.getNewValue();
             myQuestionType = setQuestion(newQuestion);
             //setCurrentQuestion(newQuestion);
             repaint(); // Repaint the panel
+        }*/
+        // TODO: QUESTIONS ARE NULL
+        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
+            String newQuestion = (String) theEvent.getNewValue();
+            myQuestionType = setQuestion(newQuestion);
+            //setCurrentQuestion(newQuestion);
+            repaint();
         }
     }
 

@@ -58,25 +58,8 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         g2d.setPaint(new Color(100,75,50));
 
         // for vertical doors
-        int x = 0;
-        for (Door[] row : myMaze.getVertDoors()) {
-            int y = 0;
-            for (Door door : row) {
-                if (door.getUnlocked()) { // paint door green if unlocked
-                    g2d.setPaint(Color.GREEN);
-                } else if (door.getClosed()) { // paint door red if closed
-                    g2d.setPaint(Color.RED);
-                }
-                g2d.fillRect((x + 1) * ROOM_SIZE - 5, y * ROOM_SIZE + 15, DOOR_SIZE/3, DOOR_SIZE);
-                g2d.setPaint(new Color(100,75,50)); // reset paint to brown
-                y++;
-            }
-            x++;
-        }
-
-        // for horizontal doors
         int a = 0;
-        for (Door[] col : myMaze.getHorzDoors()) {
+        for (Door[] col : myMaze.getVertDoors()) {
             int b = 0;
             for (Door door : col) {
                 if (door.getUnlocked()) { // paint door green if unlocked
@@ -89,6 +72,23 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 b++;
             }
             a++;
+        }
+
+        // for horizontal doors
+        int x = 0;
+        for (Door[] row : myMaze.getHorzDoors()) {
+            int y = 0;
+            for (Door door : row) {
+                if (door.getUnlocked()) { // paint door green if unlocked
+                    g2d.setPaint(Color.GREEN);
+                } else if (door.getClosed()) { // paint door red if closed
+                    g2d.setPaint(Color.RED);
+                }
+                g2d.fillRect((x + 1) * ROOM_SIZE - 5, y * ROOM_SIZE + 15, DOOR_SIZE/3, DOOR_SIZE);
+                g2d.setPaint(new Color(100,75,50)); // reset paint to brown
+                y++;
+            }
+            x++;
         }
 
         // draw user current location
