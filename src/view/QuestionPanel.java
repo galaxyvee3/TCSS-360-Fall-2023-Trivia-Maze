@@ -1,15 +1,10 @@
 package view;
 
-import controller.Maze;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -19,11 +14,11 @@ import javax.swing.JPanel;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
-
+    /** Property change support for the class. */
     private final PropertyChangeSupport propertyChangeSupport;
 
-    private Maze myMaze;
-    private final JLabel myLabel;
+    /** JLabel to display trivia question. */
+    private JLabel myLabel = null;
 
     /**
      * Public constructor.
@@ -32,7 +27,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         super();
         propertyChangeSupport = new PropertyChangeSupport(this);
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(200, 50));
+        setPreferredSize(new Dimension(200, 150));
         myLabel = new JLabel("Trivia Question: ");
         add(myLabel);
     }
@@ -52,34 +47,51 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if ("myQuestion".equals(theEvent.getPropertyName())) {
             String newQuestion = (String) theEvent.getNewValue();
-            setCurrentQuestion(newQuestion);
+            setQuestion(newQuestion);
+            //setCurrentQuestion(newQuestion);
             repaint(); // Repaint the panel
         }
     }
-    public void setQuestion(String question) {
-        setCurrentQuestion(question);
+
+    /**
+     * Set the current trivia question.
+     * @param theQuestion current trivia question
+     */
+    public void setQuestion(final String theQuestion) {
+        myLabel.setText("Trivia Question: " + theQuestion);
         repaint(); // Repaint the panel
     }
-    public void setCurrentQuestion(final String question) {
-        myLabel.setText("Trivia Question: " + question);
+
+//    public void setCurrentQuestion(final String theQuestion) {
+//        myLabel.setText("Trivia Question: " + theQuestion);
+//    }
+
+    /**
+     * Displays the current trivia question.
+     * @param theQuestion current trivia question
+     */
+    public void displayQuestion(final Question theQuestion) {
     }
 
-    public void displayQuestion(final Question myQuestion) {
-    }
-    public void setQuestionFromDatabase(String question) {
-        myLabel.setText("Trivia Question: " + question);
+    /**
+     * Sets the current trivia question from the database.
+     * @param theQuestion current trivia question
+     */
+    public void setQuestionFromDatabase(final String theQuestion) {
+        myLabel.setText("Trivia Question: " + theQuestion);
         repaint();
     }
+
 //    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
 //
 //        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
 //    }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
+    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
+        propertyChangeSupport.addPropertyChangeListener(theListener);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
+    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
+        propertyChangeSupport.removePropertyChangeListener(theListener);
     }
 }

@@ -31,6 +31,7 @@ public class Maze {
     /** Property name for when a door is closed. */
     //public static final String PROPERTY_DOOR_CLOSED = "Door closed";
 
+    /** Property change support for the class. */
     private final PropertyChangeSupport myPCS;
 
 

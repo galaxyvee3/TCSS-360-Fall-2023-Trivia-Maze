@@ -9,6 +9,7 @@ import java.io.*;
 /**
  * Door object in the maze.
  * @author Viktoria Dolojan
+ * @author Rick Adams
  * @author Justin Ho
  * @version Fall 2023
  * Trivia Maze - Team 2
@@ -147,14 +148,13 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * This method gets called when a bound property is changed.
-     *
-     * @param evt A PropertyChangeEvent object describing the event source
+     * @param theEvent A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("myQuestion".equals(evt.getPropertyName())) {
-            Object newValue = evt.getNewValue();
+    public void propertyChange(final PropertyChangeEvent theEvent) {
+        if ("myQuestion".equals(theEvent.getPropertyName())) {
+            Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
 

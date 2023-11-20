@@ -2,21 +2,14 @@ package view;
 
 import controller.Maze;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Map;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
@@ -39,18 +32,18 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /** Boolean for whether player has escaped the maze. */
     private static final boolean myEscape = false;
 
-    private static final Dimension DIMENSION = new Dimension(500, 500);
+    private static final Dimension DIMENSION = new Dimension(600, 600);
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public GameFrame() {
         super();
         myMaze = new Maze(); // create new maze game
-        myChangeSupport = new PropertyChangeSupport(this);
+        myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
-        showDifficultyMenu(); //
+        showDifficultyMenu(); // show game difficulty menu
         setFocusable(true);
         requestFocus();
         setVisible(true); // make frame visible
@@ -62,7 +55,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 //    }
 
     /**
-     *
+     * Helps add details to the game frame.
      */
     private void frameHelper() {
         setTitle("Trivia Maze");
@@ -89,8 +82,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     }
 
     /**
-     *
-     * @return JMenu
+     * GUI for game file menu.
+     * @return JMenu menu for game file
      */
     private static JMenu fileMenu() {
         final JMenu fileMenu = new JMenu("File");
@@ -108,8 +101,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     }
 
     /**
-     *
-     * @return JMenu
+     * GUI for game information menu.
+     * @return JMenu menu for game info
      */
     private static JMenu infoMenu() {
         final JMenu infoMenu = new JMenu("Info");
@@ -173,6 +166,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Shows GUI for the game difficulty levels menu.
+     */
     private void showDifficultyMenu() {
         Object[] options = {"Easy", "Medium", "Hard"};
         int choice = JOptionPane.showOptionDialog(
@@ -225,7 +221,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final GameFrame mazeFrame = new GameFrame(); // frame for game
         final MazePanel mazePanel = new MazePanel(myMaze); // panel for maze
         QuestionAnswer questionAnswer = new QuestionAnswer();
-        qPanel = new QuestionPanel(); // panel for trivia questions
+        //qPanel = new QuestionPanel(); // panel for trivia questions
+        final QuestionPanel qPanel = new QuestionPanel();
 
         gamePanel.add(mazePanel, BorderLayout.CENTER); // add maze panel to game panel
         gamePanel.add(qPanel, BorderLayout.SOUTH); // add question panel to game panel
@@ -247,6 +244,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public JPanel getQuestionPanel() {
         return qPanel;
     }
+
     public void saveAndLoad() {
 
     }
@@ -268,7 +266,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 break;
         }
     }
-
 
     /**
      * Private class that allows the player to traverse the maze using the keyboard.
