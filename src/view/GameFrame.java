@@ -224,7 +224,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JPanel gamePanel = new JPanel(new BorderLayout()); // panel for all info in game
         final GameFrame mazeFrame = new GameFrame(); // frame for game
         final MazePanel mazePanel = new MazePanel(myMaze); // panel for maze
-        QuestionAnswer questionAnswer = new QuestionAnswer();
+        final QuestionAnswer questionAnswer = new QuestionAnswer();
         qPanel = new QuestionPanel(); // panel for trivia questions
 
         gamePanel.add(mazePanel, BorderLayout.CENTER); // add maze panel to game panel
