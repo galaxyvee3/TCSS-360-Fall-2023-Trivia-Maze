@@ -23,15 +23,15 @@ public class DoorTest {
     void setUp() {
         myRoom1 = new Room();
         myRoom2 = new Room();
-        myDoor = new Door(myRoom1, myRoom2, Direction.NORTH, Direction.SOUTH);
+        myDoor = new Door(myRoom1, myRoom2, Direction.SOUTH, Direction.NORTH);
     }
 
     @Test
     void testDoorInit() {
         assertEquals(myRoom1, myDoor.getRoom1());
         assertEquals(myRoom2, myDoor.getRoom2());
-        assertEquals(Direction.NORTH, myDoor.getMyDir1());
-        assertEquals(Direction.SOUTH, myDoor.getMyDir2());
+        assertEquals(Direction.SOUTH, myDoor.getMyDir1());
+        assertEquals(Direction.NORTH, myDoor.getMyDir2());
         assertFalse(myDoor.getUnlocked());
         assertFalse(myDoor.getClosed());
         assertNull(myDoor.getQuestion());
@@ -94,7 +94,7 @@ public class DoorTest {
 
     @Test
     public void testPropertyChange() {
-        Door door = new Door(myRoom1, myRoom2, Direction.NORTH, Direction.SOUTH);
+        Door door = new Door(myRoom1, myRoom2, Direction.SOUTH, Direction.NORTH);
         PropertyChangeEvent event = new PropertyChangeEvent(this,
                 "myQuestion", null,
                 "New Question");

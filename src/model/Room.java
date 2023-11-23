@@ -75,8 +75,17 @@ public class Room implements PropertyChangeListener, Serializable {
      * Get all the Doors in the Room.
      * @return Doors in Room
      */
-    public HashMap<Direction, Door> getDoors() {
+    public HashMap<Direction, Door> getAllDoors() {
         return myDoors;
+    }
+
+    /**
+     * Get Door in the specified Direction.
+     * @param theDir Direction of Door
+     * @return Door in specified Direction
+     */
+    public Door getDoor(final Direction theDir) {
+        return myDoors.get(theDir);
     }
 
     /**

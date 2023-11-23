@@ -280,7 +280,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
                 //System.out.println(myMaze.moveUp());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                //System.out.println(myMaze.moveDown());
+                System.out.println(myMaze.moveDown());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
                 //System.out.println(myMaze.moveLeft());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {

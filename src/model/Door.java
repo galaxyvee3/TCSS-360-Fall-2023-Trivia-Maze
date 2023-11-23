@@ -21,7 +21,7 @@ public class Door implements Serializable, PropertyChangeListener {
     /** The first connected Room. */
     private Room myRoom1;
 
-    /** The second connnected Room. */
+    /** The second connected Room. */
     private Room myRoom2;
 
     /** Direction of Door relative to Room 1. */
@@ -53,7 +53,7 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = false;
+        myUnlocked = true;
         myClosed = false;
         myQuestion = null;
         myAnswer = null;
