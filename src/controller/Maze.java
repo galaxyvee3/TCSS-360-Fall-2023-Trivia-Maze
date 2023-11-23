@@ -41,30 +41,29 @@ public class Maze {
     private final PropertyChangeSupport myPCS;
 
     /** 2D Room array representing the Trivia Maze. */
-    private Room[][] myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
-
-    /** 2d Door array representing all the vertical doors in the maze. */
-    private Door[][] myVertDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
-
-    /** 2d Door array representing all the horizontal doors in the maze. */
-    private Door[][] myHorzDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
+    private Room[][] myMaze;
 
     /** The current row of the player in the maze. */
-    private int myCurrentRow = 0;
+    private int myCurrentRow;
 
     /** The current column of the player in the maze. */
-    private int myCurrentCol = 0;
+    private int myCurrentCol;
 
     /** Boolean of whether player has reached the exit of the maze. */
-    private boolean myGameOver = false;
+    private boolean myGameOver;
 
     /** The current trivia question from the current door. */
-    private String myQuestion = "";
+    private String myQuestion;
 
     /**
      * Default constructor.
      */
-    public Maze()  {
+    public Maze() {
+        myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
+        myCurrentRow = 0;
+        myCurrentCol = 0;
+        myGameOver = false;
+        myQuestion = null;
         myPCS = new PropertyChangeSupport(this);
         createRoomsAndDoors();
     }
@@ -79,21 +78,6 @@ public class Maze {
         return myMaze[theRow][theCol];
     }
 
-    /**
-     * Return vertical doors.
-     * @return 2d array of vertical doors
-     */
-    public Door[][] getVertDoors() {
-        return myVertDoors;
-    }
-
-    /**
-     * Return horizontal doors.
-     * @return 2d array of horizontal doors
-     */
-    public Door[][] getHorzDoors() {
-        return myHorzDoors;
-    }
 
     /**
      * Return the current row.
@@ -170,10 +154,10 @@ public class Maze {
         }
     }
 
-    /**
+/*    *//**
      * Moves the player up one row.
      * @return if move was successful or why it failed
-     */
+     *//*
     public String moveUp() {
         if (canMove("Up")) {
             if (doorUnlocked(myHorzDoors[getMyCurrentRow() - 1][getMyCurrentCol()])) {
@@ -197,10 +181,10 @@ public class Maze {
         }
     }
 
-    /**
+    *//**
      * Moves the player down one row.
      * @return if move was successful or why it failed
-     */
+     *//*
     public String moveDown() {
         if (canMove("Down")) {
             // TODO: DOWN EDGE CASE BREAKING, CANT GO TO INDEX 5
@@ -225,10 +209,10 @@ public class Maze {
         }
     }
 
-    /**
+    *//**
      * Moves the player left one column.
      * @return if move was successful or why it failed
-     */
+     *//*
     public String moveLeft() {
         if (canMove("Left")) {
             if (doorUnlocked(myVertDoors[getMyCurrentRow()][getMyCurrentCol() - 1])) {
@@ -252,10 +236,10 @@ public class Maze {
         }
     }
 
-    /**
+    *//**
      * Moves the player right one column.
      * @return if move was successful or why it failed
-     */
+     *//*
     public String moveRight() {
         if (canMove("Right")) {
             if (doorUnlocked(myVertDoors[getMyCurrentRow()][getMyCurrentCol() + 1])) {
@@ -277,7 +261,7 @@ public class Maze {
             setMyCurrentCol(getMyCurrentCol()); // prevent player from leaving maze
             return "Edge of maze.";
         }
-    }
+    }*/
 
     /**
      * Fill arrays with rooms and doors in the maze.
@@ -287,20 +271,6 @@ public class Maze {
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int k = 0; k < MAZE_SIZE; k++) {
                 myMaze[i][k] = new Room();
-            }
-        }
-
-        // fill array with vertical doors
-        for (int i = 0; i < MAZE_SIZE - 1; i++) {
-            for (int k = 0; k < MAZE_SIZE; k++) {
-                myHorzDoors[i][k] = new Door();
-            }
-        }
-
-        // fill array with horizontal doors
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int k = 0; k < MAZE_SIZE - 1; k++) {
-                myVertDoors[i][k] = new Door();
             }
         }
     }
@@ -316,8 +286,6 @@ public class Maze {
 
         // replace old values with new values
         myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
-        myHorzDoors = new Door[MAZE_SIZE - 1][MAZE_SIZE];
-        myVertDoors = new Door[MAZE_SIZE][MAZE_SIZE - 1];
         createRoomsAndDoors();
         myCurrentRow = 0;
         myCurrentCol = 0;

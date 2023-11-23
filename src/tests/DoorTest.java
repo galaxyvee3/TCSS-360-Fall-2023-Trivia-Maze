@@ -1,25 +1,37 @@
 package tests;
 
-import java.beans.PropertyChangeEvent;
+import model.Direction;
 import model.Door;
+import model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.MultipleChoiceQuestions;
-import view.Question;
+
+import java.beans.PropertyChangeEvent;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DoorTest {
 
     private Door myDoor;
 
+    private Room myRoom1;
+
+    private Room myRoom2;
+
     @BeforeEach
     void setUp() {
-        myDoor = new Door();
+        myRoom1 = new Room();
+        myRoom2 = new Room();
+        myDoor = new Door(myRoom1, myRoom2, Direction.NORTH, Direction.SOUTH);
     }
 
     @Test
     void testDoorInit() {
-
+        assertEquals(myRoom1, myDoor.getRoom1());
+        assertEquals(myRoom2, myDoor.getRoom2());
+        assertEquals(Direction.NORTH, myDoor.getMyDir1());
+        assertEquals(Direction.SOUTH, myDoor.getMyDir2());
         assertFalse(myDoor.getUnlocked());
         assertFalse(myDoor.getClosed());
         assertNull(myDoor.getQuestion());
@@ -29,7 +41,6 @@ public class DoorTest {
 
     @Test
     void testSetQuestionAnswer() {
-
         myDoor.setQuestion("What are the 4 Pillars of OOP?");
         myDoor.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
         assertEquals("What are the 4 Pillars of OOP?", myDoor.getQuestion());
@@ -38,7 +49,6 @@ public class DoorTest {
 
     @Test
     void testUnlockedDoor() {
-
         assertFalse(myDoor.getUnlocked());
         myDoor.unlockDoor();
         assertTrue(myDoor.getUnlocked());
@@ -84,7 +94,7 @@ public class DoorTest {
 
     @Test
     public void testPropertyChange() {
-        Door door = new Door();
+        Door door = new Door(myRoom1, myRoom2, Direction.NORTH, Direction.SOUTH);
         PropertyChangeEvent event = new PropertyChangeEvent(this,
                 "myQuestion", null,
                 "New Question");

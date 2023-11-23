@@ -1,7 +1,6 @@
 package view;
 
 import controller.Maze;
-import model.Door;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +57,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         g2d.setPaint(new Color(100,75,50));
 
         // for vertical doors
-        int a = 0;
+/*        int a = 0;
         for (Door[] col : myMaze.getVertDoors()) {
             int b = 0;
             for (Door door : col) {
@@ -89,7 +88,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 y++;
             }
             x++;
-        }
+        }*/
 
         // draw user current location
         g2d.setPaint(Color.BLUE);

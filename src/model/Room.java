@@ -1,12 +1,12 @@
 package model;
 
-import controller.Maze;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Logger;
-import java.io.*;
 
 /**
  * Room object in the maze.
@@ -21,33 +21,6 @@ public class Room implements PropertyChangeListener, Serializable {
     @Serial
     private static final long serialVersionUID =
             2L;
-    public static void main (String[] args) {
-        Room room = new Room(); // Create instance of object Class
-        try (FileOutputStream fileOut = new FileOutputStream("room.ser");
-             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-
-            objectOut.writeObject(room); // Serialize room object to room.ser
-
-            System.out.println("Room object has been serialized!\n" +
-                    "Data before serialization");
-        }
-        catch (
-                IOException e
-        ){
-            e.printStackTrace();
-
-        }
-        // Deserialization
-        try (FileInputStream fileIn = new FileInputStream("room.ser");
-             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-
-            room = (Room)objectIn.readObject(); // Deserialize the Maze object
-            System.out.println("Room object deserialized!");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
@@ -57,6 +30,9 @@ public class Room implements PropertyChangeListener, Serializable {
     private static final int EDGE_COUNT = 2;
 
     private static final int INNER_COUNT = 4;
+
+    /** Map of all the Door objects in the Room. */
+    private HashMap<Direction, Door> myDoors;
 
     /** The row of the Room in the Maze. */
     private int myRow;
@@ -86,6 +62,8 @@ public class Room implements PropertyChangeListener, Serializable {
      * Default constructor.
      */
     public Room() {
+        myDoors = new HashMap<Direction, Door>();
+
         myCM = new ClueManager();
         initializeState();
         initializeClue();
@@ -94,14 +72,29 @@ public class Room implements PropertyChangeListener, Serializable {
     }
 
     /**
+     * Get all the Doors in the Room.
+     * @return Doors in Room
+     */
+    public HashMap<Direction, Door> getDoors() {
+        return myDoors;
+    }
+
+    /**
+     * Add a Door to the Room in a Direction.
+     * @param theDir Direction of Door in Room
+     * @param theDoor Door to be added to Room
+     */
+    public void addDoor(final Direction theDir, final Door theDoor) {
+        myDoors.put(theDir, theDoor);
+    }
+
+    /**
      * Constructs a Room object.
      * @param theRow row of Room in maze
      * @param theColumn column of Room in maze
      */
-    public Room(final int theRow,
-                final int theColumn,
-                final int theRowCnt,
-                final int theColCnt) {
+    public Room(final int theRow, final int theColumn,
+                final int theRowCnt, final int theColCnt) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
 
     }
