@@ -1,15 +1,15 @@
-package view;
-
 import javax.swing.SwingUtilities;
+import view.GameFrame;
+import view.QuestionDatabase;
 
 /**
- * view.Main driver for Trivia Maze.
+ * Main driver for Trivia Maze.
  * @author Rick Adams
  * @author Viktoria Dolojan
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Main {
+public final class Main {
     /**
      * Private default constructor.
      */
@@ -17,7 +17,7 @@ public class Main {
     }
 
     /**
-     * view.Main method.
+     * Main method.
      * @param theArgs command line args
      */
     public static void main(final String[] theArgs) {
