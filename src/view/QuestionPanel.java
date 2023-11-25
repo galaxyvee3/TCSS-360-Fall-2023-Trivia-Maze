@@ -98,7 +98,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         // TODO: QUESTIONS ARE NULL
         if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
             String newQuestion = (String) theEvent.getNewValue();
-            myQuestionType = setQuestion(newQuestion);
+//            myQuestionType = setQuestion(newQuestion);
             //setCurrentQuestion(newQuestion);
             repaint();
         }
@@ -109,16 +109,16 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      * @param theQuestion current trivia question
      * @return String type of trivia question
      */
-    public String setQuestion(final String theQuestion) {
-        final String questionType = theQuestion.toString();
-        myLabel.setText("Trivia Question: " + theQuestion);
-        repaint(); // Repaint the panel
-        return questionType;
-    }
-
-//    public void setCurrentQuestion(final String theQuestion) {
+//    public String setQuestion(final String theQuestion) {
+//        final String questionType = theQuestion.toString();
 //        myLabel.setText("Trivia Question: " + theQuestion);
+//        repaint(); // Repaint the panel
+//        return questionType;
 //    }
+
+    public void setCurrentQuestion(final String theQuestion) {
+        myLabel.setText("Trivia Question: " + theQuestion);
+    }
 
     /**
      * Displays the current trivia question.

@@ -15,33 +15,33 @@ import java.util.logging.Logger;
  * Trivia Maze - Team 2
  */
 public class ClueManager {
-    @Serial
-    private static final long serialVersionUID = 3L;
-    public static void main (String[] args) {
-        ClueManager clueManager = new ClueManager(); // Create instance of object Class
-        try (FileOutputStream fileOut = new FileOutputStream("clueManager.ser");
-             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-
-            objectOut.writeObject(clueManager); // Serialize door object to room.ser
-
-            System.out.println("ClueManager object has been serialized!\n" +
-                    "Data before serialization");
-        } catch (
-                IOException e
-        ) {
-            e.printStackTrace();
-
-        }
-        // Deserialization
-        try (FileInputStream fileIn = new FileInputStream("clueManager.ser");
-             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-
-            clueManager = (ClueManager)objectIn.readObject(); // Deserialize the Maze object
-            System.out.println("ClueManager object deserialized!");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Serial
+//    private static final long serialVersionUID = 3L;
+//    public static void main (String[] args) {
+//        ClueManager clueManager = new ClueManager(); // Create instance of object Class
+//        try (FileOutputStream fileOut = new FileOutputStream("clueManager.ser");
+//             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+//
+//            objectOut.writeObject(clueManager); // Serialize door object to room.ser
+//
+//            System.out.println("ClueManager object has been serialized!\n" +
+//                    "Data before serialization");
+//        } catch (
+//                IOException e
+//        ) {
+//            e.printStackTrace();
+//
+//        }
+//        // Deserialization
+//        try (FileInputStream fileIn = new FileInputStream("clueManager.ser");
+//             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+//
+//            clueManager = (ClueManager)objectIn.readObject(); // Deserialize the Maze object
+//            System.out.println("ClueManager object deserialized!");
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
     private final String myClues;
 
     /** .txt file that contains the bonus clues. */
