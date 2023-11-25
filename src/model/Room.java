@@ -49,6 +49,7 @@ public class Room implements PropertyChangeListener, Serializable {
 //
 //    }
 
+//==================Constants=======================//
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
     /** Random object. */
@@ -57,6 +58,8 @@ public class Room implements PropertyChangeListener, Serializable {
     private static final int EDGE_COUNT = 2;
 
     private static final int INNER_COUNT = 4;
+
+//==================Fields=====================//
 
     /** The row of the Room in the Maze. */
     private int myRow;
@@ -82,6 +85,7 @@ public class Room implements PropertyChangeListener, Serializable {
 
     private ClueManager myCM;
 
+    private Door myDoorList;
     /**
      * Default constructor.
      */
@@ -90,7 +94,6 @@ public class Room implements PropertyChangeListener, Serializable {
         initializeState();
         initializeClue();
         generateClueContent();
-//        logDoorCount();
     }
 
     /**
@@ -101,9 +104,10 @@ public class Room implements PropertyChangeListener, Serializable {
     public Room(final int theRow,
                 final int theColumn,
                 final int theRowCnt,
-                final int theColCnt) {
+                final int theColCnt,
+                final Door theDoor) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
-
+        this.myDoorList = theDoor;
     }
 
     /**
@@ -243,14 +247,6 @@ public class Room implements PropertyChangeListener, Serializable {
         if (myClueStatus) {
             myClueContent = generateClueContent();
         }
-    }
-
-    /**
-     *
-     */
-    private void logDoorCount() {
-        final int doorCount = doorCounter();
-        LOGGER.info("Door Count: " + doorCount);
     }
 
     /**
