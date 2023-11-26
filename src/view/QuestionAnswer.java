@@ -26,6 +26,8 @@ public class QuestionAnswer {
     private static final String QUESTION_ID = "QuestionID";
 
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+    /** Random constant. */
+    private static final Random RANDOM = new Random();
 //================Fields====================//
     private final List<Map<String, String>> myQuestions;
 
@@ -120,6 +122,28 @@ public class QuestionAnswer {
         };
     }
     /**
+     * Fetch correct answers for short answer questions from the database.
+     * @return List of correct answers for short answer questions.
+     */
+    public static List<String> getShortAnswers() {
+        List<String> shortAnswerCorrectAnswers = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL)) {
+
+            String query = "SELECT ANSWER FROM ShortAnswerQuestions";
+            try (Statement statement = conn.createStatement();
+                 ResultSet resultSet = statement.executeQuery(query)) {
+
+                while (resultSet.next()) {
+                    String correctAnswer = resultSet.getString(ANSWER);
+                    shortAnswerCorrectAnswers.add(correctAnswer);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error retrieving ShortAnswer.", e);
+        }
+        return shortAnswerCorrectAnswers;
+    }
+    /**
      * Retrieves a random question from the list of questions.
      * @return a random question.
      */
@@ -139,11 +163,10 @@ public class QuestionAnswer {
         if (myQuestions.isEmpty()) {
             return Collections.emptyMap();
         }
-
-        final Random random = new Random();
-        final int randomIndex = random.nextInt(myQuestions.size());
+        final int randomIndex = RANDOM.nextInt(myQuestions.size());
         return myQuestions.get(randomIndex);
     }
+
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
