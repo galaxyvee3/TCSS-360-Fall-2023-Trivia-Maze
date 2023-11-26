@@ -233,7 +233,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         // Set the question on the QuestionPanel
         if (!randomQuestion.isEmpty()) {
             String questionText = randomQuestion.get("QUESTION");
-            qPanel.setQuestion(questionText);
+            qPanel.setCurrentQuestion(questionText);
         }
         myMaze.addPropertyChangeListener(mazePanel); // add PCL for maze
         myMaze.addPropertyChangeListener(qPanel); // add PCL for question
