@@ -63,14 +63,13 @@ public class QuestionAnswer {
                                     QUESTION,
                                     ANSWER);
             fetchQuestionsFromTable(conn, "ShortAnswerQuestions",
-                                    "QuestionID",
+                                    QUESTION_ID,
                                     QUESTION,
                                     ANSWER);
         } catch (final SQLException e) {
-            LOGGER.log(Level.SEVERE, "Question fetch from DB has failed.", e);
+            LOGGER.severe("Question fetch from DB has failed.");
         }
     }
-
     /**
      * Fetches questions from the question table.
      * Helper called by fetchQuestionsFromDatabase.
@@ -125,15 +124,13 @@ public class QuestionAnswer {
      * @return a random question.
      */
     public String getQuestionFromDatabase() {
-        final List<Map<String, String>> questions = myQuestions;
-        if (!questions.isEmpty()) {
+        if (! myQuestions.isEmpty()) {
             Map<String, String> questionData = getRandomQuestion();
             return questionData.get(QUESTION);
         } else {
             return "No questions available";
         }
     }
-
     /**
      * Get a random question from the database.
      * @return A map containing the question data.

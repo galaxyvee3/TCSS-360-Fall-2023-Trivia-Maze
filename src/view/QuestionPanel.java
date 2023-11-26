@@ -2,11 +2,16 @@ package view;
 
 import controller.Maze;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -20,10 +25,10 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     private final PropertyChangeSupport propertyChangeSupport;
 
     /** JLabel to display trivia question. */
-    private JLabel myLabel = null;
+    private final JLabel myLabel;
 
     /** Keeps track of the type of trivia question being presented. */
-    private String myQuestionType = "";
+    private final String myQuestionType;
 
     /**
      * Public constructor.
@@ -35,6 +40,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         setPreferredSize(new Dimension(200, 150));
         myLabel = new JLabel("Trivia Question: ");
         add(myLabel);
+        myQuestionType = "";
     }
 
     @Override
@@ -55,31 +61,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
             remove(1); // remove previous answer options
 
         }
-    }
-
-    public void multipleChoice() {
-        final JRadioButtonMenuItem aButton = new JRadioButtonMenuItem("A");
-        final JRadioButtonMenuItem bButton = new JRadioButtonMenuItem("B");
-        final JRadioButtonMenuItem cButton = new JRadioButtonMenuItem("C");
-        add(aButton);
-        add(bButton);
-        add(cButton);
-        aButton.addActionListener(e -> {        });
-        bButton.addActionListener(e -> {        });
-        cButton.addActionListener(e -> {        });
-    }
-
-    public void shortAnswer() {
-
-    }
-
-    public void trueFalse() {
-        final JRadioButtonMenuItem trueButton = new JRadioButtonMenuItem("True");
-        final JRadioButtonMenuItem falseButton = new JRadioButtonMenuItem("False");
-        add(trueButton);
-        add(falseButton);
-        trueButton.addActionListener(e -> {        });
-        falseButton.addActionListener(e -> {        });
     }
 
     /**
