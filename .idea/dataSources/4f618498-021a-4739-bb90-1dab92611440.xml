@@ -446,8 +446,8 @@
     </routine>
     <schema id="177" parent="1" name="main">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-25.18:18:15.531</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-26.02:18:15</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-25.18:47:16.737</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-26.02:47:16</LocalIntrospectionTimestamp>
     </schema>
     <argument id="178" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1470,107 +1470,145 @@
       <Position>1</Position>
     </argument>
     <table id="518" parent="177" name="MultipleChoiceQuestions"/>
-    <table id="519" parent="177" name="ShortAnswerQuestions"/>
-    <table id="520" parent="177" name="TrueFalseQuestions"/>
-    <table id="521" parent="177" name="sqlite_master">
+    <table id="519" parent="177" name="MultipleChoiceTF"/>
+    <table id="520" parent="177" name="ShortAnswerQuestions"/>
+    <table id="521" parent="177" name="TrueFalseQuestions"/>
+    <table id="522" parent="177" name="TrueFalseTest"/>
+    <table id="523" parent="177" name="sqlite_master">
       <System>1</System>
     </table>
-    <column id="522" parent="518" name="QuestionID">
+    <column id="524" parent="518" name="QuestionID">
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="523" parent="518" name="QUESTION">
+    <column id="525" parent="518" name="QUESTION">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="524" parent="518" name="ChoiceA">
+    <column id="526" parent="518" name="ChoiceA">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="525" parent="518" name="ChoiceB">
+    <column id="527" parent="518" name="ChoiceB">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="526" parent="518" name="ChoiceC">
+    <column id="528" parent="518" name="ChoiceC">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="527" parent="518" name="ANSWER">
+    <column id="529" parent="518" name="ANSWER">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <foreign-key id="528" parent="518">
+    <foreign-key id="530" parent="518">
       <ColNames>QuestionID</ColNames>
       <RefColNames>QuestionID</RefColNames>
       <RefTableName>MultipleChoiceQuestions</RefTableName>
     </foreign-key>
-    <key id="529" parent="518">
+    <key id="531" parent="518">
       <ColNames>QuestionID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="530" parent="519" name="QuestionID">
+    <column id="532" parent="519" name="C1">
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="531" parent="519" name="QUESTION">
+    <column id="533" parent="519" name="C2">
+      <DasType>TEXT|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="534" parent="519" name="C3">
+      <DasType>TEXT|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="535" parent="519" name="C4">
+      <DasType>TEXT|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="536" parent="519" name="C5">
+      <DasType>TEXT|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="537" parent="519" name="C6">
+      <DasType>TEXT|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="538" parent="520" name="QuestionID">
+      <DasType>INTEGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="539" parent="520" name="QUESTION">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="532" parent="519" name="ANSWER">
+    <column id="540" parent="520" name="ANSWER">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <key id="533" parent="519">
+    <key id="541" parent="520">
       <ColNames>QuestionID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="534" parent="520" name="QuestionID">
+    <column id="542" parent="521" name="QuestionID">
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="535" parent="520" name="QUESTION">
+    <column id="543" parent="521" name="QUESTION">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="536" parent="520" name="ANSWER">
+    <column id="544" parent="521" name="ANSWER">
       <DasType>BOOLEAN|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="537" parent="520">
+    <foreign-key id="545" parent="521">
       <ColNames>QuestionID</ColNames>
       <RefColNames>QuestionID</RefColNames>
       <RefTableName>QuestionDB</RefTableName>
     </foreign-key>
-    <key id="538" parent="520">
+    <key id="546" parent="521">
       <ColNames>QuestionID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="539" parent="521" name="type">
-      <DasType>TEXT|0s</DasType>
+    <column id="547" parent="522" name="C1">
+      <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="540" parent="521" name="name">
+    <column id="548" parent="522" name="C2">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="541" parent="521" name="tbl_name">
+    <column id="549" parent="522" name="C3">
+      <DasType>INTEGER|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="550" parent="523" name="type">
+      <DasType>TEXT|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="551" parent="523" name="name">
+      <DasType>TEXT|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="552" parent="523" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="542" parent="521" name="rootpage">
+    <column id="553" parent="523" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="543" parent="521" name="sql">
+    <column id="554" parent="523" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
