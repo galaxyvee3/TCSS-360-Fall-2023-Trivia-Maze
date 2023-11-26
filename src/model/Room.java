@@ -1,12 +1,12 @@
 package model;
 
-import controller.Maze;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Logger;
-import java.io.*;
 
 /**
  * Room object in the maze.
@@ -17,39 +17,11 @@ import java.io.*;
  * Trivia Maze - Team 2
  */
 public class Room implements PropertyChangeListener, Serializable {
-//
-//    @Serial
-//    private static final long serialVersionUID =
-//            2L;
-//    public static void main (String[] args) {
-//        Room room = new Room(); // Create instance of object Class
-//        try (FileOutputStream fileOut = new FileOutputStream("room.ser");
-//             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-//
-//            objectOut.writeObject(room); // Serialize room object to room.ser
-//
-//            System.out.println("Room object has been serialized!\n" +
-//                    "Data before serialization");
-//        }
-//        catch (
-//                IOException e
-//        ){
-//            e.printStackTrace();
-//
-//        }
-//        // Deserialization
-//        try (FileInputStream fileIn = new FileInputStream("room.ser");
-//             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-//
-//            room = (Room)objectIn.readObject(); // Deserialize the Maze object
-//            System.out.println("Room object deserialized!");
-//        } catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 
-//==================Constants=======================//
+    @Serial
+    private static final long serialVersionUID =
+            2L;
+
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
     /** Random object. */
@@ -59,7 +31,8 @@ public class Room implements PropertyChangeListener, Serializable {
 
     private static final int INNER_COUNT = 4;
 
-//==================Fields=====================//
+    /** Map of all the Door objects in the Room. */
+    private HashMap<Direction, Door> myDoors;
 
     /** The row of the Room in the Maze. */
     private int myRow;
@@ -85,15 +58,43 @@ public class Room implements PropertyChangeListener, Serializable {
 
     private ClueManager myCM;
 
-    private Door myDoorList;
     /**
      * Default constructor.
      */
     public Room() {
+        myDoors = new HashMap<Direction, Door>();
+
         myCM = new ClueManager();
         initializeState();
         initializeClue();
         generateClueContent();
+//        logDoorCount();
+    }
+
+    /**
+     * Get all the Doors in the Room.
+     * @return Doors in Room
+     */
+    public HashMap<Direction, Door> getAllDoors() {
+        return myDoors;
+    }
+
+    /**
+     * Get Door in the specified Direction.
+     * @param theDir Direction of Door
+     * @return Door in specified Direction
+     */
+    public Door getDoor(final Direction theDir) {
+        return myDoors.get(theDir);
+    }
+
+    /**
+     * Add a Door to the Room in a Direction.
+     * @param theDir Direction of Door in Room
+     * @param theDoor Door to be added to Room
+     */
+    public void addDoor(final Direction theDir, final Door theDoor) {
+        myDoors.put(theDir, theDoor);
     }
 
     /**
@@ -101,13 +102,10 @@ public class Room implements PropertyChangeListener, Serializable {
      * @param theRow row of Room in maze
      * @param theColumn column of Room in maze
      */
-    public Room(final int theRow,
-                final int theColumn,
-                final int theRowCnt,
-                final int theColCnt,
-                final Door theDoor) {
+    public Room(final int theRow, final int theColumn,
+                final int theRowCnt, final int theColCnt) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
-        this.myDoorList = theDoor;
+
     }
 
     /**
@@ -247,6 +245,14 @@ public class Room implements PropertyChangeListener, Serializable {
         if (myClueStatus) {
             myClueContent = generateClueContent();
         }
+    }
+
+    /**
+     *
+     */
+    private void logDoorCount() {
+        final int doorCount = doorCounter();
+        LOGGER.info("Door Count: " + doorCount);
     }
 
     /**

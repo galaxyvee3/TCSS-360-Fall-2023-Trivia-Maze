@@ -278,13 +278,13 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys
             if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                System.out.println(myMaze.moveUp());
+                //System.out.println(myMaze.moveUp());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
                 System.out.println(myMaze.moveDown());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                System.out.println(myMaze.moveLeft());
+                //System.out.println(myMaze.moveLeft());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                System.out.println(myMaze.moveRight());
+                //System.out.println(myMaze.moveRight());
             }
         }
     }
