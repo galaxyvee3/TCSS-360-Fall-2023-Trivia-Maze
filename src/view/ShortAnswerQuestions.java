@@ -24,7 +24,7 @@ public class ShortAnswerQuestions extends Question {
     public ShortAnswerQuestions(final String theQuestionText,
                                 final String theAnswerText) {
         super(theQuestionText, theAnswerText);
-        // Fetch correct answers from the database
+        // Retrieve correct answers from the database
         myCorrectAnswers = QuestionAnswer.getShortAnswers();
         // Authenticate the provided answer against the correct answers
         authenticateAnswer(myCorrectAnswers, theAnswerText);
