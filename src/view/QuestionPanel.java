@@ -1,17 +1,12 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -122,11 +117,12 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 //        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
 //    }
 
-    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
+/*    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
         propertyChangeSupport.addPropertyChangeListener(theListener);
     }
 
     public void removePropertyChangeListener(final PropertyChangeListener theListener) {
         propertyChangeSupport.removePropertyChangeListener(theListener);
     }
+*/
 }

@@ -1,6 +1,6 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;
@@ -260,9 +260,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             case Maze.PROPERTY_GAME_OVER:
                 myGameOver = (boolean) theEvent.getNewValue();
                 gameOver();
-                break;
-            case Maze.PROPERTY_UPDATE_MAZE:
-                // Update maze-related UI components
                 break;
         }
     }

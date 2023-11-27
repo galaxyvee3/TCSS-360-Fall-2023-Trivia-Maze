@@ -1,6 +1,6 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,12 +68,6 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        /*
-        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_PLAYER_MOVED)
-        || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_UNLOCKED)
-        || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_CLOSED)) {
-            repaint();
-        }*/
         if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_UPDATE_MAZE)) {
             repaint();
         }

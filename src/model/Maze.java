@@ -1,8 +1,4 @@
-package controller;
-
-import model.Direction;
-import model.Door;
-import model.Room;
+package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -20,17 +16,8 @@ public class Maze {
     /** Property name for game over. */
     public static final String PROPERTY_GAME_OVER = "Game over";
 
-    /** Property name for updating the maze when player has moved or door has changed status. */
+    /** Property name for updating the maze when player has moved. */
     public static final String PROPERTY_UPDATE_MAZE = "Update maze";
-
-    /** Property name for when the player has moved within the maze. */
-    //public static final String PROPERTY_PLAYER_MOVED = "Player moved";
-
-    /** Property name for when a door is unlocked. */
-    //public static final String PROPERTY_DOOR_UNLOCKED = "Door unlocked";
-
-    /** Property name for when a door is closed. */
-    //public static final String PROPERTY_DOOR_CLOSED = "Door closed";
 
     /**  Property name for when there is a trivia question. */
     public static final String PROPERTY_TRIVIA_QUESTION = "Trivia question";
@@ -194,7 +181,6 @@ public class Maze {
             Door door = room.getDoor(Direction.NORTH);
             if (doorUnlocked(door)) {
                 setMyCurrentRow(getMyCurrentRow() - 1);
-                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved up." + getMyCurrentRow();
             } else if (doorClosed(door)) {
                 return "Door is closed.";
@@ -203,7 +189,7 @@ public class Maze {
                 String oldQuestion = myQuestion;
                 System.out.println(door.getQuestion());
                 myQuestion = door.getQuestion();
-                myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
+                //myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
                 return "Door is locked.";
             }
         } else {
@@ -222,7 +208,6 @@ public class Maze {
             Door door = room.getDoor(Direction.SOUTH);
             if (doorUnlocked(door)) {
                 setMyCurrentRow(getMyCurrentRow() + 1);
-                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved down." + getMyCurrentRow();
             } else if (doorClosed(door)) {
                 return "Door is closed.";
@@ -231,7 +216,7 @@ public class Maze {
                 String oldQuestion = myQuestion;
                 System.out.println(door.getQuestion());
                 myQuestion = door.getQuestion();
-                myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
+                //myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
                 return "Door is locked.";
             }
         } else {
@@ -250,7 +235,6 @@ public class Maze {
             Door door = room.getDoor(Direction.WEST);
             if (doorUnlocked(door)) {
                 setMyCurrentCol(getMyCurrentCol() - 1);
-                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved left." + getMyCurrentCol();
             } else if (doorClosed(door)) {
                 return "Door is closed.";
@@ -259,7 +243,7 @@ public class Maze {
                 String oldQuestion = myQuestion;
                 System.out.println(door.getQuestion());
                 myQuestion = door.getQuestion();
-                myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
+                //myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
                 return "Door is locked.";
             }
         } else {
@@ -278,7 +262,6 @@ public class Maze {
             Door door = room.getDoor(Direction.EAST);
             if (doorUnlocked(door)) {
                 setMyCurrentCol(getMyCurrentCol() + 1);
-                myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
                 return "Moved right." + getMyCurrentCol();
             } else if (doorClosed(door)) {
                 return "Door is closed.";
@@ -287,7 +270,7 @@ public class Maze {
                 String oldQuestion = myQuestion;
                 System.out.println(door.getQuestion());
                 myQuestion = door.getQuestion();
-                myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
+                //myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
                 return "Door is locked.";
             }
         } else {
@@ -313,7 +296,7 @@ public class Maze {
         myGameOver = false;
 
 
-        // firePropertyChange
+        // game over
         myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
     }
 

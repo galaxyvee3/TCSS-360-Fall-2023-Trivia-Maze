@@ -1,6 +1,6 @@
 package tests;
 
-import controller.Maze;
+import model.Maze;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

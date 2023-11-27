@@ -4,6 +4,7 @@ import view.Question;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.*;
 
 /**
@@ -17,6 +18,12 @@ import java.io.*;
 public class Door implements Serializable, PropertyChangeListener {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /** Property name for updating the doors when door has changed status. */
+    public static final String PROPERTY_UPDATE_DOORS = "Update doors";
+
+    /** Property change support for the class. */
+    private final PropertyChangeSupport myPCS;
 
     /** The first connected Room. */
     private Room myRoom1;
@@ -53,11 +60,11 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = true;
+        myUnlocked = false;
         myClosed = false;
         myQuestion = null;
         myAnswer = null;
-
+        myPCS = new PropertyChangeSupport(this);
         // add door to rooms
         myRoom1.addDoor(myDir1, this);
         myRoom2.addDoor(myDir2, this);
@@ -129,16 +136,20 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Unlock door if question is answered correctly.
+     * Fire PCS for GUI to update doors.
      */
     public void unlockDoor() {
         myUnlocked = true;
+        myPCS.firePropertyChange(PROPERTY_UPDATE_DOORS, true, true);
     }
 
     /**
      * Close door forever if player answers incorrectly.
+     * Fire PCS for GUI to update doors.
      */
     public void closeDoor() {
         myClosed = true;
+        myPCS.firePropertyChange(PROPERTY_UPDATE_DOORS, true, true);
     }
 
     /**
@@ -185,13 +196,13 @@ public class Door implements Serializable, PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if ("myQuestion".equals(theEvent.getPropertyName())) {
+        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
             Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
 
 
             }
-        }
+        }*/
     }
 }
