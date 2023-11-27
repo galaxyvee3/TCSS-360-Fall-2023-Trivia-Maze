@@ -1,11 +1,15 @@
 package view;
 
+import model.Direction;
+import model.Door;
 import model.Maze;
+import model.Room;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 /**
  * Class creates the visual representation of the Trivia Maze with the rooms and doors.
@@ -55,6 +59,22 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
 
         // draw doors
         g2d.setPaint(new Color(100,75,50));
+        for(int i = 0; i < MAZE_SIZE; i++) {
+            for(int k = 0; k < MAZE_SIZE; k++) {
+                Room[][] maze = myMaze.getRooms();
+                Room room = maze[i][k];
+                HashMap<Direction, Door> allDoors = room.getAllDoors();
+                for (Direction direction : allDoors.keySet()) {
+                    Door door = room.getDoor(direction);
+                    // TODO: paint doors
+                    /*if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+                        g2d.fillRect(i * ROOM_SIZE, k * ROOM_SIZE, DOOR_SIZE, DOOR_SIZE / 3);
+                    } else {
+                        g2d.fillRect(i * ROOM_SIZE, k * ROOM_SIZE, DOOR_SIZE / 3, DOOR_SIZE);
+                    }*/
+                }
+            }
+        }
 
         // draw user current location
         g2d.setPaint(Color.BLUE);

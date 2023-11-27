@@ -97,7 +97,23 @@ public class Maze {
     }
 
     /**
-     * Return the current row.
+     * Get all the rooms in the maze.
+     * @return 2d Room array of maze
+     */
+    public Room[][] getRooms() {
+        return myMaze;
+    }
+
+    /**
+     * Check whether the game is over or not.
+     * @return true if player has escaped the maze
+     */
+    public boolean getGameOver() {
+        return myGameOver;
+    }
+
+    /**
+     * Check the current row.
      * @return current row of the player
      */
     public int getMyCurrentRow() {
@@ -105,7 +121,7 @@ public class Maze {
     }
 
     /**
-     * Return the current column.
+     * Check the current column.
      * @return current column of the player
      */
     public int getMyCurrentCol() {
@@ -204,6 +220,7 @@ public class Maze {
             Door door = room.getDoor(Direction.NORTH);
             if (doorUnlocked(door)) { // unlocked door, move up
                 setMyCurrentRow(getMyCurrentRow() - 1);
+                gameOverSuccess(); // check whether player has escaped the maze
                 return "Moved up." + getMyCurrentRow();
             } else if (doorClosed(door)) { // closed door, dont move
                 return "Door is closed.";
@@ -227,6 +244,7 @@ public class Maze {
             Door door = room.getDoor(Direction.SOUTH);
             if (doorUnlocked(door)) { // unlocked door, move down
                 setMyCurrentRow(getMyCurrentRow() + 1);
+                gameOverSuccess(); // check whether player has escaped the maze
                 return "Moved down." + getMyCurrentRow();
             } else if (doorClosed(door)) { // closed door, dont move
                 return "Door is closed.";
@@ -250,6 +268,7 @@ public class Maze {
             Door door = room.getDoor(Direction.WEST);
             if (doorUnlocked(door)) { // unlocked door, move left
                 setMyCurrentCol(getMyCurrentCol() - 1);
+                gameOverSuccess(); // check whether player has escaped the maze
                 return "Moved left." + getMyCurrentCol();
             } else if (doorClosed(door)) { // closed door, dont move
                 return "Door is closed.";
@@ -273,6 +292,7 @@ public class Maze {
             Door door = room.getDoor(Direction.EAST);
             if (doorUnlocked(door)) { // unlocked door, move right
                 setMyCurrentCol(getMyCurrentCol() + 1);
+                gameOverSuccess(); // check whether player has escaped the maze
                 return "Moved right." + getMyCurrentCol();
             } else if (doorClosed(door)) { // closed door, dont move
                 return "Door is closed.";

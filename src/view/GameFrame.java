@@ -43,7 +43,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
-        showDifficultyMenu(); // show game difficulty menu
+        //showDifficultyMenu(); // show game difficulty menu
         setFocusable(true);
         requestFocus();
         setVisible(true); // make frame visible
@@ -204,13 +204,15 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
         JLabel endLabel = new JLabel();
-        if (myEscape) { // label for when player successfully escaped
+        if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze. Try again.");
         }
-        endFrame.setSize(100,100);
-        endFrame.setVisible(true);
+        endPanel.add(endLabel); // add label to panel
+        endFrame.add(endPanel); // add panel to frame
+        endFrame.setSize(500,100);
+        endFrame.setVisible(true); // make frame visible
     }
 
     /**
