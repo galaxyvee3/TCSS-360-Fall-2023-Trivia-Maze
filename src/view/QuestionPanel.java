@@ -47,13 +47,13 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
         // repaint panel based off type of question
         if (myQuestionType.equalsIgnoreCase("multiple choice")) {
-            remove(1); // remove previous answer options
+            //remove(1); // remove previous answer options
 
         } else if (myQuestionType.equalsIgnoreCase("short answer")) {
-            remove(1); // remove previous answer options
+            //remove(1); // remove previous answer options
 
         } else if (myQuestionType.equalsIgnoreCase("true/false")) {
-            remove(1); // remove previous answer options
+            //remove(1); // remove previous answer options
 
         }
     }
@@ -65,12 +65,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
-            String newQuestion = (String) theEvent.getNewValue();
-            myQuestionType = setQuestion(newQuestion);
-            //setCurrentQuestion(newQuestion);
-            repaint(); // Repaint the panel
-        }*/
         // TODO: QUESTIONS ARE NULL
         if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
             String newQuestion = (String) theEvent.getNewValue();
