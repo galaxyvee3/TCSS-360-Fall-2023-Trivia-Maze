@@ -228,7 +228,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         gamePanel.add(qPanel, BorderLayout.SOUTH); // add question panel to game panel
         mazeFrame.add(gamePanel); // add game panel to frame
 
-        myMaze.addPropertyChangeListener(qPanel);
         Map <String, String> randomQuestion = questionAnswer.getRandomQuestion();
 
         // Set the question on the QuestionPanel
@@ -236,8 +235,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             String questionText = randomQuestion.get("QUESTION");
             qPanel.setQuestion(questionText);
         }
-
-        myMaze.addPropertyChangeListener(mazeFrame); // addPropertyChangeListener for all GUI
+        myMaze.addPropertyChangeListener(mazePanel); // add PCL for maze
+        myMaze.addPropertyChangeListener(qPanel); // add PCL for question
+        myMaze.addPropertyChangeListener(mazeFrame); // add PCL for frame
         myMaze.newGame(); // reset game stats
     }
 

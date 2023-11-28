@@ -1,5 +1,7 @@
 package view;
 
+import controller.Maze;
+
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -20,11 +22,14 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     /** JLabel to display trivia question. */
     private JLabel myLabel = null;
 
+    /** Keeps track of the type of trivia question being presented. */
+    private String myQuestionType = "";
+
     /**
      * Public constructor.
      */
     public QuestionPanel() {
-        super();
+        super(new GridLayout(4, 1));
         propertyChangeSupport = new PropertyChangeSupport(this);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 150));
@@ -36,6 +41,45 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponents(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
+
+        System.out.println("INIT QUESTION REPAINT"); // for testing purposes
+
+        // repaint panel based off type of question
+        if (myQuestionType.equalsIgnoreCase("multiple choice")) {
+            remove(1); // remove previous answer options
+
+        } else if (myQuestionType.equalsIgnoreCase("short answer")) {
+            remove(1); // remove previous answer options
+
+        } else if (myQuestionType.equalsIgnoreCase("true/false")) {
+            remove(1); // remove previous answer options
+
+        }
+    }
+
+    public void multipleChoice() {
+        final JRadioButtonMenuItem aButton = new JRadioButtonMenuItem("A");
+        final JRadioButtonMenuItem bButton = new JRadioButtonMenuItem("B");
+        final JRadioButtonMenuItem cButton = new JRadioButtonMenuItem("C");
+        add(aButton);
+        add(bButton);
+        add(cButton);
+        aButton.addActionListener(e -> {        });
+        bButton.addActionListener(e -> {        });
+        cButton.addActionListener(e -> {        });
+    }
+
+    public void shortAnswer() {
+
+    }
+
+    public void trueFalse() {
+        final JRadioButtonMenuItem trueButton = new JRadioButtonMenuItem("True");
+        final JRadioButtonMenuItem falseButton = new JRadioButtonMenuItem("False");
+        add(trueButton);
+        add(falseButton);
+        trueButton.addActionListener(e -> {        });
+        falseButton.addActionListener(e -> {        });
     }
 
     /**
@@ -45,21 +89,31 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if ("myQuestion".equals(theEvent.getPropertyName())) {
+        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
             String newQuestion = (String) theEvent.getNewValue();
-            setQuestion(newQuestion);
+            myQuestionType = setQuestion(newQuestion);
             //setCurrentQuestion(newQuestion);
             repaint(); // Repaint the panel
+        }*/
+        // TODO: QUESTIONS ARE NULL
+        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
+            String newQuestion = (String) theEvent.getNewValue();
+            myQuestionType = setQuestion(newQuestion);
+            //setCurrentQuestion(newQuestion);
+            repaint();
         }
     }
 
     /**
      * Set the current trivia question.
      * @param theQuestion current trivia question
+     * @return String type of trivia question
      */
-    public void setQuestion(final String theQuestion) {
+    public String setQuestion(final String theQuestion) {
+        final String questionType = theQuestion.toString();
         myLabel.setText("Trivia Question: " + theQuestion);
         repaint(); // Repaint the panel
+        return questionType;
     }
 
 //    public void setCurrentQuestion(final String theQuestion) {
