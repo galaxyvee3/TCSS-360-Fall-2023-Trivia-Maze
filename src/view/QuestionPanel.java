@@ -1,6 +1,6 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;

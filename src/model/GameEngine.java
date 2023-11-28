@@ -1,6 +1,5 @@
 package model;
 
-import controller.Maze;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;

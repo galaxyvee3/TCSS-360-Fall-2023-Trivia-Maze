@@ -1,6 +1,6 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,7 +113,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         rules.addActionListener(e -> JOptionPane.showMessageDialog(null,
                 """
                         In order to advance to the next room, you must answer the given Trivia question.
-                        If you answer correctly,  the way forward may be reveled;
+                        If you answer correctly, the way forward may be reveled;
                         If you answer incorrectly, the way forward may be forever shut.
                         Answer wisely.\s"""));
         infoMenu.add(rules);

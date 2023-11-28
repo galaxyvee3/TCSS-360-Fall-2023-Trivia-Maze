@@ -14,9 +14,12 @@ import java.util.logging.Logger;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class ClueManager {
+public class ClueManager implements Serializable{
     @Serial
     private static final long serialVersionUID = 3L;
+
+    /*
+
     public static void main (String[] args) {
         ClueManager clueManager = new ClueManager(); // Create instance of object Class
         try (FileOutputStream fileOut = new FileOutputStream("clueManager.ser");
@@ -42,6 +45,8 @@ public class ClueManager {
             e.printStackTrace();
         }
     }
+
+     */
     private final String myClues;
 
     /** .txt file that contains the bonus clues. */

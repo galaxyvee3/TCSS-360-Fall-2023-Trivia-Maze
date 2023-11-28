@@ -1,6 +1,6 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 import model.Door;
 
 import javax.swing.*;
@@ -26,7 +26,6 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
 
     /** Size of the doors. */
     private static final int DOOR_SIZE = 30;
-
     /**
      * Default constructor.
      * @param theMaze current maze being played
@@ -96,6 +95,16 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         g2d.fillOval(curCol * ROOM_SIZE + 15, curRow * ROOM_SIZE + 15, DOOR_SIZE, DOOR_SIZE);
     }
 
+    /*
+    // draw locked doors which gonna be red
+    private void initializeLockedDoors () {
+        Random random = new Random();
+        int numberOfRedDoors = random.nextInt((MAZE_SIZE * MAZE_SIZE)/2);
+        int row = random.nextInt(MAZE_SIZE);
+        int column = random.nextInt(MAZE_SIZE);
+        myMaze.[row][column].c
+    }
+    */
     /**
      * Repaint maze whenever player has moved within the maze and when a door is unlocked or closed.
      * @param theEvent A PropertyChangeEvent object describing the event source
