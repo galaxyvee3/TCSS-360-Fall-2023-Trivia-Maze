@@ -1,9 +1,12 @@
 package tests;
 
+import model.Direction;
 import model.Door;
 import model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +20,17 @@ class RoomTest {
 
     @Test
     void testRoomInit() {
+        assertEquals(new HashMap<Direction, Door>(), myRoom.getAllDoors());
         assertEquals("Room init", myRoom.toString());
+    }
+
+    @Test
+    void testAddDoorToRoom() {
+        Room room = new Room();
+        Door door = new Door(myRoom, room, Direction.SOUTH, Direction.NORTH);
+        HashMap<Direction, Door> map = new HashMap<Direction, Door>();
+        map.put(Direction.NORTH, door);
+        assertEquals(map, myRoom.getAllDoors());
     }
 
     @Test
@@ -48,7 +61,7 @@ class RoomTest {
 
     @Test
     void testDoorQuestionAnswer() {
-        Door door = new Door();
+        Door door = new Door(new Room(), new Room(), Direction.SOUTH, Direction.NORTH);
         door.setQuestion("What are the 4 Pillars of OOP?");
         door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
         assertEquals("What are the 4 Pillars of OOP?", myRoom.retrieveQuestion(door));

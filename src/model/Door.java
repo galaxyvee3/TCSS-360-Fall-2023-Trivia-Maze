@@ -4,7 +4,8 @@ import view.Question;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Door object in the maze.
@@ -18,44 +19,84 @@ public class Door implements Serializable, PropertyChangeListener {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /** The first connected Room. */
+    private Room myRoom1;
+
+    /** The second connected Room. */
+    private Room myRoom2;
+
+    /** Direction of Door relative to Room 1. */
+    private Direction myDir1;
+
+    /** Direction of Door relative to Room 2. */
+    private Direction myDir2;
+
     /** Status of whether door is unlocked or not. */
-    private boolean myUnlocked = true;
-
-    /** The trivia question assigned to this Door. */
-    private String myQuestion = null;
-
-    /** The answer to the trivia question. */
-    private String myAnswer = null;
+    private boolean myUnlocked;
 
     /** Status of whether door is closed forever because player answered incorrectly. */
-    private boolean myClosed = false;
-    private Question associatedQuestion;
+    private boolean myClosed;
 
+    /** The trivia question assigned to this Door. */
+    private String myQuestion;
+
+    /** The answer to the trivia question. */
+    private String myAnswer;
+
+    private Question associatedQuestion;
 
     /**
      * Default constructor.
      */
-    public Door() {
+    public Door(final Room theRoom1, final Room theRoom2,
+                final Direction theDir1, final Direction theDir2) {
+        myRoom1 = theRoom1;
+        myRoom2 = theRoom2;
+        myDir1 = theDir1;
+        myDir2 = theDir2;
+        myUnlocked = false;
+        myClosed = false;
+        myQuestion = null;
+        myAnswer = null;
+        // add door to rooms
+        myRoom1.addDoor(myDir1, this);
+        myRoom2.addDoor(myDir2, this);
     }
 
     /**
-     * Return the trivia question assigned to the door.
-     * @return the trivia question
+     * Get the first Room the Door is connected to.
+     * @return first Room
      */
-    public String getQuestion() {
-        return myQuestion;
+    public Room getRoom1() {
+        return myRoom1;
     }
 
     /**
-     * Return the answer to the trivia question.
-     * @return the answer
+     * Get the second Room the Door is connected to.
+     * @return second Room
      */
-    public String getAnswer() {
-        return myAnswer;
+    public Room getRoom2() {
+        return myRoom2;
     }
 
     /**
-     * Returns the unlock status of the door.
+     * Get Direction 1 of Door.
+     * @return Direction 1
+     */
+    public Direction getMyDir1() {
+        return myDir1;
+    }
+
+    /**
+     * Get Direction 2 of Door.
+     * @return Direction 2
+     */
+    public Direction getMyDir2() {
+        return myDir2;
+    }
+
+    /**
+     * Get the unlock status of the door.
      * @return true if door is unlocked
      */
     public boolean getUnlocked() {
@@ -63,11 +104,41 @@ public class Door implements Serializable, PropertyChangeListener {
     }
 
     /**
-     * Returns the close status of the door.
+     * Get the close status of the door.
      * @return true if door is closed forever
      */
     public boolean getClosed() {
         return myClosed;
+    }
+
+    /**
+     * Get the trivia question assigned to the door.
+     * @return the trivia question
+     */
+    public String getQuestion() {
+        return myQuestion;
+    }
+
+    /**
+     * Get the answer to the trivia question.
+     * @return the answer
+     */
+    public String getAnswer() {
+        return myAnswer;
+    }
+
+    /**
+     * Unlock door if question is answered correctly.
+     */
+    public void unlockDoor() {
+        myUnlocked = true;
+    }
+
+    /**
+     * Close door forever if player answers incorrectly.
+     */
+    public void closeDoor() {
+        myClosed = true;
     }
 
     /**
@@ -86,19 +157,6 @@ public class Door implements Serializable, PropertyChangeListener {
         myAnswer = theAnswer;
     }
 
-    /**
-     * Unlock door if question is answered correctly.
-     */
-    public void unlockDoor() {
-        myUnlocked = true;
-    }
-
-    /**
-     * Close door forever if player answers incorrectly.
-     */
-    public void closeDoor() {
-        myClosed = true;
-    }
     /**
      * Set the associated question for this door.
      * @param question The question to be associated with this door.
@@ -127,13 +185,13 @@ public class Door implements Serializable, PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if ("myQuestion".equals(theEvent.getPropertyName())) {
+        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
             Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
 
 
             }
-        }
+        }*/
     }
 }

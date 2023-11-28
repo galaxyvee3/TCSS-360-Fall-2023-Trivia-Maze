@@ -2,9 +2,11 @@ package model;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Logger;
-import java.io.*;
 
 /**
  * Room object in the maze.
@@ -28,6 +30,9 @@ public class Room implements PropertyChangeListener, Serializable {
     private static final int EDGE_COUNT = 2;
 
     private static final int INNER_COUNT = 4;
+
+    /** Map of all the Door objects in the Room. */
+    private HashMap<Direction, Door> myDoors;
 
     /** The row of the Room in the Maze. */
     private int myRow;
@@ -57,6 +62,8 @@ public class Room implements PropertyChangeListener, Serializable {
      * Default constructor.
      */
     public Room() {
+        myDoors = new HashMap<Direction, Door>();
+
         myCM = new ClueManager();
         initializeState();
         initializeClue();
@@ -65,14 +72,38 @@ public class Room implements PropertyChangeListener, Serializable {
     }
 
     /**
+     * Get all the Doors in the Room.
+     * @return Doors in Room
+     */
+    public HashMap<Direction, Door> getAllDoors() {
+        return myDoors;
+    }
+
+    /**
+     * Get Door in the specified Direction.
+     * @param theDir Direction of Door
+     * @return Door in specified Direction
+     */
+    public Door getDoor(final Direction theDir) {
+        return myDoors.get(theDir);
+    }
+
+    /**
+     * Add a Door to the Room in a Direction.
+     * @param theDir Direction of Door in Room
+     * @param theDoor Door to be added to Room
+     */
+    public void addDoor(final Direction theDir, final Door theDoor) {
+        myDoors.put(theDir, theDoor);
+    }
+
+    /**
      * Constructs a Room object.
      * @param theRow row of Room in maze
      * @param theColumn column of Room in maze
      */
-    public Room(final int theRow,
-                final int theColumn,
-                final int theRowCnt,
-                final int theColCnt) {
+    public Room(final int theRow, final int theColumn,
+                final int theRowCnt, final int theColCnt) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
 
     }

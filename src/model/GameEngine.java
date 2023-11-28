@@ -1,15 +1,16 @@
 package model;
 
+import view.GameFrame;
+import view.Question;
+import view.QuestionAnswer;
+import view.QuestionPanel;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import view.GameFrame;
-import view.Question;
-import view.QuestionAnswer;
-import view.QuestionPanel;
 
 
 /**
@@ -42,11 +43,8 @@ public class GameEngine implements PropertyChangeListener, Serializable {
     /**
      * Default constructor.
      */
-    public GameEngine(final QuestionAnswer theQA,
-                      final QuestionPanel theQP,
-                      final Question theQuestion,
-                      final Room theRoom,
-                      final Door theDoor) throws SQLException {
+    public GameEngine(final QuestionAnswer theQA, final QuestionPanel theQP, final Question theQuestion,
+                      final Room theRoom, final Door theDoor) throws SQLException {
         super();
         this.myQA = theQA;
         this.myQuestionPanel = theQP;

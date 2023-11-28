@@ -1,7 +1,7 @@
 package view;
 
+import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 /**
  * Class for short answer questions.
@@ -10,9 +10,12 @@ import java.util.regex.Pattern;
  * Trivia Maze - Team 2
  */
 public class ShortAnswerQuestions extends Question {
-//============+Constants====================//
-    /** Logger constant. **/
+//===================Constants====================//
+    /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(ShortAnswerQuestions.class.getName());
+//===================Fields======================//
+
+    private final List <String> myCorrectAnswers;
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
@@ -21,9 +24,11 @@ public class ShortAnswerQuestions extends Question {
     public ShortAnswerQuestions(final String theQuestionText,
                                 final String theAnswerText) {
         super(theQuestionText, theAnswerText);
-        authenticateAnswerWithRegex(theAnswerText);
+        // Retrieve correct answers from the database
+        myCorrectAnswers = QuestionAnswer.getShortAnswers();
+        // Authenticate the provided answer against the correct answers
+        authenticateAnswer(myCorrectAnswers, theAnswerText);
     }
-
     /**
      * Accessor method that returns the question type.
      * @return The question type.
@@ -33,19 +38,16 @@ public class ShortAnswerQuestions extends Question {
         return "short answer";
     }
     /**
-     * Authenticates the user's answer for short answer questions.
-     * Uses regular expressions regex pattern.
-     * @param theAnswer The user's answer to be authenticated.
+     * Authenticate the user's answer for short answer questions.
+     * @param theCorrectAnswer List of correct answers for short answer questions.
+     * @param theUserAnswer The user's answer to be authenticated.
      */
-    public void authenticateAnswerWithRegex(final String theAnswer) {
-        final String regexPattern = "(?i)four|4";
-        final Pattern pattern = Pattern.compile(regexPattern);
-
-        final boolean matches = pattern.matcher(theAnswer).matches();
-
-        if (!matches) {
+    private void authenticateAnswer(final List<String> theCorrectAnswer,
+                                    final String theUserAnswer) {
+        // Implement logic to authenticate against the correct answers
+        if (! theCorrectAnswer.contains(theUserAnswer)) {
             // Log a message indicating an invalid answer
-            LOGGER.warning("Invalid answer format: " + theAnswer);
+            LOGGER.warning("Invalid answer: " + theUserAnswer);
         }
     }
 }

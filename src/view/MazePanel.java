@@ -1,12 +1,19 @@
 package view;
 
+<<<<<<< HEAD
 import model.Maze;
+=======
+import model.Direction;
+>>>>>>> bf6f804a851c073b50f7ffc899660d3759d827b0
 import model.Door;
+import model.Maze;
+import model.Room;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 /**
  * Class creates the visual representation of the Trivia Maze with the rooms and doors.
@@ -49,45 +56,27 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (int rows = 0; rows < MAZE_SIZE; rows++) {
             for (int cols = 0; cols < MAZE_SIZE; cols++) {
-                g2d.fillRect(cols * ROOM_SIZE, rows * ROOM_SIZE, ROOM_SIZE, ROOM_SIZE);
+                g2d.fillRect(cols * ROOM_SIZE, rows * ROOM_SIZE, ROOM_SIZE - 1, ROOM_SIZE - 1);
             }
         }
 
         // draw doors
         g2d.setPaint(new Color(100,75,50));
-
-        // for vertical doors
-        int a = 0;
-        for (Door[] col : myMaze.getVertDoors()) {
-            int b = 0;
-            for (Door door : col) {
-                if (door.getUnlocked()) { // paint door green if unlocked
-                    g2d.setPaint(Color.GREEN);
-                } else if (door.getClosed()) { // paint door red if closed
-                    g2d.setPaint(Color.RED);
+        for(int i = 0; i < MAZE_SIZE; i++) {
+            for(int k = 0; k < MAZE_SIZE; k++) {
+                Room[][] maze = myMaze.getRooms();
+                Room room = maze[i][k];
+                HashMap<Direction, Door> allDoors = room.getAllDoors();
+                for (Direction direction : allDoors.keySet()) {
+                    Door door = room.getDoor(direction);
+                    // TODO: paint doors
+                    /*if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+                        g2d.fillRect(i * ROOM_SIZE, k * ROOM_SIZE, DOOR_SIZE, DOOR_SIZE / 3);
+                    } else {
+                        g2d.fillRect(i * ROOM_SIZE, k * ROOM_SIZE, DOOR_SIZE / 3, DOOR_SIZE);
+                    }*/
                 }
-                g2d.fillRect(a * ROOM_SIZE + 15, (b + 1) * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE/3);
-                g2d.setPaint(new Color(100,75,50)); // reset paint to brown
-                b++;
             }
-            a++;
-        }
-
-        // for horizontal doors
-        int x = 0;
-        for (Door[] row : myMaze.getHorzDoors()) {
-            int y = 0;
-            for (Door door : row) {
-                if (door.getUnlocked()) { // paint door green if unlocked
-                    g2d.setPaint(Color.GREEN);
-                } else if (door.getClosed()) { // paint door red if closed
-                    g2d.setPaint(Color.RED);
-                }
-                g2d.fillRect((x + 1) * ROOM_SIZE - 5, y * ROOM_SIZE + 15, DOOR_SIZE/3, DOOR_SIZE);
-                g2d.setPaint(new Color(100,75,50)); // reset paint to brown
-                y++;
-            }
-            x++;
         }
 
         // draw user current location
@@ -112,12 +101,6 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        /*
-        if (theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_PLAYER_MOVED)
-        || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_UNLOCKED)
-        || theEvent.getPropertyName().equalsIgnoreCase(myMaze.PROPERTY_DOOR_CLOSED)) {
-            repaint();
-        }*/
         if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_UPDATE_MAZE)) {
             repaint();
         }
