@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  * QuestionAnswer class for Trivia Maze.
  * @author Viktoria Dolojan
@@ -148,7 +149,7 @@ public class QuestionAnswer {
         Objects.requireNonNull(param2);
 
         return switch (theType.toLowerCase()) {
-            case "true/false" -> new TrueFalseQuestions(param1, param2);
+            case "true/false" -> new TrueFalseQuestions(param1, parseBoolean(param2));
             case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
             case "short answer" -> new ShortAnswerQuestions(param1, param2);
             default -> {
@@ -157,8 +158,12 @@ public class QuestionAnswer {
             }
         };
     }
+    /** Helper method for true/false questions. */
+    private boolean parseBoolean(final String theValue) {
+        return Boolean.parseBoolean(theValue);
+    }
     /**
-     * Fetch correct answers for short answer questions from the database.
+     * Gets correct answers for short answer questions from the database.
      * @return List of correct answers for short answer questions.
      */
     public static List<String> getAnswers() {

@@ -19,25 +19,12 @@ public class TrueFalseQuestions extends Question{
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
-     * @param theAnswerText Answer text in string.
+     * @param theCorrect Boolean indicating the correct answer.
      */
-    public TrueFalseQuestions(final String theQuestionText, final String theAnswerText) {
-        super(theQuestionText, theAnswerText);
-        myCorrectAnswers = QuestionAnswer.getAnswers();
-        authenticateAnswer(myCorrectAnswers, Boolean.parseBoolean(theAnswerText));
-    }
-    /**
-     * Private constructor for object instantiation using a boolean.
-     *
-     * @param theQuestionText  Question text in string.
-     * @param theCorrect       Boolean indicating the correct answer.
-     * @param myCorrectAnswers
-     */
-    private TrueFalseQuestions(final String theQuestionText,
-                               final boolean theCorrect, List <String> myCorrectAnswers) {
+    public TrueFalseQuestions(final String theQuestionText, final boolean theCorrect) {
         super(theQuestionText, String.valueOf(theCorrect));
-        this.myCorrectAnswers = myCorrectAnswers;
-        Boolean myAnswer = theCorrect;
+        myCorrectAnswers = QuestionAnswer.getAnswers();
+        authenticateAnswer(myCorrectAnswers, theCorrect);
     }
     /**
      * Accessor method that returns the question type.
@@ -49,16 +36,30 @@ public class TrueFalseQuestions extends Question{
     }
     /**
      * Check if the provided answer is correct.
+     * @param theCorrectAnswers A string of correct answers.
      * @param theAnswer The user's answer as a boolean (true/false).
-     * @return true if the answer is correct, false otherwise.
      */
-    public void authenticateAnswer(final List<String> theCorrectAnswer,
-                                      final boolean theAnswer) {
-        if (! theCorrectAnswer.contains(theAnswer)) {
+    public void authenticateAnswer(final List<String> theCorrectAnswers, final boolean theAnswer) {
+        String answerAsString = String.valueOf(theAnswer);
+        System.out.println("Correct Answers: " + theCorrectAnswers);
+        System.out.println("Answer as String: " + answerAsString);
+
+        if (!theCorrectAnswers.contains(answerAsString)) {
             // Log a message indicating an invalid answer
             LOGGER.warning("Invalid answer: " + theAnswer);
         } else {
             LOGGER.info("Success: " + theAnswer);
         }
+    }
+
+    public static void main(String[] args) {
+        TrueFalseQuestions trueFalseQuestions = new TrueFalseQuestions("Is the sky blue?", true);
+
+        // Test a correct answer (assuming 0 represents false in the database)
+        trueFalseQuestions.authenticateAnswer(QuestionAnswer.getAnswers(), false);
+
+        // Test an incorrect answer (assuming 1 represents true in the database)
+        trueFalseQuestions.authenticateAnswer(QuestionAnswer.getAnswers(), true);
+
     }
 }
