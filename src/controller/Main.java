@@ -1,11 +1,9 @@
-<<<<<<<< HEAD:src/model/Main.java
+
 package controller;
 
 import view.GameFrame;
 import view.QuestionDatabase;
 
-========
->>>>>>>> bf6f804a851c073b50f7ffc899660d3759d827b0:src/Main.java
 import javax.swing.SwingUtilities;
 import view.GameFrame;
 import view.QuestionDatabase;
@@ -29,11 +27,7 @@ public final class Main {
     }
 
     /**
-<<<<<<<< HEAD:src/model/Main.java
-     * controller.Main method.
-========
      * Main method.
->>>>>>>> bf6f804a851c073b50f7ffc899660d3759d827b0:src/Main.java
      * @param theArgs command line args
      */
     public static void main(final String[] theArgs) {

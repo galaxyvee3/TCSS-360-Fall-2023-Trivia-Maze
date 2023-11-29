@@ -54,7 +54,7 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = false;
+        myUnlocked = true;
         myClosed = false;
         myQuestion = null;
         myAnswer = null;

@@ -5,6 +5,7 @@ import model.Room;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.*;
 
 /**
  * Maze class for Trivia Maze, Team 2.
@@ -14,19 +15,28 @@ import java.beans.PropertyChangeSupport;
  * Trivia Maze - Team 2
  */
 
-public class Maze {
+public class Maze implements Serializable {
 
     /** Property name for game over. */
-    public static final String PROPERTY_GAME_OVER = "Game over";
+    transient public static final String PROPERTY_GAME_OVER = "Game over";
 
     /** Property name for updating the maze when player has moved or status of doors has changed. */
-    public static final String PROPERTY_UPDATE_MAZE = "Update maze";
+    transient public static final String PROPERTY_UPDATE_MAZE = "Update maze";
 
     /**  Property name for when there is a trivia question. */
-    public static final String PROPERTY_TRIVIA_QUESTION = "Trivia question";
+    transient public static final String PROPERTY_TRIVIA_QUESTION = "Trivia question";
+
+    /** Property name for when the player has saved the games current state. */
+    transient private static final String PROPERTY_SAVE = "GAME SAVED";
+
+    /** Property name for when the player returns to the last saved game state. */
+    transient private static final String PROPERTY_PREV = "PREV GAME STATE";
+
+    /** Property name for when the player has reached the exit and has won the game.*/
+    transient private static final String PROPERTY_WIN = "PLAYER WINS";
 
     /** The size of the maze. */
-    private static final int MAZE_SIZE = 6;
+    transient private static final int MAZE_SIZE = 6;
 
     /** Property change support for the class. */
     private final PropertyChangeSupport myPCS;
@@ -328,6 +338,50 @@ public class Maze {
 
         // game over
         myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
+    }
+
+
+    /**
+     * @author Justin Ho
+     * Saves the current game state to a file.
+     */
+    public void saveGame()
+    {
+        File file = new File("./GameState.txt");
+
+        try
+        {
+            // create a new file with name specified
+            // by the file object
+            file.createNewFile();
+        }
+
+        catch(Exception e)
+        {
+            System.out.println("EXCEPTION, TRIVIA MAZE: " + e);
+        }
+
+        try
+        {
+            FileOutputStream fileStream = new FileOutputStream(file);
+            ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+            // Serialize objects and write them to the file
+            objectStream.writeObject(myMaze);
+            objectStream.writeObject(myCurrentRow);
+            objectStream.writeObject(myCurrentCol);
+            objectStream.writeObject(myGameOver);
+            objectStream.writeObject(myQuestion);
+
+            objectStream.close();
+            fileStream.close();
+
+            // myPCS.firePropertyChange(PROPERTY_SAVE, );
+
+
+        }
+        catch (IOException e) {
+            throw new IllegalArgumentException("FAILED TO SAVE GAME, TRIVIA MAZE CLASS" + " " + e);
+        }
     }
 
     /**

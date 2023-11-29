@@ -1,6 +1,7 @@
 package view;
 
 import model.Maze;
+import model.Room;
 
 import javax.swing.*;
 import java.awt.*;
@@ -204,14 +205,42 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
         JLabel endLabel = new JLabel();
+        JButton newButton = new JButton();
+        JButton newQuit = new JButton();
         if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
+
         } else { // label for when player is trapped
-            endLabel = new JLabel("You could not escape the maze. Try again.");
+            endLabel = new JLabel("You could not escape the maze");
         }
+        newQuit = new JButton("QUIT");
+        newButton = new JButton("PLAY AGAIN");
         endPanel.add(endLabel); // add label to panel
+
+        endPanel.add(newButton); // add buttons to panel
+        endPanel.add(newQuit);
+
         endFrame.add(endPanel); // add panel to frame
         endFrame.setSize(500,100);
+
+        /*
+        newButton.addActionListener(e -> {
+            // save old values for firePropertyChange
+            final Room[][] maze = myMaze;
+            final boolean oldGameOver = myGameOver;
+
+
+            // replace old values with new values
+            myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
+            createRoomsAndDoors();
+            myCurrentRow = 0;
+            myCurrentCol = 0;
+            myGameOver = false;
+        });
+
+         */
+
+        endFrame.setLocationRelativeTo(null); // Make frame in center of screen
         endFrame.setVisible(true); // make frame visible
     }
 
