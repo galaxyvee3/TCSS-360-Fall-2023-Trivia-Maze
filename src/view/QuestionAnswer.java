@@ -44,7 +44,7 @@ public class QuestionAnswer {
      * @return returns a list of the questions.
      */
     public List<Map<String, String>> getQuestions() {
-        return myQuestions;
+        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
     }
 
     /**
@@ -96,6 +96,42 @@ public class QuestionAnswer {
             }
         }
     }
+
+    private List<String> fetchAnswersFromDatabase() {
+        List<String> allAnswers = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            allAnswers.addAll(fetchFromTable(conn, "MultipleChoiceQuestions", ANSWER));
+            allAnswers.addAll(fetchFromTable(conn, "TrueFalseQuestions", ANSWER));
+            allAnswers.addAll(fetchFromTable(conn, "ShortAnswerQuestions", ANSWER));
+        } catch (final SQLException e) {
+            LOGGER.severe("Answer fetch from DB has failed.");
+        }
+
+        return allAnswers;
+    }
+    public static List<String> fetchFromTable(final Connection theConn,
+                                        String... theColumns) throws SQLException {
+        List<String> answers = new ArrayList<>();
+
+        String queryTF = "SELECT " + String.join(", ", theColumns) + " FROM  + TrueFalseQuestions";
+        String queryMC = "SELECT " + String.join(", ", theColumns) + " FROM  + MultipleChoiceQuestions";
+        String querySA = "SELECT " + String.join(", ", theColumns) + " FROM  + ShortAnswerQuestions";
+        try (Statement statement = theConn.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(queryTF)) {
+                statement.executeQuery(queryMC);
+                statement.executeQuery(querySA);
+                while (resultSet.next()) {
+                    for (String column : theColumns) {
+                        answers.add(resultSet.getString(column));
+                    }
+                }
+            }
+        }
+
+        return answers;
+    }
+
     /**
      * Question maker that can be called to create question objects.
      * Factory design.
@@ -125,24 +161,44 @@ public class QuestionAnswer {
      * Fetch correct answers for short answer questions from the database.
      * @return List of correct answers for short answer questions.
      */
-    public static List<String> getShortAnswers() {
-        List<String> shortAnswerCorrectAnswers = new ArrayList<>();
+    public static List<String> getAnswers() {
+        final List<String> correctAnswers = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
 
-            String query = "SELECT ANSWER FROM ShortAnswerQuestions";
-            try (Statement statement = conn.createStatement();
-                 ResultSet resultSet = statement.executeQuery(query)) {
+            final String querySa = "SELECT ANSWER FROM ShortAnswerQuestions";
+            final String queryTF = "SELECT ANSWER FROM TrueFalseQuestions";
+            final String queryMc = "SELECT ANSWER FROM MultipleChoiceQuestions";
 
-                while (resultSet.next()) {
-                    String correctAnswer = resultSet.getString(ANSWER);
-                    shortAnswerCorrectAnswers.add(correctAnswer);
+            try (Statement statementSa = conn.createStatement();
+                 ResultSet resultSetSa = statementSa.executeQuery(querySa)) {
+                while (resultSetSa.next()) {
+                    String correctAnswer = resultSetSa.getString(ANSWER);
+                    correctAnswers.add(correctAnswer);
                 }
             }
+            try (Statement statementTF = conn.createStatement();
+                 ResultSet resultSetTF = statementTF.executeQuery(queryTF)) {
+                while (resultSetTF.next()) {
+                    String correctAnswer = resultSetTF.getString(ANSWER);
+                    correctAnswers.add(correctAnswer);
+                }
+            }
+
+            try (Statement statementMc = conn.createStatement();
+                 ResultSet resultSetMc = statementMc.executeQuery(queryMc)) {
+                while (resultSetMc.next()) {
+                    String correctAnswer = resultSetMc.getString(ANSWER);
+                    correctAnswers.add(correctAnswer);
+                }
+            }
+
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error retrieving ShortAnswer.", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving answers.", e);
         }
-        return shortAnswerCorrectAnswers;
+        return correctAnswers;
     }
+
+
     /**
      * Retrieves a random question from the list of questions.
      * @return a random question.
