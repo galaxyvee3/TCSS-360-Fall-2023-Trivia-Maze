@@ -94,12 +94,10 @@ public class DoorTest {
 
     @Test
     public void testPropertyChange() {
-        Door door = new Door(myRoom1, myRoom2, Direction.SOUTH, Direction.NORTH);
+        myDoor = new Door(myRoom1, myRoom2, Direction.SOUTH, Direction.NORTH);
         PropertyChangeEvent event = new PropertyChangeEvent(this,
                 "myQuestion", null,
                 "New Question");
-
-        door.propertyChange(event);
-
+        myDoor.propertyChange(event);
     }
 }

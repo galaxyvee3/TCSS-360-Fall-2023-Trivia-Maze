@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 import view.GameFrame;
 import view.QuestionDatabase;
@@ -20,7 +21,7 @@ public final class Main {
      * Main method.
      * @param theArgs command line args
      */
-    public static void main(final String[] theArgs) {
+    public static void main(final String[] theArgs) throws SQLException {
         QuestionDatabase.initializeDatabase();
         SwingUtilities.invokeLater(GameFrame::createGUI);
     }
