@@ -1,17 +1,12 @@
 package view;
 
-import controller.Maze;
+import model.Maze;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -52,13 +47,13 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
         // repaint panel based off type of question
         if (myQuestionType.equalsIgnoreCase("multiple choice")) {
-            remove(1); // remove previous answer options
+            //remove(1); // remove previous answer options
 
         } else if (myQuestionType.equalsIgnoreCase("short answer")) {
-            remove(1); // remove previous answer options
+            //remove(1); // remove previous answer options
 
         } else if (myQuestionType.equalsIgnoreCase("true/false")) {
-            remove(1); // remove previous answer options
+            //remove(1); // remove previous answer options
 
         }
     }
@@ -70,12 +65,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
-            String newQuestion = (String) theEvent.getNewValue();
-            myQuestionType = setQuestion(newQuestion);
-            //setCurrentQuestion(newQuestion);
-            repaint(); // Repaint the panel
-        }*/
         // TODO: QUESTIONS ARE NULL
         if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
             String newQuestion = (String) theEvent.getNewValue();
@@ -122,11 +111,12 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 //        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
 //    }
 
-    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
+/*    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
         propertyChangeSupport.addPropertyChangeListener(theListener);
     }
 
     public void removePropertyChangeListener(final PropertyChangeListener theListener) {
         propertyChangeSupport.removePropertyChangeListener(theListener);
     }
+*/
 }

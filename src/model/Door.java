@@ -4,7 +4,8 @@ import view.Question;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Door object in the maze.
@@ -53,11 +54,10 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = true;
+        myUnlocked = false;
         myClosed = false;
         myQuestion = null;
         myAnswer = null;
-
         // add door to rooms
         myRoom1.addDoor(myDir1, this);
         myRoom2.addDoor(myDir2, this);
@@ -185,13 +185,13 @@ public class Door implements Serializable, PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if ("myQuestion".equals(theEvent.getPropertyName())) {
+        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
             Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
 
 
             }
-        }
+        }*/
     }
 }
