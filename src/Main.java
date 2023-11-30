@@ -1,14 +1,7 @@
-<<<<<<<< HEAD:src/model/Main.java
-package controller;
-
 import view.GameFrame;
 import view.QuestionDatabase;
 
-========
->>>>>>>> bf6f804a851c073b50f7ffc899660d3759d827b0:src/Main.java
-import javax.swing.SwingUtilities;
-import view.GameFrame;
-import view.QuestionDatabase;
+import javax.swing.*;
 
 /**
 <<<<<<<< HEAD:src/model/Main.java

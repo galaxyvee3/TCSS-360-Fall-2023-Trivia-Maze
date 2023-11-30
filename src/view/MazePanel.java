@@ -1,10 +1,7 @@
 package view;
 
-<<<<<<< HEAD
-import model.Maze;
-=======
+
 import model.Direction;
->>>>>>> bf6f804a851c073b50f7ffc899660d3759d827b0
 import model.Door;
 import model.Maze;
 import model.Room;
