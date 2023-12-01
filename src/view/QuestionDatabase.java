@@ -1,5 +1,6 @@
 package view;
 
+import java.sql.SQLException;
 import org.sqlite.SQLiteDataSource;
 import java.util.logging.Logger;
 
@@ -12,12 +13,12 @@ import java.util.logging.Logger;
 public final class QuestionDatabase {
     //======================Constants======================//
     /** Logger constant. **/
-    private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
+//    private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
     /** Path for SQLite database. **/
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
 //=====================Fields==========================//
     /** Data source object. **/
-    private static SQLiteDataSource myDs = null;
+    private static SQLiteDataSource myDs;
 
     /**
      * Private constructor.
@@ -29,30 +30,27 @@ public final class QuestionDatabase {
      * Helper method that creates data source.
      * @return returns the data source.
      */
-    private static synchronized SQLiteDataSource createDataSource() {
-        if (myDs == null) {
-            myDs = new SQLiteDataSource();
-            myDs.setUrl(URL);
+    private static SQLiteDataSource createDataSource() {
+        synchronized (SQLiteDataSource.class) {
+            if (myDs == null) {
+                myDs = new SQLiteDataSource();
+                myDs.setUrl(URL);
+            }
+            return myDs;
         }
-        return myDs;
     }
-
     /**
      * Helper method to initialize the database.
      */
-    public static synchronized void initializeDatabase() {
-        try {
-            myDs = createDataSource();
-        } catch (Exception e) {
-            LOGGER.severe("Database initialization has failed" + e);
-        }
+    public static void initializeDatabase() throws SQLException {
+        myDs = createDataSource();
     }
 
     /**
      * Data source accessor method.
      * @return returns public data source.
      */
-    public static synchronized SQLiteDataSource getDataSource() {
+    public static SQLiteDataSource getDataSource() throws SQLException {
         if (myDs == null) {
             initializeDatabase();
         }
