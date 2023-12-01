@@ -203,16 +203,17 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public static void gameOver() {
         final JFrame endFrame = new JFrame("GAME OVER");
-        final JPanel endPanel = new JPanel();
         JLabel endLabel = new JLabel();
         JButton newButton = new JButton();
         JButton newQuit = new JButton();
+        final JPanel endPanel = new JPanel(new GridLayout(2,1)); // panel for game over
         if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
 
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze");
         }
+
         newQuit = new JButton("QUIT");
         newButton = new JButton("PLAY AGAIN");
         endPanel.add(endLabel); // add label to panel
@@ -225,11 +226,28 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
         /*
         newButton.addActionListener(e -> {
+=======
+        final JPanel buttonPanel = new JPanel(new GridLayout(1,2)); // panel for buttons
+        final JButton gameButton = new JButton("Play Again");
+        final JButton quitButton = new JButton("Quit");
+        buttonPanel.add(gameButton);
+        buttonPanel.add(quitButton);
+        endPanel.add(endLabel);
+        endPanel.add(buttonPanel);
+        endFrame.add(endPanel);
+        endFrame.setSize(300,100);
+
+        /*
+        gameButton.addActionListener(e -> {
+>>>>>>> cc2c83571acaf783875113a846529f537f71b592
             // save old values for firePropertyChange
             final Room[][] maze = myMaze;
             final boolean oldGameOver = myGameOver;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> cc2c83571acaf783875113a846529f537f71b592
             // replace old values with new values
             myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
             createRoomsAndDoors();
@@ -301,7 +319,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * @version Fall 2023.
      */
     private static class MovePlayer extends KeyAdapter {
-
         @Override
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys

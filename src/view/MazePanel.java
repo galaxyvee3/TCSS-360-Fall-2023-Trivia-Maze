@@ -66,12 +66,26 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 HashMap<Direction, Door> allDoors = room.getAllDoors();
                 for (Direction direction : allDoors.keySet()) {
                     Door door = room.getDoor(direction);
-                    // TODO: paint doors
-                    /*if (direction == Direction.NORTH || direction == Direction.SOUTH) {
-                        g2d.fillRect(i * ROOM_SIZE, k * ROOM_SIZE, DOOR_SIZE, DOOR_SIZE / 3);
+                    if (door.getUnlocked()) {
+                        // draw nothing if door is unlocked
                     } else {
-                        g2d.fillRect(i * ROOM_SIZE, k * ROOM_SIZE, DOOR_SIZE / 3, DOOR_SIZE);
-                    }*/
+                        // set paint
+                        if (door.getClosed()) { // red for closed doors
+                            g2d.setPaint(Color.RED);
+                        } else { // brown for undiscovered doors
+                            g2d.setPaint(new Color(100,75,50));
+                        }
+                        // draw doors
+                        if (direction.equals(Direction.NORTH)) {
+                            g2d.fillRect(k * ROOM_SIZE + 15, i * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
+                        } else if (direction == Direction.SOUTH) {
+                            g2d.fillRect(k * ROOM_SIZE + 15, (i + 1) * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
+                        } else if (direction == Direction.WEST) {
+                            g2d.fillRect(k * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                        } else if (direction == Direction.EAST) {
+                            g2d.fillRect((k + 1) * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                        }
+                    }
                 }
             }
         }
@@ -81,16 +95,6 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         g2d.fillOval(curCol * ROOM_SIZE + 15, curRow * ROOM_SIZE + 15, DOOR_SIZE, DOOR_SIZE);
     }
 
-    /*
-    // draw locked doors which gonna be red
-    private void initializeLockedDoors () {
-        Random random = new Random();
-        int numberOfRedDoors = random.nextInt((MAZE_SIZE * MAZE_SIZE)/2);
-        int row = random.nextInt(MAZE_SIZE);
-        int column = random.nextInt(MAZE_SIZE);
-        myMaze.[row][column].c
-    }
-    */
     /**
      * Repaint maze whenever player has moved within the maze and when a door is unlocked or closed.
      * @param theEvent A PropertyChangeEvent object describing the event source

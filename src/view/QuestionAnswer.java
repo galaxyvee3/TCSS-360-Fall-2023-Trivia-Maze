@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  * QuestionAnswer class for Trivia Maze.
@@ -29,13 +31,13 @@ public class QuestionAnswer {
     /** Random constant. */
     private static final Random RANDOM = new Random();
 //================Fields====================//
-    private final List<Map<String, String>> myQuestions;
+    private static final List<Map<String, String>> myQuestions  = new ArrayList<>();
 
     /**
      * Public constructor.
      */
     public QuestionAnswer() {
-        myQuestions = new ArrayList<>();
+
         fetchQuestionsFromDatabase();
     }
 
@@ -44,7 +46,7 @@ public class QuestionAnswer {
      * @return returns a list of the questions.
      */
     public List<Map<String, String>> getQuestions() {
-        return myQuestions;
+        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
     }
 
     /**
@@ -53,21 +55,21 @@ public class QuestionAnswer {
     private void fetchQuestionsFromDatabase() {
         try (Connection conn = DriverManager.getConnection(URL)) {
             fetchQuestionsFromTable(conn,
-                                    "MultipleChoiceQuestions",
-                                    QUESTION_ID,
-                                    QUESTION,
-                                    "choiceA",
-                                    "choiceB",
-                                    "choiceC",
-                                    ANSWER);
+                    "MultipleChoiceQuestions",
+                    QUESTION_ID,
+                    QUESTION,
+                    "choiceA",
+                    "choiceB",
+                    "choiceC",
+                    ANSWER);
             fetchQuestionsFromTable(conn, "TrueFalseQuestions",
-                                    QUESTION_ID,
-                                    QUESTION,
-                                    ANSWER);
+                    QUESTION_ID,
+                    QUESTION,
+                    ANSWER);
             fetchQuestionsFromTable(conn, "ShortAnswerQuestions",
-                                    QUESTION_ID,
-                                    QUESTION,
-                                    ANSWER);
+                    QUESTION_ID,
+                    QUESTION,
+                    ANSWER);
         } catch (final SQLException e) {
             LOGGER.severe("Question fetch from DB has failed.");
         }
@@ -83,12 +85,13 @@ public class QuestionAnswer {
     private void fetchQuestionsFromTable(final Connection theConn,
                                          final String tableName,
                                          final String... columns) throws SQLException {
+        final Map<String, String> question = new ConcurrentHashMap <>();
         final String query = "SELECT " + String.join(", ", columns) + " FROM " + tableName;
         try (Statement statement = theConn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
-                final Map<String, String> question = new HashMap<>();
+
                 for (final String column : columns) {
                     question.put(column, resultSet.getString(column));
                 }
@@ -96,58 +99,99 @@ public class QuestionAnswer {
             }
         }
     }
+
+    private List<String> fetchAnswersFromDatabase() {
+        final List<String> allAnswers = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            allAnswers.addAll(fetchFromTable(conn, "MultipleChoiceQuestions", ANSWER));
+            allAnswers.addAll(fetchFromTable(conn, "TrueFalseQuestions", ANSWER));
+            allAnswers.addAll(fetchFromTable(conn, "ShortAnswerQuestions", ANSWER));
+        } catch (final SQLException e) {
+            LOGGER.severe("Answer fetch from DB has failed.");
+        }
+
+        return allAnswers;
+    }
+    public static List<String> fetchFromTable(final Connection theConn,
+                                        final String... theColumns) throws SQLException {
+        final List<String> answers = new ArrayList<>();
+
+        String queryTF = "SELECT " + String.join(", ", theColumns) + " FROM  + TrueFalseQuestions";
+        String queryMC = "SELECT " + String.join(", ", theColumns) + " FROM  + MultipleChoiceQuestions";
+        String querySA = "SELECT " + String.join(", ", theColumns) + " FROM  + ShortAnswerQuestions";
+        try (Statement statement = theConn.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(queryTF)) {
+                statement.executeQuery(queryMC);
+                statement.executeQuery(querySA);
+                while (resultSet.next()) {
+                    for (String column : theColumns) {
+                        answers.add(resultSet.getString(column));
+                    }
+                }
+            }
+        }
+        return answers;
+    }
+
     /**
      * Question maker that can be called to create question objects.
      * Factory design.
      * @param theType the question type.
-     * @param param1 the question in string.
-     * @param param2 the answer in string.
+     * @param theQuestion the question in string.
+     * @param theAnswer the answer in string.
      * @return returns Question - type object.
      */
     public Question createQuestion(final String theType,
-                                   final String param1,
-                                   final String param2) throws SQLException {
+                                   final String theQuestion,
+                                   final String theAnswer) throws SQLException {
         Objects.requireNonNull(theType);
-        Objects.requireNonNull(param1);
-        Objects.requireNonNull(param2);
+        Objects.requireNonNull(theQuestion);
+        Objects.requireNonNull(theAnswer);
 
-        return switch (theType.toLowerCase()) {
-            case "true/false" -> new TrueFalseQuestions(param1, param2);
-            case "multiple choice" -> new MultipleChoiceQuestions(param1, param2);
-            case "short answer" -> new ShortAnswerQuestions(param1, param2);
+        return switch (theType.toLowerCase(Locale.getDefault())) {
+            case "true/false" -> new TrueFalseQuestions(theQuestion, parseBoolean(theAnswer));
+            case "multiple choice" -> new MultipleChoiceQuestions(theQuestion, theAnswer);
+            case "short answer" -> new ShortAnswerQuestions(theQuestion, theAnswer);
             default -> {
                 LOGGER.severe( "Invalid question type: " + theType);
                 throw new IllegalArgumentException("Invalid question type: " + theType);
             }
         };
     }
+    /** Helper method for true/false questions. */
+    private boolean parseBoolean(final String theValue) {
+        return Boolean.parseBoolean(theValue);
+    }
     /**
-     * Fetch correct answers for short answer questions from the database.
-     * @return List of correct answers for short answer questions.
+     * Gets correct answers from the database.
+     * @return List of correct answers for the questions.
      */
-    public static List<String> getShortAnswers() {
-        List<String> shortAnswerCorrectAnswers = new ArrayList<>();
+    public static List<String> getAnswers() {
+        List<String> correctAnswers = new ArrayList<>();
+        final String[] tableNames = {"ShortAnswerQuestions", "TrueFalseQuestions", "MultipleChoiceQuestions"};
+
         try (Connection conn = DriverManager.getConnection(URL)) {
-
-            String query = "SELECT ANSWER FROM ShortAnswerQuestions";
-            try (Statement statement = conn.createStatement();
-                 ResultSet resultSet = statement.executeQuery(query)) {
-
-                while (resultSet.next()) {
-                    String correctAnswer = resultSet.getString(ANSWER);
-                    shortAnswerCorrectAnswers.add(correctAnswer);
+            for (String tableName : tableNames) {
+                String query = "SELECT ANSWER FROM " + tableName;
+                try (Statement statement = conn.createStatement();
+                     ResultSet resultSet = statement.executeQuery(query)) {
+                    while (resultSet.next()) {
+                        String correctAnswer = resultSet.getString(ANSWER);
+                        correctAnswers.add(correctAnswer);
+                    }
                 }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error retrieving ShortAnswer.", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving answers.", e);
         }
-        return shortAnswerCorrectAnswers;
+        return correctAnswers;
     }
+
     /**
      * Retrieves a random question from the list of questions.
      * @return a random question.
      */
-    public String getQuestionFromDatabase() {
+    public static String getQuestionFromDatabase() {
         if (! myQuestions.isEmpty()) {
             Map<String, String> questionData = getRandomQuestion();
             return questionData.get(QUESTION);
@@ -159,7 +203,7 @@ public class QuestionAnswer {
      * Get a random question from the database.
      * @return A map containing the question data.
      */
-    public Map<String, String> getRandomQuestion() {
+    public static Map<String, String> getRandomQuestion() {
         if (myQuestions.isEmpty()) {
             return Collections.emptyMap();
         }

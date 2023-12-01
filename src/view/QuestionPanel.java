@@ -11,7 +11,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
  * @author Viktoria Dolojan
- * @author rick_adams
+ * @author Rick Adams
  * @version Fall 2023
  * Trivia Maze - Team 2
  */

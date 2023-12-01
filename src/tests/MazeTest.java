@@ -1,6 +1,5 @@
 package tests;
 
-import model.Maze;
 import model.Direction;
 import model.Door;
 import model.Maze;
@@ -39,6 +38,21 @@ public class MazeTest {
         Room roomRight = allRooms[0][1];
         Room roomBelow = allRooms[1][0];
         HashMap<Direction, Door> expectedValue = new HashMap<Direction, Door>();
+        expectedValue.put(Direction.EAST, new Door(room, roomRight, Direction.EAST, Direction.WEST));
+        expectedValue.put(Direction.SOUTH, new Door(room, roomBelow, Direction.SOUTH, Direction.NORTH));
+        assertEquals(expectedValue, room.getAllDoors());
+    }
+
+    @Test
+    void testCheckDoorsInRoom01() {
+        Maze maze = new Maze();
+        Room[][] allRooms = maze.getRooms();
+        Room room = allRooms[0][1];
+        Room roomLeft = allRooms[0][0];
+        Room roomRight = allRooms[0][2];
+        Room roomBelow = allRooms[1][0];
+        HashMap<Direction, Door> expectedValue = new HashMap<Direction, Door>();
+        expectedValue.put(Direction.WEST, new Door(room, roomLeft, Direction.WEST, Direction.EAST));
         expectedValue.put(Direction.EAST, new Door(room, roomRight, Direction.EAST, Direction.WEST));
         expectedValue.put(Direction.SOUTH, new Door(room, roomBelow, Direction.SOUTH, Direction.NORTH));
         assertEquals(expectedValue, room.getAllDoors());
