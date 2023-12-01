@@ -1,6 +1,5 @@
 package view;
 
-
 import model.Direction;
 import model.Door;
 import model.Maze;

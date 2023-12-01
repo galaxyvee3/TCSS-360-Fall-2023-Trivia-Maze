@@ -272,7 +272,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * @version Fall 2023.
      */
     private static class MovePlayer extends KeyAdapter {
-
         @Override
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys

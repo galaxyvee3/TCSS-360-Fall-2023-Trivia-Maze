@@ -19,8 +19,7 @@ import java.util.logging.Logger;
 public class Room implements PropertyChangeListener, Serializable {
 
     @Serial
-    private static final long serialVersionUID =
-            2L;
+    private static final long serialVersionUID = 2L;
 
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
@@ -43,7 +42,7 @@ public class Room implements PropertyChangeListener, Serializable {
     private int myColumn;
 
     private int myColCnt;
-    
+
     /** Boolean for whether the door is locked. */
     private boolean myDoorLocked;
 
