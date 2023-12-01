@@ -31,7 +31,7 @@ public class QuestionAnswer {
     /** Random constant. */
     private static final Random RANDOM = new Random();
 //================Fields====================//
-    private static final List<Map<String, String>> myQuestions  = new ArrayList<>();;
+    private static final List<Map<String, String>> myQuestions  = new ArrayList<>();
 
     /**
      * Public constructor.
@@ -114,7 +114,7 @@ public class QuestionAnswer {
     }
     public static List<String> fetchFromTable(final Connection theConn,
                                         final String... theColumns) throws SQLException {
-        List<String> answers = new ArrayList<>();
+        final List<String> answers = new ArrayList<>();
 
         String queryTF = "SELECT " + String.join(", ", theColumns) + " FROM  + TrueFalseQuestions";
         String queryMC = "SELECT " + String.join(", ", theColumns) + " FROM  + MultipleChoiceQuestions";
