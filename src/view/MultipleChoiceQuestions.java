@@ -1,6 +1,7 @@
 package view;
 
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Class for multiple choice questions.
@@ -9,8 +10,11 @@ import java.util.regex.Pattern;
  * Trivia Maze - Team 2
  */
 public class MultipleChoiceQuestions extends Question {
+    //======================Constants======================//
+    /** Logger constant. **/
+    private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
-
+    private final List <String> myCorrectAnswers;
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
@@ -19,7 +23,8 @@ public class MultipleChoiceQuestions extends Question {
     public MultipleChoiceQuestions(final String theQuestionText,
                                    final String theAnswerText) {
         super(theQuestionText, theAnswerText);
-        validateAnswer();
+        myCorrectAnswers = QuestionAnswer.getAnswers();
+        validateAnswer(myCorrectAnswers, theAnswerText);
     }
 
     /**
@@ -33,11 +38,13 @@ public class MultipleChoiceQuestions extends Question {
     /**
      * Validate that the answer is a single uppercase letter.
      */
-    private void validateAnswer() {
-        final Pattern letterPattern = Pattern.compile("^[A-Z]$");
-        if (!letterPattern.matcher(getAnswer()).matches()) {
-            throw new IllegalArgumentException("Invalid answer format : "
-                                               + getAnswer());
+    protected void validateAnswer(final List<String> theCorrectAnswer, final String theUserAnswer) {
+        if (theCorrectAnswer.size() == 1 && theCorrectAnswer.contains(theUserAnswer)) {
+            // Log a message indicating a correct answer
+            LOGGER.info("Success: " + theUserAnswer);
+        } else {
+            // Log a message indicating an invalid answer
+            LOGGER.warning("Invalid answer: " + theUserAnswer);
         }
     }
 }
