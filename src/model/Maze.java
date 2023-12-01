@@ -371,11 +371,10 @@ public class Maze implements Serializable {
             objectStream.writeObject(myCurrentCol);
             objectStream.writeObject(myGameOver);
             objectStream.writeObject(myQuestion);
-
             objectStream.close();
             fileStream.close();
 
-            // myPCS.firePropertyChange(PROPERTY_SAVE, );
+            myPCS.firePropertyChange(PROPERTY_SAVE, null, myMaze);
 
 
         }
