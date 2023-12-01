@@ -54,21 +54,22 @@ public class QuestionAnswer {
      */
     private void fetchQuestionsFromDatabase() {
         try (Connection conn = DriverManager.getConnection(URL)) {
-            fetchQuestionsFromTable(conn, String.valueOf(QuestionType.MULTIPLE_CHOICE),
-                                    QUESTION_ID,
-                                    QUESTION,
-                                    "choiceA",
-                                    "choiceB",
-                                    "choiceC",
-                                    ANSWER);
-            fetchQuestionsFromTable(conn, String.valueOf(QuestionType.TRUE_FALSE),
-                                    QUESTION_ID,
-                                    QUESTION,
-                                    ANSWER);
-            fetchQuestionsFromTable(conn, String.valueOf(QuestionType.SHORT_ANSWER),
-                                    QUESTION_ID,
-                                    QUESTION,
-                                    ANSWER);
+            fetchQuestionsFromTable(conn,
+                    "MultipleChoiceQuestions",
+                    QUESTION_ID,
+                    QUESTION,
+                    "choiceA",
+                    "choiceB",
+                    "choiceC",
+                    ANSWER);
+            fetchQuestionsFromTable(conn, "TrueFalseQuestions",
+                    QUESTION_ID,
+                    QUESTION,
+                    ANSWER);
+            fetchQuestionsFromTable(conn, "ShortAnswerQuestions",
+                    QUESTION_ID,
+                    QUESTION,
+                    ANSWER);
         } catch (final SQLException e) {
             LOGGER.severe("Question fetch from DB has failed.");
         }
