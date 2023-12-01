@@ -202,16 +202,41 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public static void gameOver() {
         final JFrame endFrame = new JFrame("GAME OVER");
-        final JPanel endPanel = new JPanel();
-        JLabel endLabel = new JLabel();
+        final JPanel endPanel = new JPanel(new GridLayout(2,1)); // panel for game over
+        JLabel endLabel;
         if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
+
         } else { // label for when player is trapped
-            endLabel = new JLabel("You could not escape the maze. Try again.");
+            endLabel = new JLabel("You could not escape the maze");
         }
-        endPanel.add(endLabel); // add label to panel
-        endFrame.add(endPanel); // add panel to frame
-        endFrame.setSize(500,100);
+        final JPanel buttonPanel = new JPanel(new GridLayout(1,2)); // panel for buttons
+        final JButton gameButton = new JButton("Play Again");
+        final JButton quitButton = new JButton("Quit");
+        buttonPanel.add(gameButton);
+        buttonPanel.add(quitButton);
+        endPanel.add(endLabel);
+        endPanel.add(buttonPanel);
+        endFrame.add(endPanel);
+        endFrame.setSize(300,100);
+
+        /*
+        gameButton.addActionListener(e -> {
+            // save old values for firePropertyChange
+            final Room[][] maze = myMaze;
+            final boolean oldGameOver = myGameOver;
+
+            // replace old values with new values
+            myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
+            createRoomsAndDoors();
+            myCurrentRow = 0;
+            myCurrentCol = 0;
+            myGameOver = false;
+        });
+
+         */
+
+        endFrame.setLocationRelativeTo(null); // Make frame in center of screen
         endFrame.setVisible(true); // make frame visible
     }
 
