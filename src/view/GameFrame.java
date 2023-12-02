@@ -1,15 +1,9 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import model.Maze;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -49,16 +43,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
-//        showDifficultyMenu(); // show game difficulty menu
         setFocusable(true);
         requestFocus();
         setVisible(true); // make frame visible
     }
-
-//    public GameFrame(PropertyChangeSupport myChangeSupport) {
-//        super();
-//        this.myChangeSupport = myChangeSupport;
-//    }
 
     /**
      * Helps add details to the game frame.
@@ -145,77 +133,28 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     }
 
     /**
-     * Enum for game difficulty levels.
-     */
-    private enum difficultyLevel {
-        EASY, MEDIUM, HARD
-    }
-
-    /**
-     * Method to set the game difficulty based on the user's selection
-     * Adjust game parameters based on difficulty
-     **/
-//    private void setDifficulty (difficultyLevel level) {
-//        switch(level) {
-//            case EASY:
-//                break;
-//            // Code here
-//            case MEDIUM:
-//                break;
-//
-//            case HARD:
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
-
-    /**
-     * Shows GUI for the game difficulty levels menu.
-     */
-//    private void showDifficultyMenu() {
-//        Object[] options = {"Easy", "Medium", "Hard"};
-//        int choice = JOptionPane.showOptionDialog(
-//                null,
-//                "Select Difficulty",
-//                "Difficulty Selection",
-//                JOptionPane.DEFAULT_OPTION,
-//                JOptionPane.QUESTION_MESSAGE,
-//                null,
-//                options,
-//                options[0]
-//        );
-//
-//        switch (choice) {
-//            case 0:
-//                setDifficulty(difficultyLevel.EASY);
-//                break;
-//            case 1:
-//                setDifficulty(difficultyLevel.MEDIUM);
-//                break;
-//            case 2:
-//                setDifficulty(difficultyLevel.HARD);
-//                break;
-//            default:
-//                throw new IllegalStateException("Not a valid option.");
-//        }
-//    }
-//
-    /**
      * Game over menu for whether player cannot move anymore or has escaped the maze.
      */
     public static void gameOver() {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
         JLabel endLabel = new JLabel();
-        if (ESCAPE) { // label for when player successfully escaped
+        if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze. Try again.");
         }
-        endFrame.setSize(100,100);
-        endFrame.setVisible(true);
+        final JPanel buttonPanel = new JPanel(new GridLayout(1,2)); // panel for buttons
+        final JButton gameButton = new JButton("Play Again");
+        final JButton quitButton = new JButton("Quit");
+        buttonPanel.add(gameButton);
+        buttonPanel.add(quitButton);
+        endPanel.add(endLabel);
+        endPanel.add(buttonPanel);
+        endFrame.add(endPanel);
+        endFrame.setSize(300,100);
+        endFrame.setLocationRelativeTo(null); // make frame in center of screen
+        endFrame.setVisible(true); // show frame
     }
 
     /**
@@ -226,7 +165,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final GameFrame mazeFrame = new GameFrame(); // frame for game
         final MazePanel mazePanel = new MazePanel(myMaze); // panel for maze
         QuestionAnswer questionAnswer = new QuestionAnswer();
-        //qPanel = new QuestionPanel(); // panel for trivia questions
         final QuestionPanel qPanel = new QuestionPanel();
 
         gamePanel.add(mazePanel, BorderLayout.CENTER); // add maze panel to game panel
@@ -264,12 +202,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         String propertyName = theEvent.getPropertyName();
         if (propertyName.equals(Maze.PROPERTY_GAME_OVER)) {
             myGameOver = (boolean) theEvent.getNewValue();
-            boolean escaped = myMaze.getEscapeStatus();
-            gameOver(escaped);
-        } else if (propertyName.equals(QuestionPanel.PROPERTY_CURRENT_QUESTION)) {
+            //boolean escaped = myMaze.getEscapeStatus();
+            gameOver();
+        } /*else if (propertyName.equals(QuestionPanel.PROPERTY_CURRENT_QUESTION)) {
             String currentQuestion = (String) theEvent.getNewValue();
             askQuestion(currentQuestion);
-        }
+        }*/
     }
 
 
