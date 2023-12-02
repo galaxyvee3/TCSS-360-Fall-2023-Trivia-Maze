@@ -26,9 +26,9 @@ public class Room implements PropertyChangeListener, Serializable {
     /** Random object. */
     private static final Random RANDOM = new Random();
 
-    private static final int EDGE_COUNT = 2;
+    transient private static final int EDGE_COUNT = 2;
 
-    private static final int INNER_COUNT = 4;
+    transient private static final int INNER_COUNT = 4;
 
     /** Map of all the Door objects in the Room. */
     private HashMap<Direction, Door> myDoors;
