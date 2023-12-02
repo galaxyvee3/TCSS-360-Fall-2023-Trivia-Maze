@@ -1,10 +1,13 @@
-package model;
+package controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import model.Door;
+import model.Maze;
+import model.Room;
 import view.GameFrame;
 import view.Question;
 import view.QuestionAnswer;

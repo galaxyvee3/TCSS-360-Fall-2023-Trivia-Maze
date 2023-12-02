@@ -261,42 +261,11 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        String propertyName = theEvent.getPropertyName();
-        if (propertyName.equals(Maze.PROPERTY_GAME_OVER)) {
+        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER)) {
             myGameOver = (boolean) theEvent.getNewValue();
-            boolean escaped = myMaze.getEscapeStatus();
-            gameOver(escaped);
-        } else if (propertyName.equals(QuestionPanel.PROPERTY_CURRENT_QUESTION)) {
-            String currentQuestion = (String) theEvent.getNewValue();
-            askQuestion(currentQuestion);
+            gameOver();
         }
     }
-
-    private void askQuestion(String currentQuestion) {
-        int option = JOptionPane.showConfirmDialog(
-                this,
-                "Answer the following question:\n\n" + question,
-                "Trivia Question",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        // Handle user's answer
-        if (option == JOptionPane.YES_OPTION) {
-            // User answered yes
-            handleCorrectAnswer();
-        } else {
-            // User answered no
-            handleIncorrectAnswer();
-        }
-    }
-
-    private void handleIncorrectAnswer() {
-    }
-
-    private void handleCorrectAnswer() {
-    }
-
-
     /**
      * Private class that allows the player to traverse the maze using the keyboard.
      * @author Viktoria Dolojan
