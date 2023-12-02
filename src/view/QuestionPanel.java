@@ -16,6 +16,7 @@ import java.beans.PropertyChangeSupport;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
+    public static final String PROPERTY_CURRENT_QUESTION = "Next question";
     /** Property change support for the class. */
     private final PropertyChangeSupport propertyChangeSupport;
 
