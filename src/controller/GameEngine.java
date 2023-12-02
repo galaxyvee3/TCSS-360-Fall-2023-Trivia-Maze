@@ -57,11 +57,6 @@ public class GameEngine implements PropertyChangeListener {
         this.myDoor = theDoor;
         myMaze = new Maze();
         myQuestionPanel = (QuestionPanel) myGFrame.getQuestionPanel();
-//        myPCS = new PropertyChangeSupport(this);
-//        myQuestionPanel.addPropertyChangeListener(this);
-//
-//        myQuestionPanel.addPropertyChangeListener(myRoom);
-//        myQuestionPanel.addPropertyChangeListener(myDoor);
         showNextQuestion();
     }
 
