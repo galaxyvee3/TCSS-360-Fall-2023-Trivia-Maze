@@ -22,6 +22,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     private static Maze myMaze;
 
     private static QuestionPanel qPanel;
+
     private final PropertyChangeSupport myChangeSupport;
 
     private static JFrame myGameFrame;
@@ -189,7 +190,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     }
 
     public void saveAndLoad() {
-
     }
 
     /**
