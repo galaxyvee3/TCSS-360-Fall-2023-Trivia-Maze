@@ -18,7 +18,9 @@ import java.util.Map;
  * @version Fall 2023
  */
 public class GameFrame extends JFrame implements PropertyChangeListener {
-    /** The current Trivia Maze being played. */
+    /**
+     * The current Trivia Maze being played.
+     */
     private static Maze myMaze;
 
     private static QuestionPanel qPanel;
@@ -27,10 +29,14 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     private static JFrame myGameFrame;
 
-    /** Boolean for whether the game is over. */
+    /**
+     * Boolean for whether the game is over.
+     */
     private static boolean myGameOver = true;
 
-    /** Boolean for whether player has escaped the maze. */
+    /**
+     * Boolean for whether player has escaped the maze.
+     */
     private static final boolean ESCAPE = false;
 
     private static final Dimension DIMENSION = new Dimension(600, 600);
@@ -64,6 +70,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * Create the menu bar for the Trivia Maze frame.
+     *
      * @return JMenuBar
      */
     public JMenuBar menuBarHelper() {
@@ -78,6 +85,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * GUI for game file menu.
+     *
      * @return JMenu menu for game file
      */
     private static JMenu fileMenu() {
@@ -97,6 +105,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * GUI for game information menu.
+     *
      * @return JMenu menu for game info
      */
     private static JMenu infoMenu() {
@@ -145,7 +154,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze. Try again.");
         }
-        final JPanel buttonPanel = new JPanel(new GridLayout(1,2)); // panel for buttons
+        final JPanel buttonPanel = new JPanel(new GridLayout(1, 2)); // panel for buttons
         final JButton gameButton = new JButton("Play Again");
         final JButton quitButton = new JButton("Quit");
         buttonPanel.add(gameButton);
@@ -153,7 +162,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         endPanel.add(endLabel);
         endPanel.add(buttonPanel);
         endFrame.add(endPanel);
-        endFrame.setSize(300,100);
+        endFrame.setSize(300, 100);
         endFrame.setLocationRelativeTo(null); // make frame in center of screen
         endFrame.setVisible(true); // show frame
     }
@@ -172,7 +181,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         gamePanel.add(qPanel, BorderLayout.SOUTH); // add question panel to game panel
         mazeFrame.add(gamePanel); // add game panel to frame
 
-        Map<String, String>randomQuestion = QuestionAnswer.getRandomQuestion();
+        Map<String, String> randomQuestion = QuestionAnswer.getRandomQuestion();
 
         // Set the question on the QuestionPanel
         if (!randomQuestion.isEmpty()) {
@@ -194,8 +203,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * Show game over GUI when player has completed the game, either in success or failure.
+     *
      * @param theEvent A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     *                 and the property that has changed.
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
@@ -209,7 +219,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             askQuestion(currentQuestion);
         }*/
     }
-
 
     /**
      * Private class that allows the player to traverse the maze using the keyboard.
@@ -229,6 +238,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 System.out.println(myMaze.moveLeft());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
                 System.out.println(myMaze.moveRight());
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_N) { // cheat: unlock door
+                System.out.println(myMaze.unlockDoor());
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_M) { // cheat: close door
+                System.out.println(myMaze.closeDoor());
             }
         }
     }

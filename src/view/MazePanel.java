@@ -66,9 +66,8 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 HashMap<Direction, Door> allDoors = room.getAllDoors();
                 for (Direction direction : allDoors.keySet()) {
                     Door door = room.getDoor(direction);
-                    if (door.getUnlocked()) {
-                        System.out.println("Door unlocked"); // draw nothing if door is unlocked
-                    } else { // set paint
+                    if (!door.getUnlocked()) {
+                        // set paint
                         if (door.getClosed()) { // red for closed doors
                             g2d.setPaint(Color.RED);
                         } else { // brown for undiscovered doors
