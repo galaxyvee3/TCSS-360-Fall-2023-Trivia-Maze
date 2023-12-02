@@ -22,7 +22,7 @@ public final class Main {
      * @param theArgs command line args
      */
     public static void main(final String[] theArgs) throws SQLException {
-        QuestionDatabase.initializeDatabase();
+//        QuestionDatabase.initializeDatabase();
         SwingUtilities.invokeLater(GameFrame::createGUI);
     }
 }

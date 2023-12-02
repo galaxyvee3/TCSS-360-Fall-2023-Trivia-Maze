@@ -72,7 +72,7 @@ public class Maze {
     /**
      * Fill arrays with rooms and doors in the maze.
      */
-    public void createRoomsAndDoors() {
+    private void createRoomsAndDoors() {
         // fill maze with rooms
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int k = 0; k < MAZE_SIZE; k++) {
