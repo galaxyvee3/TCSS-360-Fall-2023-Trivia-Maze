@@ -1,8 +1,5 @@
 package model;
 
-import model.Door;
-import model.Room;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
@@ -234,16 +231,16 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move up
                 setMyCurrentRow(getMyCurrentRow() - 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved up." + getMyCurrentRow();
-            } else if (doorClosed(door)) { // closed door, dont move
-                return "Door is closed.";
+                return "Moved up " + getMyCurrentRow();
+            } else if (doorClosed(door)) { // closed door, don't move
+                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked.";
+                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentRow(getMyCurrentRow());
-            return "Edge of maze.";
+            return "Edge of maze";
         }
     }
 
@@ -258,16 +255,16 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move down
                 setMyCurrentRow(getMyCurrentRow() + 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved down." + getMyCurrentRow();
-            } else if (doorClosed(door)) { // closed door, dont move
-                return "Door is closed.";
+                return "Moved down " + getMyCurrentRow();
+            } else if (doorClosed(door)) { // closed door, don't move
+                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
                 return "Door is locked.";
             }
         } else { // prevent player from leaving maze
             setMyCurrentRow(getMyCurrentRow());
-            return "Edge of maze.";
+            return "Edge of maze";
         }
     }
 
@@ -282,16 +279,16 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move left
                 setMyCurrentCol(getMyCurrentCol() - 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved left." + getMyCurrentCol();
-            } else if (doorClosed(door)) { // closed door, dont move
-                return "Door is closed.";
+                return "Moved left " + getMyCurrentCol();
+            } else if (doorClosed(door)) { // closed door, don't move
+                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked.";
+                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentCol(getMyCurrentCol());
-            return "Edge of maze.";
+            return "Edge of maze";
         }
     }
 
@@ -306,16 +303,16 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move right
                 setMyCurrentCol(getMyCurrentCol() + 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved right." + getMyCurrentCol();
-            } else if (doorClosed(door)) { // closed door, dont move
-                return "Door is closed.";
+                return "Moved right " + getMyCurrentCol();
+            } else if (doorClosed(door)) { // closed door, don't move
+                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked.";
+                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentCol(getMyCurrentCol());
-            return "Edge of maze.";
+            return "Edge of maze";
         }
     }
 
@@ -405,7 +402,6 @@ public class Maze implements Serializable {
      * Checks if player is trapped in the maze because all possible doors are locked.
      */
     public void gameOverFail() {
-
     }
 
     /**

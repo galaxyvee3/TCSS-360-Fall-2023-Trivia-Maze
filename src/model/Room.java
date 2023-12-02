@@ -43,7 +43,7 @@ public class Room implements PropertyChangeListener, Serializable {
 
     private int myColCnt;
 
-    /** Boolean for whether the door is locked. */
+    /** Boolean for whether the Door is locked. */
     private boolean myDoorLocked;
 
     /** Boolean for whether the user answers the question correctly. */
@@ -55,6 +55,7 @@ public class Room implements PropertyChangeListener, Serializable {
     /** The clue for the trivia question. */
     private String myClueContent;
 
+    /** The clue manager for the Room. */
     private ClueManager myCM;
 
     /**
@@ -62,7 +63,6 @@ public class Room implements PropertyChangeListener, Serializable {
      */
     public Room() {
         myDoors = new HashMap<Direction, Door>();
-
         myCM = new ClueManager();
         initializeState();
         initializeClue();
@@ -191,10 +191,8 @@ public class Room implements PropertyChangeListener, Serializable {
      */
     private boolean isOnEdgeOfMaze() {
         // Check if the room is on the edge of the maze
-        return myRow == 0
-               || myRow == myRowCnt - 1
-               || myColumn == 0
-               || myColumn == myColCnt - 1;
+        return myRow == 0 || myRow == myRowCnt - 1
+                || myColumn == 0 || myColumn == myColCnt - 1;
     }
 
     /**
@@ -218,10 +216,8 @@ public class Room implements PropertyChangeListener, Serializable {
     public int getDoorCount() {
         return doorCounter();
     }
-    private void initializePosition(final int theRow,
-                                    final int theColumn,
-                                    final int theRowCnt,
-                                    final int theColCnt) {
+    private void initializePosition(final int theRow, final int theColumn,
+                                    final int theRowCnt, final int theColCnt) {
         myRow = theRow;
         myColumn = theColumn;
         myRowCnt = theRowCnt;
@@ -254,6 +250,11 @@ public class Room implements PropertyChangeListener, Serializable {
         LOGGER.info("Door Count: " + doorCount);
     }
 
+    @Override
+    public String toString() {
+        return "Room init";
+    }
+
     /**
      * This method gets called when a bound property is changed.
      *
@@ -262,11 +263,5 @@ public class Room implements PropertyChangeListener, Serializable {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
-    }
-
-    @Override
-    public String toString() {
-        return "Room init";
     }
 }

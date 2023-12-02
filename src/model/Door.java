@@ -43,6 +43,7 @@ public class Door implements Serializable, PropertyChangeListener {
     /** The answer to the trivia question. */
     private String myAnswer;
 
+    /** The trivia question associated with this door. */
     private Question associatedQuestion;
 
     /**
@@ -191,8 +192,6 @@ public class Door implements Serializable, PropertyChangeListener {
             Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
-
-
             }
         }*/
     }
