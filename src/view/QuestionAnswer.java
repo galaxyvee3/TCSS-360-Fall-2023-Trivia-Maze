@@ -33,11 +33,13 @@ public class QuestionAnswer {
 //================Fields====================//
     private static final List<Map<String, String>> myQuestions  = new ArrayList<>();
 
+    private int myCurrentIndex;
+
     /**
      * Public constructor.
      */
     public QuestionAnswer() {
-
+        myCurrentIndex = 0;
         fetchQuestionsFromDatabase();
     }
 
@@ -45,9 +47,9 @@ public class QuestionAnswer {
      * Public accessor method for the questions.
      * @return returns a list of the questions.
      */
-    public List<Map<String, String>> getQuestions() {
-        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
-    }
+//    public List<Map<String, String>> getQuestions() {
+//        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
+//    }
 
     /**
      * Fetches questions from the SQLite database.
@@ -209,6 +211,41 @@ public class QuestionAnswer {
         }
         final int randomIndex = RANDOM.nextInt(myQuestions.size());
         return myQuestions.get(randomIndex);
+    }
+    /**
+     * Public accessor method for the questions.
+     *
+     * @return returns a list of the questions.
+     */
+    public List<Map<String, String>> getQuestions() {
+        if (hasMoreQuestions()) {
+            return Collections.singletonList(myQuestions.get(myCurrentIndex));
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * Checks if there are more questions available.
+     *
+     * @return true if there are more questions, false otherwise
+     */
+    public boolean hasMoreQuestions() {
+        return myCurrentIndex < myQuestions.size();
+    }
+
+    /**
+     * Gets the next question.
+     *
+     * @return the next question, or null if there are no more questions
+     */
+    public Map<String, String> getNextQuestion() {
+        if (hasMoreQuestions()) {
+            myCurrentIndex++;
+            return myQuestions.get(myCurrentIndex);
+        } else {
+            return null;
+        }
     }
 
     @Override

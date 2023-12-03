@@ -245,7 +245,11 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myMaze.addPropertyChangeListener(mazeFrame); // add PCL for frame
         myMaze.newGame(); // reset game stats
     }
-
+    public void render() {
+        // Implement the rendering logic here
+        // For example, update the maze display or any other graphical elements
+        // You can use methods like mazePanel.repaint() to trigger a repaint
+    }
     public JPanel getQuestionPanel() {
         return qPanel;
     }
