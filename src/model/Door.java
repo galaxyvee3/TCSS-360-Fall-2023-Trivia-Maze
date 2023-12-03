@@ -43,6 +43,7 @@ public class Door implements Serializable, PropertyChangeListener {
     /** The answer to the trivia question. */
     private String myAnswer;
 
+    /** The trivia question associated with this door. */
     private Question associatedQuestion;
 
     /**
@@ -54,7 +55,7 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = true;
+        myUnlocked = false;
         myClosed = false;
         myQuestion = null;
         myAnswer = null;
@@ -180,6 +181,8 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * This method gets called when a bound property is changed.
+     * This method reacts to different property change events by adjusting the game's status,
+     * showing messages, and engaging with the player
      * @param theEvent A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
@@ -189,8 +192,6 @@ public class Door implements Serializable, PropertyChangeListener {
             Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
-
-
             }
         }*/
     }

@@ -4,6 +4,8 @@ import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -11,7 +13,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
  * @author Viktoria Dolojan
- * @author rick_adams
+ * @author Rick Adams
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
@@ -19,23 +21,28 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     /** Property change support for the class. */
     private final PropertyChangeSupport propertyChangeSupport;
 
-    /** JLabel to display trivia question. */
-    private final JLabel myLabel;
-
     /** Keeps track of the type of trivia question being presented. */
     private final String myQuestionType;
+
+    /** JLabel to display trivia question. */
+    private JLabel myLabel;
+
+    /** JPanel to prompt the player for an answer. */
+    private JPanel myPanel;
 
     /**
      * Public constructor.
      */
     public QuestionPanel() {
-        super(new GridLayout(4, 1));
+        super(new GridLayout(2, 1));
         propertyChangeSupport = new PropertyChangeSupport(this);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 150));
-        myLabel = new JLabel("Trivia Question: ");
-        add(myLabel);
         myQuestionType = "";
+        myLabel = new JLabel("Trivia Question: ");
+        myPanel = promptUser(myQuestionType);
+        add(myLabel);
+        add(myPanel);
     }
 
     @Override
@@ -46,46 +53,47 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         System.out.println("INIT QUESTION REPAINT"); // for testing purposes
 
         // repaint panel based off type of question
+        remove(1); // remove previous answer options
+        myPanel = promptUser(myQuestionType); // update player answer panel
+        add(myPanel);
+    }
+
+    /**
+     * Prompt the player for an answer.
+     * @return JPanel
+     */
+    public JPanel promptUser(final String myQuestionType) {
+        // TODO: UPDATE PANEL BASED ON TYPE OF QUESTION
         if (myQuestionType.equalsIgnoreCase("multiple choice")) {
-            //remove(1); // remove previous answer options
-
         } else if (myQuestionType.equalsIgnoreCase("short answer")) {
-            //remove(1); // remove previous answer options
-
         } else if (myQuestionType.equalsIgnoreCase("true/false")) {
-            //remove(1); // remove previous answer options
-
         }
+        JPanel panel = new JPanel(new GridLayout(4,1));
+        JLabel label = new JLabel("Answer");
+        JLabel result = new JLabel("");
+
+        JTextField input = new JTextField();
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userInput = input.getText();
+                // TODO: UPDATE TEXT TO SHOW PLAYER IF THEY WERE CORRECT OR NOT
+                result.setText(userInput);
+            }
+        });
+        panel.add(label);
+        panel.add(input);
+        panel.add(submitButton);
+        panel.add(result);
+        return panel;
     }
 
     /**
-     * Repaint question whenever a new trivia question is encountered.
-     * @param theEvent A PropertyChangeEvent object describing the event source
-     *          and the property that has changed.
-     */
-    @Override
-    public void propertyChange(final PropertyChangeEvent theEvent) {
-        // TODO: QUESTIONS ARE NULL
-        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
-            String newQuestion = (String) theEvent.getNewValue();
-//            myQuestionType = setQuestion(newQuestion);
-            //setCurrentQuestion(newQuestion);
-            repaint();
-        }
-    }
-
-    /**
-     * Set the current trivia question.
+     * Sets the current trivia question to be displayed.
      * @param theQuestion current trivia question
-     * @return String type of trivia question
      */
-//    public String setQuestion(final String theQuestion) {
-//        final String questionType = theQuestion.toString();
-//        myLabel.setText("Trivia Question: " + theQuestion);
-//        repaint(); // Repaint the panel
-//        return questionType;
-//    }
-
     public void setCurrentQuestion(final String theQuestion) {
         myLabel.setText("Trivia Question: " + theQuestion);
     }
@@ -106,17 +114,19 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         repaint();
     }
 
-//    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-//
-//        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-//    }
-
-/*    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
-        propertyChangeSupport.addPropertyChangeListener(theListener);
+    /**
+     * Repaint question whenever a new trivia question is encountered.
+     * @param theEvent A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent theEvent) {
+        // TODO: QUESTIONS ARE NULL
+        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
+            String newQuestion = (String) theEvent.getNewValue();
+//            myQuestionType = setQuestion(newQuestion);
+            //setCurrentQuestion(newQuestion);
+            repaint();
+        }
     }
-
-    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
-        propertyChangeSupport.removePropertyChangeListener(theListener);
-    }
-*/
 }

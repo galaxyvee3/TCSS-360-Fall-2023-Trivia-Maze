@@ -1,6 +1,8 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -13,14 +15,16 @@ import java.util.logging.Logger;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class ClueManager {
-//====================Constants======================//
+public class ClueManager implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 3L;
+
     /** .txt file that contains the bonus clues. */
     private static final String FILE_PATH = "ClueFile.txt";
     /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(ClueManager.class.getName());
 
-//====================Fields=========================//
+
     /** String to hold clues. */
     private transient final String myClues;
     /**

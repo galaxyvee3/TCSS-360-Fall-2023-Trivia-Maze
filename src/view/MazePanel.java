@@ -1,11 +1,15 @@
 package view;
 
+import model.Direction;
+import model.Door;
 import model.Maze;
+import model.Room;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 /**
  * Class creates the visual representation of the Trivia Maze with the rooms and doors.
@@ -55,6 +59,34 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
 
         // draw doors
         g2d.setPaint(new Color(100,75,50));
+        for(int i = 0; i < MAZE_SIZE; i++) {
+            for(int k = 0; k < MAZE_SIZE; k++) {
+                Room[][] maze = myMaze.getRooms();
+                Room room = maze[i][k];
+                HashMap<Direction, Door> allDoors = room.getAllDoors();
+                for (Direction direction : allDoors.keySet()) {
+                    Door door = room.getDoor(direction);
+                    if (!door.getUnlocked()) {
+                        // set paint
+                        if (door.getClosed()) { // red for closed doors
+                            g2d.setPaint(Color.RED);
+                        } else { // brown for undiscovered doors
+                            g2d.setPaint(new Color(100,75,50));
+                        }
+                        // draw doors
+                        if (direction.equals(Direction.NORTH)) {
+                            g2d.fillRect(k * ROOM_SIZE + 15, i * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
+                        } else if (direction == Direction.SOUTH) {
+                            g2d.fillRect(k * ROOM_SIZE + 15, (i + 1) * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
+                        } else if (direction == Direction.WEST) {
+                            g2d.fillRect(k * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                        } else if (direction == Direction.EAST) {
+                            g2d.fillRect((k + 1) * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                        }
+                    }
+                }
+            }
+        }
 
         // draw user current location
         g2d.setPaint(Color.BLUE);
