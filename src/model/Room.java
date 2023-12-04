@@ -21,6 +21,7 @@ public class Room implements PropertyChangeListener, Serializable {
     @Serial
     private static final long serialVersionUID = 2L;
 
+//======================Constants======================//
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
     /** Random object. */
@@ -30,6 +31,7 @@ public class Room implements PropertyChangeListener, Serializable {
 
     transient private static final int INNER_COUNT = 4;
 
+//=====================Fields==========================//
     /** Map of all the Door objects in the Room. */
     private HashMap<Direction, Door> myDoors;
 

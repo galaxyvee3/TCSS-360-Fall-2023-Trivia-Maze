@@ -1,8 +1,13 @@
 package model;
 
+import view.Question;
+import view.QuestionAnswer;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Maze class for Trivia Maze, Team 2.
@@ -13,7 +18,7 @@ import java.io.*;
  */
 
 public class Maze implements Serializable {
-
+//======================Constants======================//
     /** Property name for game over. */
     transient public static final String PROPERTY_GAME_OVER = "Game over";
 
@@ -35,6 +40,7 @@ public class Maze implements Serializable {
     /** The size of the maze. */
     transient private static final int MAZE_SIZE = 6;
 
+//=====================Fields==========================//
     /** Property change support for the class. */
     private final PropertyChangeSupport myPCS;
 
@@ -57,7 +63,7 @@ public class Maze implements Serializable {
     private Door myCurrentDoor;
 
     /** The current trivia question from the current Door. */
-    private String myQuestion;
+    private Question myQuestion;
 
     /**
      * Default constructor.
@@ -72,6 +78,7 @@ public class Maze implements Serializable {
         myQuestion = null;
         myPCS = new PropertyChangeSupport(this);
         createRoomsAndDoors();
+        attachQuestionsToDoors();
     }
 
     /**
@@ -95,6 +102,11 @@ public class Maze implements Serializable {
             }
         }
 
+        // attach trivia question to doors
+        // TODO: retrieve questions from database
+        QuestionAnswer database = new QuestionAnswer();
+        Map<String, String> question = database.getRandomQuestion();
+
         // fill rooms with doors
         // horizontal doors
         for (int rows = 0; rows < MAZE_SIZE - 1; rows++) {
@@ -102,6 +114,11 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(rows, index); // room above
                 Room room2 = getRoom(rows + 1, index); // room below
                 Door door = new Door(room1, room2, Direction.SOUTH, Direction.NORTH);
+                if (!question.isEmpty()) {
+                    question = database.getRandomQuestion();
+                    door.setQuestion(question.get("QUESTION"));
+                    System.out.println(question.get("QUESTION"));
+                }
             }
         }
         // vertical doors
@@ -110,6 +127,25 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(index, cols); // left room
                 Room room2 = getRoom(index, cols + 1); // right room
                 Door door = new Door(room1, room2, Direction.EAST, Direction.WEST);
+            }
+        }
+    }
+
+    /**
+     * Attach trivia questions to all doors in the maze.
+     */
+    public void attachQuestionsToDoors() {
+        for(int i = 0; i < MAZE_SIZE; i++) {
+            for(int k = 0; k < MAZE_SIZE; k++) {
+                Room[][] maze = getRooms();
+                Room room = maze[i][k];
+                HashMap<Direction, Door> allDoors = room.getAllDoors();
+                for (Direction direction : allDoors.keySet()) {
+                    Door door = room.getDoor(direction);
+                    if (!door.getUnlocked()) {
+
+                    }
+                }
             }
         }
     }
@@ -203,12 +239,37 @@ public class Maze implements Serializable {
     }
 
     /**
+     * Prompt the trivia question to attempt to unlock door.
+     * @param theDoor door that is being attempted
+     */
+    private void promptQuestion(final Door theDoor) {
+        myCurrentDoor = theDoor;
+        //myAttemptingDoor = true;
+        // player has encountered a locked door
+        // prompt trivia question from door
+        Question oldQuestion = myQuestion;
+        //myQuestion = theDoor.getQuestion();
+
+        // TODO: prompt question and validate player answer
+        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
+        // unlock or close door based on player answer
+        /*if () { // player answered correctly, unlock door
+            theDoor.unlockDoor();
+        } else { // player answered incorrectly, close door
+            theDoor.closeDoor();
+        }*/
+        //myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, true, true);
+        // TODO: ATTEMPTING DOOR BECOMES FALSE TOO EARLY
+        //myAttemptingDoor = false;
+    }
+
+    /**
      * Checks whether the player can move up, down, left, or right.
      * @param theString where to move the player
      * @return true if move was successful
      */
     private boolean canMove(final String theString) {
-        if (myAttemptingDoor) { // player is currently attemping a door and should not move
+        if (myAttemptingDoor) { // player is currently attempting a door and should not move
             System.out.println("Currently attempting a door");
             return false;
         } else { // player is not attempting a door
@@ -224,33 +285,6 @@ public class Maze implements Serializable {
                 return false;
             }
         }
-    }
-
-    /**
-     * Prompt the trivia question to attempt to unlock door.
-     * @param theDoor door that is being attempted
-     */
-    private void promptQuestion(final Door theDoor) {
-        myCurrentDoor = theDoor;
-        //myAttemptingDoor = true;
-        // player has encountered a locked door
-        // prompt trivia question from door
-        String oldQuestion = myQuestion;
-        System.out.println(theDoor.getQuestion());
-        myQuestion = theDoor.getQuestion();
-        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
-
-        // TODO: prompt question and validate player answer
-
-        // unlock or close door based on player answer
-        /*if () { // player answered correctly, unlock door
-            theDoor.unlockDoor();
-        } else { // player answered incorrectly, close door
-            theDoor.closeDoor();
-        }*/
-        //myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, true, true);
-        // TODO: ATTEMPTING DOOR BECOMES FALSE TOO EARLY
-        //myAttemptingDoor = false;
     }
 
     /**

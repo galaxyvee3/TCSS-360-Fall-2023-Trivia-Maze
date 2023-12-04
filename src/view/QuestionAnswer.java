@@ -9,28 +9,30 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * QuestionAnswer class for Trivia Maze.
  * @author Viktoria Dolojan
- * @author rick_adams
+ * @author Rick Adams
  * @version Fall 2023
  */
 public class QuestionAnswer {
 //======================Constants======================//
-    /** Logger constant. **/
+    /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
     private static final String QUESTION = "QUESTION";
 
-    private static final  String ANSWER = "ANSWER";
+    private static final String ANSWER = "ANSWER";
 
     private static final String QUESTION_ID = "QuestionID";
 
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+
     /** Random constant. */
     private static final Random RANDOM = new Random();
-//================Fields====================//
+
+//=====================Fields==========================//
+    /** All the trivia questions available for the game. */
     private static final List<Map<String, String>> myQuestions  = new ArrayList<>();
 
     private int myCurrentIndex;
@@ -42,14 +44,6 @@ public class QuestionAnswer {
         myCurrentIndex = 0;
         fetchQuestionsFromDatabase();
     }
-
-    /**
-     * Public accessor method for the questions.
-     * @return returns a list of the questions.
-     */
-//    public List<Map<String, String>> getQuestions() {
-//        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
-//    }
 
     /**
      * Fetches questions from the SQLite database.
@@ -93,7 +87,6 @@ public class QuestionAnswer {
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
-
                 for (final String column : columns) {
                     question.put(column, resultSet.getString(column));
                 }
@@ -114,6 +107,7 @@ public class QuestionAnswer {
 
         return allAnswers;
     }
+
     public static List<String> fetchFromTable(final Connection theConn,
                                         final String... theColumns) throws SQLException {
         final List<String> answers = new ArrayList<>();
@@ -194,7 +188,7 @@ public class QuestionAnswer {
      * @return a random question.
      */
     public static String getQuestionFromDatabase() {
-        if (! myQuestions.isEmpty()) {
+        if (!myQuestions.isEmpty()) {
             Map<String, String> questionData = getRandomQuestion();
             return questionData.get(QUESTION);
         } else {

@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -18,11 +17,8 @@ import java.beans.PropertyChangeSupport;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
-    /** Property change support for the class. */
-    private final PropertyChangeSupport propertyChangeSupport;
-
-    /** Keeps track of the type of trivia question being presented. */
-    private final String myQuestionType;
+    /** Keeps track of the trivia question being presented. */
+    private Question myQuestion;
 
     /** JLabel to display trivia question. */
     private JLabel myLabel;
@@ -35,26 +31,11 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     public QuestionPanel() {
         super(new GridLayout(2, 1));
-        propertyChangeSupport = new PropertyChangeSupport(this);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 150));
-        myQuestionType = "";
         myLabel = new JLabel("Trivia Question: ");
-        myPanel = promptUser(myQuestionType);
+        myPanel = promptUser();
         add(myLabel);
-        add(myPanel);
-    }
-
-    @Override
-    public void paintComponent(final Graphics theGraphics) {
-        super.paintComponents(theGraphics);
-        final Graphics2D g2d = (Graphics2D) theGraphics;
-
-        System.out.println("INIT QUESTION REPAINT"); // for testing purposes
-
-        // repaint panel based off type of question
-        remove(1); // remove previous answer options
-        myPanel = promptUser(myQuestionType); // update player answer panel
         add(myPanel);
     }
 
@@ -62,11 +43,16 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      * Prompt the player for an answer.
      * @return JPanel
      */
-    public JPanel promptUser(final String myQuestionType) {
+    public JPanel promptUser() {
         // TODO: UPDATE PANEL BASED ON TYPE OF QUESTION
-        if (myQuestionType.equalsIgnoreCase("multiple choice")) {
-        } else if (myQuestionType.equalsIgnoreCase("short answer")) {
-        } else if (myQuestionType.equalsIgnoreCase("true/false")) {
+        if (myQuestion != null) {
+            if (myQuestion.getQuestionType().equalsIgnoreCase("multiple choice")) {
+                System.out.println("mc");
+            } else if (myQuestion.getQuestionType().equalsIgnoreCase("short answer")) {
+                System.out.println("sa");
+            } else if (myQuestion.getQuestionType().equalsIgnoreCase("true/false")) {
+                System.out.println("tf");
+            }
         }
         JPanel panel = new JPanel(new GridLayout(4,1));
         JLabel label = new JLabel("Answer");
@@ -88,6 +74,20 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         panel.add(submitButton);
         panel.add(result);
         return panel;
+    }
+
+    @Override
+    public void paintComponent(final Graphics theGraphics) {
+        super.paintComponents(theGraphics);
+        final Graphics2D g2d = (Graphics2D) theGraphics;
+
+        System.out.println("INIT QUESTION REPAINT"); // for testing purposes
+
+        // repaint panel based off type of question
+        promptUser();
+        remove(1); // remove previous answer options
+        //myPanel = promptUser(); // update player answer panel
+        add(myPanel);
     }
 
     /**
@@ -123,9 +123,8 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvent) {
         // TODO: QUESTIONS ARE NULL
         if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
-            String newQuestion = (String) theEvent.getNewValue();
-//            myQuestionType = setQuestion(newQuestion);
-            //setCurrentQuestion(newQuestion);
+            Question newQuestion = (Question) theEvent.getNewValue();
+            myQuestion = newQuestion;
             repaint();
         }
     }
