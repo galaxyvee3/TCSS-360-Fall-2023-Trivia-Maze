@@ -1,15 +1,17 @@
 package tests;
 
-import Model.Room;
+import model.Direction;
+import model.Door;
+import model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTest {
     private Room myRoom;
-
 
     @BeforeEach
     void setUp() {
@@ -17,7 +19,22 @@ class RoomTest {
     }
 
     @Test
-    public void testAnswerTriviaQuestionCorrectly() {
+    void testRoomInit() {
+        assertEquals(new HashMap<Direction, Door>(), myRoom.getAllDoors());
+        assertEquals("Room init", myRoom.toString());
+    }
+
+    @Test
+    void testAddDoorToRoom() {
+        Room room = new Room();
+        Door door = new Door(myRoom, room, Direction.SOUTH, Direction.NORTH);
+        HashMap<Direction, Door> map = new HashMap<Direction, Door>();
+        map.put(Direction.NORTH, door);
+        assertEquals(map, myRoom.getAllDoors());
+    }
+
+    @Test
+    void testAnswerTriviaQuestionCorrectly() {
         myRoom.answerTriviaQuestion("Your correct answer");
         assertTrue(myRoom.isQuestionAnsweredCorrectly());
     }
@@ -40,5 +57,14 @@ class RoomTest {
             }
         }
         assertTrue(cluePresent, "At least one room should have a clue.");
+    }
+
+    @Test
+    void testDoorQuestionAnswer() {
+        Door door = new Door(new Room(), new Room(), Direction.SOUTH, Direction.NORTH);
+        door.setQuestion("What are the 4 Pillars of OOP?");
+        door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
+        assertEquals("What are the 4 Pillars of OOP?", myRoom.retrieveQuestion(door));
+        assertEquals("Abstraction, Encapsulation, Inheritance, and Polymorphism", myRoom.retrieveAnswer(door));
     }
 }
