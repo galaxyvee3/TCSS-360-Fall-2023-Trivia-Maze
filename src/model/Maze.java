@@ -404,13 +404,11 @@ public class Maze implements Serializable {
         // game over
         myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
     }
-
-
     /**
      * @author Justin Ho
      * Saves the current game state to a file.
      */
-    public void saveGame()
+    public void saveGame(String filename)
     {
         File file = new File("./GameState.txt");
 
