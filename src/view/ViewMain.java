@@ -14,6 +14,6 @@ public class ViewMain {
         QuestionAnswer qa = new QuestionAnswer();
         List <String> myCorrectAnswers;
 
-        System.out.println(qa);
+        QuestionAnswer.displayQuestionTableInfo();
     }
 }
