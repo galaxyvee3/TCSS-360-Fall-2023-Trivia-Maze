@@ -58,18 +58,8 @@ public class Door implements Serializable, PropertyChangeListener {
         myDir1 = theDir1;
         myDir2 = theDir2;
         Random random = new Random();
-        if (random.nextInt(101) < 20) {
-            myUnlocked = true;
-        } else {
-            myUnlocked = false;
-        }
-        if (!myUnlocked) {
-            if (random.nextInt(101) < 40) {
-                myClosed = true;
-            } else {
-                myClosed = false;
-            }
-        }
+        myUnlocked = false;
+        myClosed = false;
         myQuestion = null;
         myAnswer = null;
         // add door to rooms

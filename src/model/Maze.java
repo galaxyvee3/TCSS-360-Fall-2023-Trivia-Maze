@@ -6,8 +6,8 @@ import view.QuestionAnswer;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Maze class for Trivia Maze, Team 2.
@@ -78,7 +78,6 @@ public class Maze implements Serializable {
         myQuestion = null;
         myPCS = new PropertyChangeSupport(this);
         createRoomsAndDoors();
-        attachQuestionsToDoors();
     }
 
     /**
@@ -102,6 +101,8 @@ public class Maze implements Serializable {
             }
         }
 
+        Random random = new Random();
+
         // attach trivia question to doors
         // TODO: retrieve questions from database
         QuestionAnswer database = new QuestionAnswer();
@@ -114,9 +115,16 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(rows, index); // room above
                 Room room2 = getRoom(rows + 1, index); // room below
                 Door door = new Door(room1, room2, Direction.SOUTH, Direction.NORTH);
-                if (!question.isEmpty()) {
-                    question = database.getRandomQuestion();
-                    door.setQuestion(question.get("QUESTION"));
+                if (index == 1 || rows == 0 || index == MAZE_SIZE - 1) {
+                    // these doors will have default status to prevent assure a playable path
+                } else {
+                    if (random.nextInt(101) < 20) {
+                        door.unlockDoor();
+                    } else {
+                        if (random.nextInt(101) < 70) {
+                            door.closeDoor();
+                        }
+                    }
                 }
             }
         }
@@ -126,23 +134,15 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(index, cols); // left room
                 Room room2 = getRoom(index, cols + 1); // right room
                 Door door = new Door(room1, room2, Direction.EAST, Direction.WEST);
-            }
-        }
-    }
-
-    /**
-     * Attach trivia questions to all doors in the maze.
-     */
-    public void attachQuestionsToDoors() {
-        for(int i = 0; i < MAZE_SIZE; i++) {
-            for(int k = 0; k < MAZE_SIZE; k++) {
-                Room[][] maze = getRooms();
-                Room room = maze[i][k];
-                HashMap<Direction, Door> allDoors = room.getAllDoors();
-                for (Direction direction : allDoors.keySet()) {
-                    Door door = room.getDoor(direction);
-                    if (!door.getUnlocked()) {
-
+                if (index == 0 || cols == 1 || index == MAZE_SIZE - 2) {
+                    // these doors will have default status to prevent assure a playable path
+                } else {
+                    if (random.nextInt(101) < 20) {
+                        door.unlockDoor();
+                    } else {
+                        if (random.nextInt(101) < 70) {
+                            door.closeDoor();
+                        }
                     }
                 }
             }
