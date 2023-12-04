@@ -32,6 +32,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     private static JFrame myGameFrame;
 
+    private MazePanel myMazePanel;
+
     /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
 
@@ -49,6 +51,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
+        myMazePanel = new MazePanel(myMaze);
 //        showDifficultyMenu(); // show game difficulty menu
         setFocusable(true);
         requestFocus();
@@ -246,9 +249,14 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myMaze.newGame(); // reset game stats
     }
     public void render() {
-        // Implement the rendering logic here
-        // For example, update the maze display or any other graphical elements
-        // You can use methods like mazePanel.repaint() to trigger a repaint
+
+    }
+
+    public void updateQuestion(final String theQuestion) {
+        qPanel.setCurrentQuestion(theQuestion);
+    }
+    public MazePanel getMazePanel() {
+        return myMazePanel;
     }
     public JPanel getQuestionPanel() {
         return qPanel;

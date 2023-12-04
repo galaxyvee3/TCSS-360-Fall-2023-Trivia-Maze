@@ -62,7 +62,7 @@ public class Room implements PropertyChangeListener, Serializable {
      * Default constructor.
      */
     public Room() {
-        myDoors = new HashMap<Direction, Door>();
+        myDoors = new HashMap <>();
         myCM = new ClueManager();
         initializeState();
         initializeClue();

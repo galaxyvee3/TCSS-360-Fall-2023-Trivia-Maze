@@ -208,7 +208,7 @@ public class Maze implements Serializable {
      * @return true if move was successful
      */
     private boolean canMove(final String theString) {
-        if (myAttemptingDoor) { // player is currently attemping a door and should not move
+        if (myAttemptingDoor) { // player is currently attempting a door and should not move
             System.out.println("Currently attempting a door");
             return false;
         } else { // player is not attempting a door

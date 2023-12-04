@@ -34,6 +34,8 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     private final Maze myMaze;
     private final Door myDoor;
     private boolean myRunningGame;
+
+    private PropertyChangeEvent myPcs;
     private final Timer myTimer;
 
     public GameEngine(QuestionAnswer theQA, Room theRoom, Door theDoor) {
@@ -43,7 +45,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
         this.myMaze = new Maze();
         this.myGFrame = new GameFrame();
         this.myRunningGame = true;
-
+//        this.myPcs = new PropertyChangeEvent();
         myTimer = new Timer();
         myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
     }
@@ -64,6 +66,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
             if (myRunningGame) {
                 checkPlayerInteraction();
                 checkQuestionAnswered();
+                myGFrame.getMazePanel().repaint();
                 myGFrame.render();
             } else {
                 myTimer.cancel();
@@ -77,8 +80,6 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
 
         private void checkQuestionAnswered() {
             // Placeholder for checking if a question is answered
-            // Update the game state accordingly
-            // For now, let's just simulate an answer
             processAnswer();
         }
     }
