@@ -6,6 +6,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Door object in the maze.
@@ -56,8 +57,19 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = true;
-        myClosed = false;
+        Random random = new Random();
+        if (random.nextInt(101) < 20) {
+            myUnlocked = true;
+        } else {
+            myUnlocked = false;
+        }
+        if (!myUnlocked) {
+            if (random.nextInt(101) < 40) {
+                myClosed = true;
+            } else {
+                myClosed = false;
+            }
+        }
         myQuestion = null;
         myAnswer = null;
         // add door to rooms
