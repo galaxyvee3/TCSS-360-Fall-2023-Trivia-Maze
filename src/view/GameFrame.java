@@ -20,19 +20,17 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze;
 
-    /** The database for all the trivia questions. */
-    private static QuestionAnswer myDB;
-
     private final PropertyChangeSupport myChangeSupport;
 
+    private QuestionPanel qPanel;
+
+    private MazePanel myMazePanel;
 
     /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
 
     /** Boolean for whether player has escaped the maze. */
     private static final boolean ESCAPE = false;
-
-    private static final Dimension DIMENSION = new Dimension(600, 600);
 
     /**
      * Default constructor.
@@ -53,7 +51,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     private void frameHelper() {
         setTitle("Trivia Maze");
         setJMenuBar(menuBarHelper());
-        setSize(DIMENSION);
+        setSize(new Dimension(600, 600));
         setResizable(false);
         setLocationRelativeTo(null);
         myGameOver = false;
@@ -66,11 +64,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public JMenuBar menuBarHelper() {
         final JMenuBar menuBar = new JMenuBar();
-
         menuBar.add(fileMenu());
         menuBar.add(infoMenu());
-
-
         return menuBar;
     }
 
@@ -181,6 +176,14 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     public void saveAndLoad() {
 
+    }
+
+    public JPanel getQuestionPanel() {
+        return qPanel;
+    }
+
+    public MazePanel getMazePanel() {
+        return myMazePanel;
     }
 
     /**

@@ -117,7 +117,6 @@ public class Maze implements Serializable {
                 if (!question.isEmpty()) {
                     question = database.getRandomQuestion();
                     door.setQuestion(question.get("QUESTION"));
-                    System.out.println(question.get("QUESTION"));
                 }
             }
         }
@@ -225,6 +224,7 @@ public class Maze implements Serializable {
     public String unlockDoor() {
         if (myAttemptingDoor) {
             myCurrentDoor.unlockDoor();
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
             return "Door unlocked";
         }
         return "No door being attempted";
@@ -233,6 +233,7 @@ public class Maze implements Serializable {
     public String closeDoor() {
         if (myAttemptingDoor) {
             myCurrentDoor.closeDoor();
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
             return "Door closed";
         }
         return "No door being attempted";
