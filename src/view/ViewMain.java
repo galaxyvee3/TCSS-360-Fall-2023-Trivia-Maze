@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameEngine;
+import java.util.List;
 import model.Direction;
 import model.Door;
 import model.Room;
@@ -10,6 +11,8 @@ import model.Room;
  */
 public class ViewMain {
     public static void main(String[] args) {
-
+        QuestionAnswer qa = new QuestionAnswer();
+        List <String> myCorrectAnswers;
+        System.out.println(qa);
     }
 }

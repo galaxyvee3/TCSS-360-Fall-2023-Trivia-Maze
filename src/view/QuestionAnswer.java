@@ -95,7 +95,7 @@ public class QuestionAnswer {
         }
     }
 
-    private List<String> fetchAnswersFromDatabase() {
+    public List<String> fetchAnswersFromDatabase() {
         final List<String> allAnswers = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
             allAnswers.addAll(fetchFromTable(conn, "MultipleChoiceQuestions", ANSWER));
@@ -109,25 +109,22 @@ public class QuestionAnswer {
     }
 
     public static List<String> fetchFromTable(final Connection theConn,
-                                        final String... theColumns) throws SQLException {
+                                              final String tableName,
+                                              final String... theColumns) throws SQLException {
         final List<String> answers = new ArrayList<>();
 
-        String queryTF = "SELECT " + String.join(", ", theColumns) + " FROM  + TrueFalseQuestions";
-        String queryMC = "SELECT " + String.join(", ", theColumns) + " FROM  + MultipleChoiceQuestions";
-        String querySA = "SELECT " + String.join(", ", theColumns) + " FROM  + ShortAnswerQuestions";
-        try (Statement statement = theConn.createStatement()) {
-            try (ResultSet resultSet = statement.executeQuery(queryTF)) {
-                statement.executeQuery(queryMC);
-                statement.executeQuery(querySA);
-                while (resultSet.next()) {
-                    for (String column : theColumns) {
-                        answers.add(resultSet.getString(column));
-                    }
+        String query = "SELECT " + String.join(", ", theColumns) + " FROM " + tableName;
+        try (Statement statement = theConn.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                for (String column : theColumns) {
+                    answers.add(resultSet.getString(column));
                 }
             }
         }
         return answers;
     }
+
 
     /**
      * Question maker that can be called to create question objects.
@@ -245,5 +242,9 @@ public class QuestionAnswer {
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
+    }
+
+    public static void main(String[] args) {
+
     }
 }
