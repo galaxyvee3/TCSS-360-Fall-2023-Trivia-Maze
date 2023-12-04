@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -29,6 +30,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
+
+    /** The current row of the player in the maze. */
+    private int myCurrentRow;
+
+    /** The current column of the player in the maze. */
+    private int myCurrentCol;
 
     /** Boolean for whether player has escaped the maze. */
     private static final boolean myEscape = false;
@@ -81,25 +88,56 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
         return menuBar;
     }
-
     /**
+      @author Justin Ho
      * GUI for game file menu.
      * @return JMenu menu for game file
      */
     private static JMenu fileMenu() {
         final JMenu fileMenu = new JMenu("File");
-        final JMenuItem exit = new JMenuItem("Exit");
-        final JMenuItem start = new JMenuItem("Start");
-        final JMenuItem quit = new JMenuItem("Quit");
+        final JMenuItem myExit = new JMenuItem("Exit");
+        final JMenuItem myStart = new JMenuItem("Start");
+        final JMenuItem myQuit = new JMenuItem("Quit");
+        final JMenuItem mySave = new JMenuItem("Save");
 
-        fileMenu.add(start); //TODO: Install game commencement logic.
-        fileMenu.add(quit); //TODO: Install game end logic.
-
-        exit.addActionListener(
+        fileMenu.add(myStart); //TODO: Install game commencement logic.
+        fileMenu.add(myQuit); //TODO: Install game end logic.
+        fileMenu.add(mySave);
+        myExit.addActionListener(
                 e -> System.exit(0));
-        fileMenu.add(exit);
+
+        mySave.addActionListener(
+                e -> {
+                    String filename = "";
+                    String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
+
+                    int choice = JOptionPane.showOptionDialog(null, "Choose Option to save",
+                            "Save Game", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                            null, chooseSave, null);
+
+                    if (choice == 0) {
+                        filename = "saveGame1.ser";
+                    } else if (choice == 1) {
+                        filename = "saveGame2.ser";
+                    } else if (choice == 2) {
+                        filename = "saveGame3.ser";
+                    }
+
+                    if (myMaze != null) {
+                        try {
+                            myMaze.saveGame(filename);
+
+                            // Method for serialization of object
+                        } catch (final RuntimeException re) {
+                            JOptionPane.showMessageDialog(null, "Pick option to Save this game");
+                        }
+
+                    }
+                });
+        fileMenu.add(myExit);
         return fileMenu;
     }
+
 
     /**
      * GUI for game information menu.
@@ -203,16 +241,16 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public static void gameOver() {
         final JFrame endFrame = new JFrame("GAME OVER");
+        final JPanel endPanel = new JPanel(new GridLayout(2, 1)); // panel for game over
         JLabel endLabel = new JLabel();
-        JButton newButton = new JButton();
-        JButton newQuit = new JButton();
-        final JPanel endPanel = new JPanel(new GridLayout(2,1)); // panel for game over
         if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
 
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze");
         }
+        JButton newButton = new JButton();
+        JButton newQuit = new JButton();
 
         newQuit = new JButton("QUIT");
         newButton = new JButton("PLAY AGAIN");
@@ -222,20 +260,19 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         endPanel.add(newQuit);
 
         endFrame.add(endPanel); // add panel to frame
-        endFrame.setSize(500,100);
+        endFrame.setSize(500, 100);
 
-        /*
+        JLabel finalEndLabel = endLabel;
         newButton.addActionListener(e -> {
-=======
-        final JPanel buttonPanel = new JPanel(new GridLayout(1,2)); // panel for buttons
-        final JButton gameButton = new JButton("Play Again");
-        final JButton quitButton = new JButton("Quit");
-        buttonPanel.add(gameButton);
-        buttonPanel.add(quitButton);
-        endPanel.add(endLabel);
-        endPanel.add(buttonPanel);
-        endFrame.add(endPanel);
-        endFrame.setSize(300,100);
+            final JPanel buttonPanel = new JPanel(new GridLayout(1, 2)); // panel for buttons
+            final JButton gameButton = new JButton("Play Again");
+            final JButton quitButton = new JButton("Quit");
+            buttonPanel.add(gameButton);
+            buttonPanel.add(quitButton);
+            endPanel.add(finalEndLabel);
+            endPanel.add(buttonPanel);
+            endFrame.add(endPanel);
+            endFrame.setSize(300, 100);
 
         /*
         gameButton.addActionListener(e -> {
@@ -258,10 +295,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
          */
 
-        endFrame.setLocationRelativeTo(null); // Make frame in center of screen
-        endFrame.setVisible(true); // make frame visible
+            endFrame.setLocationRelativeTo(null); // Make frame in center of screen
+            endFrame.setVisible(true); // make frame visible
+        });
     }
-
     /**
      * Create the GUI for the Trivia Maze.
      */
