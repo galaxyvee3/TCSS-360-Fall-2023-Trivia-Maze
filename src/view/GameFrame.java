@@ -29,6 +29,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
 
+    /** The current row of the player in the maze. */
+    private int myCurrentRow;
+
+    /** The current column of the player in the maze. */
+    private int myCurrentCol;
+
     /** Boolean for whether player has escaped the maze. */
     private static final boolean ESCAPE = false;
 
@@ -78,12 +84,42 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JMenuItem exit = new JMenuItem("Exit");
         final JMenuItem start = new JMenuItem("Start");
         final JMenuItem quit = new JMenuItem("Quit");
+        final JMenuItem save = new JMenuItem("Save");
 
-        fileMenu.add(start); //TODO: Install game commencement logic.
-        fileMenu.add(quit); //TODO: Install game end logic.
-
+        fileMenu.add(start); // TODO: Install game commencement logic.
+        fileMenu.add(quit); // TODO: Install game end logic.
+        fileMenu.add(save);
         exit.addActionListener(
                 e -> System.exit(0));
+
+        save.addActionListener(
+                e -> {
+                    String filename = "";
+                    String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
+
+                    int choice = JOptionPane.showOptionDialog(null, "Choose Option to save",
+                            "Save Game", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                            null, chooseSave, null);
+
+                    if (choice == 0) {
+                        filename = "saveGame1.ser";
+                    } else if (choice == 1) {
+                        filename = "saveGame2.ser";
+                    } else if (choice == 2) {
+                        filename = "saveGame3.ser";
+                    }
+
+                    if (myMaze != null) {
+                        try {
+                            myMaze.saveGame(filename);
+
+                            // Method for serialization of object
+                        } catch (final RuntimeException re) {
+                            JOptionPane.showMessageDialog(null, "Pick option to Save this game");
+                        }
+
+                    }
+                });
         fileMenu.add(exit);
         return fileMenu;
     }
@@ -146,6 +182,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         endPanel.add(endLabel);
         endPanel.add(buttonPanel);
         endFrame.add(endPanel);
+
+        // TODO: fix buttons
+
         endFrame.setSize(300, 100);
         endFrame.setLocationRelativeTo(null); // make frame in center of screen
         endFrame.setVisible(true); // show frame
