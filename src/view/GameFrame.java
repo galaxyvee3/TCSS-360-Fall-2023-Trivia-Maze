@@ -18,7 +18,7 @@ import java.beans.PropertyChangeSupport;
  */
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
-    private static Maze myMaze;
+    private static Maze myMaze = new Maze();
 
     private final PropertyChangeSupport myChangeSupport;
 
@@ -44,6 +44,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public GameFrame() {
         super();
         myChangeSupport = new PropertyChangeSupport(this); // create new pcs
+        this.myMazePanel = new MazePanel(myMaze);
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
         setFocusable(true);

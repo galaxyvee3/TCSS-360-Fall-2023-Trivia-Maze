@@ -10,10 +10,7 @@ import java.util.TimerTask;
 import model.Door;
 import model.Maze;
 import model.Room;
-import view.GameFrame;
-import view.Question;
-import view.QuestionAnswer;
-import view.QuestionPanel;
+import view.*;
 
 
 /**
@@ -38,12 +35,15 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     private PropertyChangeEvent myPcs;
     private final Timer myTimer;
 
+    private MazePanel myMazePanel;
+
     public GameEngine(QuestionAnswer theQA, Room theRoom, Door theDoor) {
         this.myQA = theQA;
         this.myRoom = theRoom;
         this.myDoor = theDoor;
         this.myMaze = new Maze();
         this.myGFrame = new GameFrame();
+        myMazePanel = new MazePanel(myMaze);
         this.myRunningGame = true;
 //        this.myPcs = new PropertyChangeEvent();
         myTimer = new Timer();
