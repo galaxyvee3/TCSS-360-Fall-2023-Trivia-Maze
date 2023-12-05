@@ -16,15 +16,17 @@ import view.QuestionAnswer;
 
 /**
  * Class that operates a Trivia Maze game.
- * @author Rick Adams
+ * @author Rick Adams.
  * @author Viktoria Dolojan
- * @version Fall 2023
- * Trivia Maze - Team 2
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
 public class GameEngine implements PropertyChangeListener, ActionListener {
     //=====================Constants==========================//
     /** Constant int for loop delay. */
     private static final int TIMER_DELAY = 100;
+
+    private static final String ANSWER = "ANSWER";
     /** Constant Timer object. */
     private static final Timer TIMER = new Timer();
     //=====================Fields==========================//
@@ -63,16 +65,59 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent theEvent) {
+    public void actionPerformed(final ActionEvent theEvent) {
         // No need to handle QuestionPanel interaction for now
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(final PropertyChangeEvent theEvt) {
         // Handle property changes if needed
     }
 
+    private void processAnswer() {
+        // Replace this with the actual user's answer.
+        final String userAnswer = "User's Answer";
+
+        for (Map<String, String> questionData : myQA.getQuestions()) {
+            final String correctAnswer = questionData.get(ANSWER);
+            if (correctAnswer.equals(userAnswer)) {
+                handleCorrectAnswer();
+                return;  // Exit the loop if the correct answer is found.
+            }
+        }
+        // Otherwise, handle an incorrect answer.
+        handleIncorrectAnswer();
+    }
+
+    private void handleCorrectAnswer() {
+        if (myQA.hasMoreQuestions()) {
+            final Map<String, String> nextQuestionData = myQA.getNextQuestion();
+            final String questionText = nextQuestionData.get("QUESTION");
+            final String answerText = nextQuestionData.get(ANSWER);
+            // Use a default constructor for QuestionAnswer
+            final QuestionAnswer nextQuestion = new QuestionAnswer();
+//            myGFrame.getQuestionPanel().setCurrentQuestion(nextQuestion);
+        } else {
+            myRunningGame = false;
+           //myGFrame.getQuestionPanel().setCQuestion("Game Over!");
+        }
+    }
+
+    private void handleIncorrectAnswer() {
+    }
+
+    public void setRunningGame(final boolean theRunningGame) {
+        this.myRunningGame = theRunningGame;
+    }
+
+    /**
+     * Private game loop class.
+     */
     public class GameLoop extends TimerTask {
+
+        /**
+         * Method that starts the game.
+         */
         @Override
         public void run() {
             if (myRunningGame) {
@@ -94,41 +139,5 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
             // Placeholder for checking if a question is answered
             processAnswer();
         }
-    }
-
-    private void processAnswer() {
-        final String userAnswer = "User's Answer"; // Replace this with the actual user's answer
-
-        for (Map<String, String> questionData : myQA.getQuestions()) {
-            String correctAnswer = questionData.get("ANSWER");
-            if (correctAnswer.equals(userAnswer)) {
-                handleCorrectAnswer();
-                return;  // Exit the loop if the correct answer is found
-            }
-        }
-        // If the loop completes without finding a correct answer, handle an incorrect answer
-        handleIncorrectAnswer();
-    }
-
-    private void handleCorrectAnswer() {
-        if (myQA.hasMoreQuestions()) {
-            final Map<String, String> nextQuestionData = myQA.getNextQuestion();
-            final String questionText = nextQuestionData.get("QUESTION");
-            final String answerText = nextQuestionData.get("ANSWER");
-            // Use a default constructor for QuestionAnswer
-            final QuestionAnswer nextQuestion = new QuestionAnswer();
-//            myGFrame.getQuestionPanel().setCurrentQuestion(nextQuestion);
-        } else {
-            myRunningGame = false;
-//            myGFrame.getQuestionPanel().setCQuestion("Game Over!");
-        }
-    }
-
-    private void handleIncorrectAnswer() {
-//        myGFrame.getQuestionPanel().setFeedback("Incorrect answer. Try again.");
-    }
-
-    public void setRunningGame(final boolean theRunningGame) {
-        this.myRunningGame = theRunningGame;
     }
 }
