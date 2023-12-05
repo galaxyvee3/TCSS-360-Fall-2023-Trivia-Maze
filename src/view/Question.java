@@ -61,4 +61,19 @@ public abstract class Question {
     public void setType(Type type) {
         this.type = type;
     }
+
+    /**
+     * Generated toString, mostly for debugging/testing.
+     * @return Returns the raw Question class via String.
+     */
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Question{");
+        sb.append("myQuestionText='").append(myQuestionText).append('\'');
+        sb.append(", myAnswerText='").append(myAnswerText).append('\'');
+        sb.append(", myType=").append(myType);
+        sb.append(", type=").append(type);
+        sb.append('}');
+        return sb.toString();
+    }
 }

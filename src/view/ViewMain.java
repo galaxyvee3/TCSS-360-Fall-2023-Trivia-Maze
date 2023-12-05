@@ -11,9 +11,6 @@ import model.Room;
  */
 public class ViewMain {
     public static void main(String[] args) {
-        QuestionAnswer qa = new QuestionAnswer();
-        List <String> myCorrectAnswers;
 
-        QuestionAnswer.displayQuestionTableInfo();
     }
 }

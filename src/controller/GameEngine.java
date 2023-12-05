@@ -10,8 +10,9 @@ import java.util.TimerTask;
 import model.Door;
 import model.Maze;
 import model.Room;
-import view.*;
-
+import view.GameFrame;
+import view.MazePanel;
+import view.QuestionAnswer;
 
 /**
  * Class that operates a Trivia Maze game.
@@ -21,23 +22,36 @@ import view.*;
  * Trivia Maze - Team 2
  */
 public class GameEngine implements PropertyChangeListener, ActionListener {
-    // Constants
+    //=====================Constants==========================//
+    /** Constant int for loop delay. */
     private static final int TIMER_DELAY = 100;
-
-    // Fields
+    /** Constant Timer object. */
+    private static final Timer TIMER = new Timer();
+    //=====================Fields==========================//
+    /** QuestionAnswer class object. */
     private final QuestionAnswer myQA;
+    /** GameFrame class object. */
     private final GameFrame myGFrame;
+    /** Room class object. */
     private final Room myRoom;
+    /** Maze class object. */
     private final Maze myMaze;
+    /** Door class object. */
     private final Door myDoor;
+    /** Game status boolean. */
     private boolean myRunningGame;
-
-    private PropertyChangeEvent myPcs;
-    private final Timer myTimer;
-
+    /** MazePanel class object. */
     private MazePanel myMazePanel;
 
-    public GameEngine(QuestionAnswer theQA, Room theRoom, Door theDoor) {
+    /**
+     * Public constructor.
+     * @param theQA QuestionAnswer object.
+     * @param theRoom Room object.
+     * @param theDoor Door object.
+     */
+    public GameEngine(final QuestionAnswer theQA,
+                      final Room theRoom,
+                      final Door theDoor) {
         this.myQA = theQA;
         this.myRoom = theRoom;
         this.myDoor = theDoor;
@@ -45,9 +59,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
         this.myGFrame = new GameFrame();
         myMazePanel = new MazePanel(myMaze);
         this.myRunningGame = true;
-//        this.myPcs = new PropertyChangeEvent();
-        myTimer = new Timer();
-        myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
+        TIMER.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
     }
 
     @Override
@@ -69,7 +81,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
                 myGFrame.getMazePanel().repaint();
                 myGFrame.render();
             } else {
-                myTimer.cancel();
+                TIMER.cancel();
             }
         }
 
@@ -85,28 +97,26 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     }
 
     private void processAnswer() {
-        String userAnswer = "User's Answer"; // Replace this with the actual user's answer
+        final String userAnswer = "User's Answer"; // Replace this with the actual user's answer
 
         for (Map<String, String> questionData : myQA.getQuestions()) {
             String correctAnswer = questionData.get("ANSWER");
-
             if (correctAnswer.equals(userAnswer)) {
                 handleCorrectAnswer();
                 return;  // Exit the loop if the correct answer is found
             }
         }
-
         // If the loop completes without finding a correct answer, handle an incorrect answer
         handleIncorrectAnswer();
     }
 
     private void handleCorrectAnswer() {
         if (myQA.hasMoreQuestions()) {
-            Map<String, String> nextQuestionData = myQA.getNextQuestion();
-            String questionText = nextQuestionData.get("QUESTION");
-            String answerText = nextQuestionData.get("ANSWER");
+            final Map<String, String> nextQuestionData = myQA.getNextQuestion();
+            final String questionText = nextQuestionData.get("QUESTION");
+            final String answerText = nextQuestionData.get("ANSWER");
             // Use a default constructor for QuestionAnswer
-            QuestionAnswer nextQuestion = new QuestionAnswer();
+            final QuestionAnswer nextQuestion = new QuestionAnswer();
 //            myGFrame.getQuestionPanel().setCurrentQuestion(nextQuestion);
         } else {
             myRunningGame = false;
@@ -118,7 +128,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
 //        myGFrame.getQuestionPanel().setFeedback("Incorrect answer. Try again.");
     }
 
-    public void setRunningGame(boolean runningGame) {
-        this.myRunningGame = runningGame;
+    public void setRunningGame(final boolean theRunningGame) {
+        this.myRunningGame = theRunningGame;
     }
 }

@@ -78,7 +78,6 @@ public class QuestionAnswer {
      * @param theConn sql connection object.
      * @param tableName table name in string.
      * @param columns column names in string.
-     * @throws SQLException throws an SQL exception if an invalid entry is made.
      */
     private static void fetchQuestionsFromTable(final Connection theConn, final String tableName,
                                                 final String... columns) throws SQLException {
@@ -166,7 +165,9 @@ public class QuestionAnswer {
      */
     public static List<String> getAnswers() {
         List<String> correctAnswers = new ArrayList<>();
-        final String[] tableNames = {"ShortAnswerQuestions", "TrueFalseQuestions", "MultipleChoiceQuestions"};
+        final String[] tableNames = {"ShortAnswerQuestions",
+                                     "TrueFalseQuestions",
+                                     "MultipleChoiceQuestions"};
 
         try (Connection conn = DriverManager.getConnection(URL)) {
             for (String tableName : tableNames) {
@@ -232,7 +233,6 @@ public class QuestionAnswer {
 
     /**
      * Gets the next question.
-     *
      * @return the next question, or null if there are no more questions
      */
     public Map<String, String> getNextQuestion() {
@@ -256,31 +256,33 @@ public class QuestionAnswer {
         }
     }
     /**
-     * Display information about a specific question table.
+     * Helper method to display information about database tables.
      * @param theConn SQL connection object.
-     * @param tableName Name of the question table.
+     * @param theTableName Name of the question table.
      */
-    private static void displayTableInfo(final Connection theConn, final String tableName) throws SQLException {
+    private static void displayTableInfo(final Connection theConn, final String theTableName) throws SQLException {
         final DatabaseMetaData metaData = theConn.getMetaData();
 
-        try (ResultSet columns = metaData.getColumns(null, null, tableName, null)) {
-            System.out.println("Columns for table " + tableName + ":");
+        try (ResultSet columns = metaData.getColumns(null, null, theTableName, null)) {
+            System.out.println("Columns for table " + theTableName + ":");
             while (columns.next()) {
                 System.out.println("Column: " + columns.getString("COLUMN_NAME") +
                                    ", Type: " + columns.getString("TYPE_NAME"));
             }
         }
 
-        try (ResultSet primaryKeys = metaData.getPrimaryKeys(null, null, tableName)) {
-            System.out.println("Primary keys for table " + tableName + ":");
+        try (ResultSet primaryKeys = metaData.getPrimaryKeys(null, null, theTableName)) {
+            System.out.println("Primary keys for table " + theTableName + ":");
             while (primaryKeys.next()) {
                 System.out.println("Primary Key: " + primaryKeys.getString("COLUMN_NAME"));
             }
         }
     }
 
-
-
+    /**
+     * Generated toString.
+     * @return Returns the raw QuestionAnswer class via string.
+     */
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
