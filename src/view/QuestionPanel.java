@@ -55,7 +55,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
             }
         }
         JPanel panel = new JPanel(new GridLayout(4,1));
-        JLabel label = new JLabel("Answer");
+        JLabel label = new JLabel("Answer: ");
         JLabel result = new JLabel("");
 
         JTextField input = new JTextField();
@@ -78,7 +78,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void paintComponent(final Graphics theGraphics) {
-        super.paintComponents(theGraphics);
+        super.paintComponent(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
 
         System.out.println("INIT QUESTION REPAINT"); // for testing purposes

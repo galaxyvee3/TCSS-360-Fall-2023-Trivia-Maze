@@ -43,8 +43,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public GameFrame() {
         super();
+        setLayout(new BorderLayout());
         myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         this.myMazePanel = new MazePanel(myMaze);
+        myGameOver = false;
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
         setFocusable(true);
@@ -61,7 +63,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         setSize(new Dimension(600, 600));
         setResizable(false);
         setLocationRelativeTo(null);
-        myGameOver = false;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -73,6 +74,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu());
         menuBar.add(infoMenu());
+        menuBar.setVisible(true);
         return menuBar;
     }
 
@@ -196,16 +198,21 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      */
     public static void createGUI() {
         myMaze = new Maze(); // create new maze game
-        final GameFrame gameFrame = new GameFrame(); // frame for game
-        final MazePanel mazePanel = new MazePanel(myMaze); // panel for maze
+        final GameFrame gameFrame = new GameFrame(); // create frame for game
+        // create panels
+        final MazePanel mazePanel = new MazePanel(myMaze);
+        final InfoPanel infoPanel = new InfoPanel();
         final QuestionPanel questionPanel = new QuestionPanel();
 
-        gameFrame.add(mazePanel, BorderLayout.CENTER); // add maze panel to game panel
-        gameFrame.add(questionPanel, BorderLayout.SOUTH); // add question panel to game panel
+        // add panels to frame
+        gameFrame.add(mazePanel, BorderLayout.CENTER);
+        gameFrame.add(infoPanel, BorderLayout.EAST);
+        gameFrame.add(questionPanel, BorderLayout.SOUTH);
 
-        myMaze.addPropertyChangeListener(mazePanel); // add PCL for maze
-        myMaze.addPropertyChangeListener(questionPanel); // add PCL for question
-        myMaze.addPropertyChangeListener(gameFrame); // add PCL for frame
+        // add PCL to frame and panels
+        myMaze.addPropertyChangeListener(mazePanel);
+        myMaze.addPropertyChangeListener(questionPanel);
+        myMaze.addPropertyChangeListener(gameFrame);
         gameFrame.setVisible(true);
     }
     public void render() {
