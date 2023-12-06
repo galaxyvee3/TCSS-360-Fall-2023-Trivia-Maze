@@ -1,10 +1,21 @@
 package view;
-import java.sql.*;
-import java.util.*;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  * QuestionAnswer class for Trivia Maze.
@@ -164,7 +175,7 @@ public class QuestionAnswer {
      * @return List of correct answers for the questions.
      */
     public static List<String> getAnswers() {
-        List<String> correctAnswers = new ArrayList<>();
+        final List<String> correctAnswers = new ArrayList<>();
         final String[] tableNames = {"ShortAnswerQuestions",
                                      "TrueFalseQuestions",
                                      "MultipleChoiceQuestions"};
@@ -221,7 +232,23 @@ public class QuestionAnswer {
             return Collections.emptyList();
         }
     }
+    /**
+     * Returns a list of all questions and their answers.
+     *
+     * @return List of questions and answers as strings.
+     */
+    public List<String> getAllQuestionsAndAnswers() {
+        final List<String> questionsAndAnswers = new ArrayList<>();
 
+        for (Map<String, String> questionData : myQuestions) {
+            final String question = questionData.get(QUESTION);
+            final String answer = questionData.get(ANSWER);
+
+            final String questionAndAnswer = question + " - " + answer;
+            questionsAndAnswers.add(questionAndAnswer);
+        }
+        return questionsAndAnswers;
+    }
     /**
      * Checks if there are more questions available.
      *
@@ -260,10 +287,13 @@ public class QuestionAnswer {
      * @param theConn SQL connection object.
      * @param theTableName Name of the question table.
      */
-    private static void displayTableInfo(final Connection theConn, final String theTableName) throws SQLException {
+    private static void displayTableInfo(final Connection theConn,
+                                         final String theTableName) throws SQLException {
         final DatabaseMetaData metaData = theConn.getMetaData();
 
-        try (ResultSet columns = metaData.getColumns(null, null, theTableName, null)) {
+        try (ResultSet columns = metaData.getColumns(null,
+                null, theTableName,
+                null)) {
             System.out.println("Columns for table " + theTableName + ":");
             while (columns.next()) {
                 System.out.println("Column: " + columns.getString("COLUMN_NAME") +
@@ -289,6 +319,11 @@ public class QuestionAnswer {
     }
 
     public static void main(String[] args) {
-       displayQuestionTableInfo();
+        QuestionAnswer qa = new QuestionAnswer();
+        List<String> questionsAndAnswers = qa.getAllQuestionsAndAnswers();
+
+        for (String qaPair : questionsAndAnswers) {
+            System.out.println(qaPair);
+        }
     }
 }
