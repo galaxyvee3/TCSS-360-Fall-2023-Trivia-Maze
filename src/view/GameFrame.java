@@ -89,7 +89,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         return menuBar;
     }
     /**
-      @author Justin Ho
+      @author Justin Hot
      * GUI for game file menu.
      * @return JMenu menu for game file
      */
