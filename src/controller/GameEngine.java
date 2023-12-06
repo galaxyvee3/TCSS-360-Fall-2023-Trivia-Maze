@@ -1,5 +1,8 @@
-package model;
+package controller;
 
+import model.Door;
+import model.Maze;
+import model.Room;
 import view.GameFrame;
 import view.Question;
 import view.QuestionAnswer;
