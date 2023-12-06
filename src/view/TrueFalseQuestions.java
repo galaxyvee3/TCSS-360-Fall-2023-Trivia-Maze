@@ -15,7 +15,7 @@ public class TrueFalseQuestions extends Question{
     private static final Logger LOGGER = Logger.getLogger(ShortAnswerQuestions.class.getName());
 //===================Fields======================//
     /** String containing the correct answers. */
-    private final List <String> myCorrectAnswers;
+    //private final List <String> myCorrectAnswers;
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
@@ -23,17 +23,11 @@ public class TrueFalseQuestions extends Question{
      */
     public TrueFalseQuestions(final String theQuestionText, final boolean theCorrect) {
         super(theQuestionText, String.valueOf(theCorrect));
-        myCorrectAnswers = QuestionAnswer.getAnswers();
-        authenticateAnswer(myCorrectAnswers, theCorrect);
+        setMyType(Type.TRUE_FALSE);
+        //myCorrectAnswers = QuestionAnswer.getAnswers();
+        //authenticateAnswer(myCorrectAnswers, theCorrect);
     }
-    /**
-     * Accessor method that returns the question type.
-     * @return the question type.
-     */
-    @Override
-    public String getQuestionType() {
-        return "true/false";
-    }
+
     /**
      * Check if the provided answer is correct.
      * @param theCorrectAnswers A string of correct answers.
@@ -50,16 +44,5 @@ public class TrueFalseQuestions extends Question{
         } else {
             LOGGER.info("Success: " + theAnswer);
         }
-    }
-
-    public static void main(String[] args) {
-        TrueFalseQuestions trueFalseQuestions = new TrueFalseQuestions("Is the sky blue?", true);
-
-        // Test a correct answer (assuming 0 represents false in the database)
-        trueFalseQuestions.authenticateAnswer(QuestionAnswer.getAnswers(), false);
-
-        // Test an incorrect answer (assuming 1 represents true in the database)
-        trueFalseQuestions.authenticateAnswer(QuestionAnswer.getAnswers(), true);
-
     }
 }

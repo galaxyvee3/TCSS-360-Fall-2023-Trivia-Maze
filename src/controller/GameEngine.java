@@ -1,18 +1,18 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import model.Door;
 import model.Maze;
 import model.Room;
 import view.GameFrame;
 import view.MazePanel;
 import view.QuestionAnswer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Class that operates a Trivia Maze game.
@@ -74,6 +74,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
         // Handle property changes if needed
     }
 
+    /*
     private void processAnswer() {
         // Replace this with the actual user's answer.
         final String userAnswer = "User's Answer";
@@ -102,6 +103,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
            //myGFrame.getQuestionPanel().setCQuestion("Game Over!");
         }
     }
+    */
 
     private void handleIncorrectAnswer() {
     }
@@ -137,7 +139,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
 
         private void checkQuestionAnswered() {
             // Placeholder for checking if a question is answered
-            processAnswer();
+            //processAnswer();
         }
     }
 }

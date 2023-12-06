@@ -6,7 +6,6 @@ import view.QuestionAnswer;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -105,8 +104,8 @@ public class Maze implements Serializable {
 
         // attach trivia question to doors
         // TODO: retrieve questions from database
-        QuestionAnswer database = new QuestionAnswer();
-        Map<String, String> question = database.getRandomQuestion();
+        QuestionAnswer questions = new QuestionAnswer();
+
 
         // fill rooms with doors
         // horizontal doors

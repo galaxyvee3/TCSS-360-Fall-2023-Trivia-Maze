@@ -16,7 +16,7 @@ public class ShortAnswerQuestions extends Question {
 //===================Fields======================//
 
     /** String containing the correct answers. */
-    private final List <String> myCorrectAnswers;
+    //private final List <String> myCorrectAnswers;
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
@@ -25,19 +25,13 @@ public class ShortAnswerQuestions extends Question {
     public ShortAnswerQuestions(final String theQuestionText,
                                 final String theAnswerText) {
         super(theQuestionText, theAnswerText);
+        setMyType(Type.SHORT_ANSWER);
         // Retrieve correct answers from the database
-        myCorrectAnswers = QuestionAnswer.getAnswers();
+        //myCorrectAnswers = QuestionAnswer.getAnswers();
         // Authenticate the provided answer against the correct answers
-        authenticateAnswer(myCorrectAnswers, theAnswerText);
+        //authenticateAnswer(myCorrectAnswers, theAnswerText);
     }
-    /**
-     * Accessor method that returns the question type.
-     * @return The question type.
-     */
-    @Override
-    public String getQuestionType() {
-        return "short answer";
-    }
+
     /**
      * Authenticate the user's answer for short answer questions.
      * @param theCorrectAnswer List of correct answers for short answer questions.

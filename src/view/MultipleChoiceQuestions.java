@@ -10,31 +10,33 @@ import java.util.logging.Logger;
  * Trivia Maze - Team 2
  */
 public class MultipleChoiceQuestions extends Question {
-    //======================Constants======================//
+//======================Constants======================//
     /** Logger constant. **/
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
-    private final List <String> myCorrectAnswers;
+    //private final List <String> myCorrectAnswers;
+
+//======================Fields======================//
+    private String myChoiceA;
+    private String myChoiceB;
+    private String myChoiceC;
+
     /**
      * Public constructor for object instantiation.
      * @param theQuestionText Question text in string.
      * @param theAnswerText Answer text in string.
      */
-    public MultipleChoiceQuestions(final String theQuestionText,
-                                   final String theAnswerText) {
+    public MultipleChoiceQuestions(final String theQuestionText, final String theAnswerText,
+               final String theChoiceA, final String theChoiceB, final String theChoiceC) {
         super(theQuestionText, theAnswerText);
-        myCorrectAnswers = QuestionAnswer.getAnswers();
-        validateAnswer(myCorrectAnswers, theAnswerText);
+        setMyType(Type.MULTIPLE_CHOICE);
+        myChoiceA = theChoiceA;
+        myChoiceB = theChoiceB;
+        myChoiceC = theChoiceC;
+        //myCorrectAnswers = QuestionAnswer.getAnswers();
+        //validateAnswer(myCorrectAnswers, theAnswerText);
     }
 
-    /**
-     * Accessor method that returns the question type.
-     * @return the question type.
-     */
-    @Override
-    public String getQuestionType() {
-        return "multiple choice";
-    }
     /**
      * Validate that the answer is a single uppercase letter.
      */

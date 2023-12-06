@@ -46,12 +46,12 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public JPanel promptUser() {
         // TODO: UPDATE PANEL BASED ON TYPE OF QUESTION
         if (myQuestion != null) {
-            if (myQuestion.getQuestionType().equalsIgnoreCase("multiple choice")) {
-                System.out.println("mc");
-            } else if (myQuestion.getQuestionType().equalsIgnoreCase("short answer")) {
-                System.out.println("sa");
-            } else if (myQuestion.getQuestionType().equalsIgnoreCase("true/false")) {
-                System.out.println("tf");
+            if (myQuestion.getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE")) {
+
+            } else if (myQuestion.getQuestionType().equalsIgnoreCase("TRUE_FALSE")) {
+
+            } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
+
             }
         }
         JPanel panel = new JPanel(new GridLayout(4,1));
