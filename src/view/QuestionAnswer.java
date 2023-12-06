@@ -51,15 +51,7 @@ public class QuestionAnswer {
     }
 
     /**
-     * Public accessor method for the questions.
-     * @return returns a list of the questions.
-     */
-//    public List<Map<String, String>> getQuestions() {
-//        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
-//    }
-
-    /**
-     * Fetches questions from the SQLite database.
+     * Retrieves questions from the QuestionsDB.db.
      */
     public static void fetchQuestionsFromDatabase() {
         try (Connection conn = DriverManager.getConnection(URL)) {
