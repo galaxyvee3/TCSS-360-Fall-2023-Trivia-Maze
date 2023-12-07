@@ -24,14 +24,11 @@ public class InfoPanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // draw words
-        //String info = "Information";
         String str1 = "Current Location of Player";
         String str2 = "Locked Door";
         String str3 = "Closed Door";
         String str4 = "Maze Room";
         String str5 = "Exit Room";
-        //g2d.setFont(new Font("Arial", Font.BOLD, 12));
-        //g2d.drawString(info, 0, 20);
         g2d.setFont(new Font("Arial", Font.ITALIC, 12));
         g2d.drawString(str1, 15, 40);
         g2d.drawString(str2, 15, 60);

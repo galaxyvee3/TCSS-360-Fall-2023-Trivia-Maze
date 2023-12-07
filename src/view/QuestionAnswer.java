@@ -2,6 +2,7 @@ package view;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -13,31 +14,26 @@ import java.util.logging.Logger;
  */
 public class QuestionAnswer {
 //======================Constants======================//
-    /** Logger constant. **/
+    /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
-    private static final String QUESTION = "QUESTION";
-
-    private static final  String ANSWER = "ANSWER";
-
-    private static final String QUESTION_ID = "QuestionID";
-
+    /** URL constant. */
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+
     /** Random constant. */
     private static final Random RANDOM = new Random();
+
 //======================Fields======================//
-    private static int myCurrentIndex;
-
-
-    private static ArrayList<Question> myQuestions = new ArrayList<>();
+    /** ArrayList of Trivia Questions for the maze. */
+    private static ArrayList<Question> myQuestions;
 
     /**
      * Public constructor.
      */
     public QuestionAnswer() {
-        myCurrentIndex = 0;
-        //myQuestions = new ArrayList<Question>();
+        myQuestions = new ArrayList<Question>();
         fetchQuestions();
+        Collections.shuffle(myQuestions);
     }
 
     /**
@@ -58,7 +54,7 @@ public class QuestionAnswer {
                 String choiceC = rs1.getString("choiceC");
                 Question mc = new MultipleChoiceQuestions(question, answer, choiceA, choiceB, choiceC);
                 myQuestions.add(mc);
-                System.out.println(mc);
+                //System.out.println(mc);
             }
             ResultSet rs2 = stmt.executeQuery(query2);
             while (rs2.next()) {
@@ -66,7 +62,7 @@ public class QuestionAnswer {
                 boolean answer = Boolean.parseBoolean(rs2.getString( "ANSWER" ));
                 Question tf = new TrueFalseQuestions(question, answer);
                 myQuestions.add(tf);
-                System.out.println(tf);
+                //System.out.println(tf);
             }
             ResultSet rs3 = stmt.executeQuery(query3);
             while (rs3.next()) {
@@ -74,7 +70,7 @@ public class QuestionAnswer {
                 String answer = rs3.getString( "ANSWER" );
                 Question sa = new ShortAnswerQuestions(question, answer);
                 myQuestions.add(sa);
-                System.out.println(sa);
+                //System.out.println(sa);
             }
         } catch (final SQLException e) {
             LOGGER.severe("Question fetch from DB has failed.");
@@ -82,9 +78,13 @@ public class QuestionAnswer {
     }
 
     /**
-     * Generated toString.
-     * @return Returns the raw QuestionAnswer class via string.
+     * Get the list of trivia questions.
+     * @return ArrayList of Questions
      */
+    public ArrayList<Question> getQuestions() {
+        return myQuestions;
+    }
+
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";

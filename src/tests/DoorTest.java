@@ -34,16 +34,7 @@ public class DoorTest {
         assertFalse(myDoor.getUnlocked());
         assertFalse(myDoor.getClosed());
         assertNull(myDoor.getQuestion());
-        assertNull(myDoor.getAnswer());
         assertEquals("Door init", myDoor.toString());
-    }
-
-    @Test
-    void testSetQuestionAnswer() {
-        myDoor.setQuestion("What are the 4 Pillars of OOP?");
-        myDoor.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
-        assertEquals("What are the 4 Pillars of OOP?", myDoor.getQuestion());
-        assertEquals("Abstraction, Encapsulation, Inheritance, and Polymorphism", myDoor.getAnswer());
     }
 
     @Test

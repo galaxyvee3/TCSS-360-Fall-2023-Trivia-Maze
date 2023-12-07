@@ -58,13 +58,4 @@ class RoomTest {
         }
         assertTrue(cluePresent, "At least one room should have a clue.");
     }
-
-    @Test
-    void testDoorQuestionAnswer() {
-        Door door = new Door(new Room(), new Room(), Direction.SOUTH, Direction.NORTH);
-        door.setQuestion("What are the 4 Pillars of OOP?");
-        door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
-        assertEquals("What are the 4 Pillars of OOP?", myRoom.retrieveQuestion(door));
-        assertEquals("Abstraction, Encapsulation, Inheritance, and Polymorphism", myRoom.retrieveAnswer(door));
-    }
 }

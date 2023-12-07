@@ -23,8 +23,8 @@ public class MultipleChoiceQuestions extends Question {
 
     /**
      * Public constructor for object instantiation.
-     * @param theQuestionText Question text in string.
-     * @param theAnswerText Answer text in string.
+     * @param theQuestionText Question text in string
+     * @param theAnswerText Answer text in string
      */
     public MultipleChoiceQuestions(final String theQuestionText, final String theAnswerText,
                final String theChoiceA, final String theChoiceB, final String theChoiceC) {
@@ -35,6 +35,18 @@ public class MultipleChoiceQuestions extends Question {
         myChoiceC = theChoiceC;
         //myCorrectAnswers = QuestionAnswer.getAnswers();
         //validateAnswer(myCorrectAnswers, theAnswerText);
+    }
+
+    public String getChoiceA() {
+        return myChoiceA;
+    }
+
+    public String getChoiceB() {
+        return myChoiceB;
+    }
+
+    public String getChoiceC() {
+        return myChoiceC;
     }
 
     /**
