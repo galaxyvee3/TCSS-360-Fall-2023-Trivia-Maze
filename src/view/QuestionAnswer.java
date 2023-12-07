@@ -2,6 +2,7 @@ package view;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -13,31 +14,26 @@ import java.util.logging.Logger;
  */
 public class QuestionAnswer {
 //======================Constants======================//
-    /** Logger constant. **/
+    /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
-    private static final String QUESTION = "QUESTION";
-
-    private static final  String ANSWER = "ANSWER";
-
-    private static final String QUESTION_ID = "QuestionID";
-
+    /** URL constant. */
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+
     /** Random constant. */
     private static final Random RANDOM = new Random();
+
 //======================Fields======================//
-    private static int myCurrentIndex;
-
-
+    /** ArrayList of Trivia Questions for the maze. */
     private static ArrayList<Question> myQuestions;
 
     /**
      * Public constructor.
      */
     public QuestionAnswer() {
-        myCurrentIndex = 0;
         myQuestions = new ArrayList<Question>();
         fetchQuestions();
+        Collections.shuffle(myQuestions);
     }
 
     /**
