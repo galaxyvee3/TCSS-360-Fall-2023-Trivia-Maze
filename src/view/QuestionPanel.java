@@ -37,6 +37,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         myPanel = promptUser();
         add(myLabel);
         add(myPanel);
+        setVisible(true);
     }
 
     /**

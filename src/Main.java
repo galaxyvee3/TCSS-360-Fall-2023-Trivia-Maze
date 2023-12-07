@@ -1,16 +1,14 @@
+import controller.GameLauncher;
 import java.sql.SQLException;
 import javax.swing.SwingUtilities;
-import view.GameFrame;
-import view.QuestionDatabase;
 
 /**
  * Main driver for Trivia Maze.
- * @author Rick Adams
+ * @author Rick Adams.
  * @author Viktoria Dolojan
- * @version Fall 2023
- * Trivia Maze - Team 2
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
-
 public final class Main {
     /**
      * Private default constructor.
@@ -24,6 +22,6 @@ public final class Main {
      */
     public static void main(final String[] theArgs) throws SQLException {
 //        QuestionDatabase.initializeDatabase();
-        SwingUtilities.invokeLater(GameFrame::createGUI);
+        SwingUtilities.invokeLater(GameLauncher::launcher);
     }
 }

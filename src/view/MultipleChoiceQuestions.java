@@ -5,18 +5,18 @@ import java.util.logging.Logger;
 
 /**
  * Class for multiple choice questions.
- * @author Rick Adams
+ * @author Rick Adams.
  * @version Fall 2023
- * Trivia Maze - Team 2
+ * Trivia Maze - Team 2.
  */
 public class MultipleChoiceQuestions extends Question {
-//======================Constants======================//
+    //======================Constants====================//
     /** Logger constant. **/
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
     //private final List <String> myCorrectAnswers;
 
-//======================Fields======================//
+    //======================Fields======================//
     private String myChoiceA;
     private String myChoiceB;
     private String myChoiceC;

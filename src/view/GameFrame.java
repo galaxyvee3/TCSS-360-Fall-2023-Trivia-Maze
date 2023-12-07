@@ -22,9 +22,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     private final PropertyChangeSupport myChangeSupport;
 
-    private QuestionPanel qPanel;
+    private static QuestionPanel myQPanel;
 
     private MazePanel myMazePanel;
+
 
     /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
@@ -215,19 +216,29 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myMaze.addPropertyChangeListener(gameFrame);
         gameFrame.setVisible(true);
     }
+
     public void render() {
-        // Implement the rendering logic here
-        // For example, update the maze display or any other graphical elements
-        // You can use methods like mazePanel.repaint() to trigger a repaint
+        // Update the maze display
+        myMazePanel.repaint();
+
+        // Ensure myQPanel is not null before invoking methods on it
+        if (myQPanel != null) {
+            myQPanel.repaint();
+        }
     }
+
 
     public void saveAndLoad() {
 
     }
 
-    public JPanel getQuestionPanel() {
-        return qPanel;
+    public void setQuestionPanel(QuestionPanel questionPanel) {
+        myQPanel = questionPanel;
     }
+    public static QuestionPanel getQuestionPanel() {
+        return myQPanel;
+    }
+
 
     public MazePanel getMazePanel() {
         return myMazePanel;

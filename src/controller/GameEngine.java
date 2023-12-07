@@ -1,5 +1,6 @@
 package controller;
 
+import javax.swing.SwingUtilities;
 import model.Door;
 import model.Maze;
 import model.Room;
@@ -62,8 +63,12 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
         myMazePanel = new MazePanel(myMaze);
         this.myRunningGame = true;
         TIMER.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
+        startGameLoop();
     }
 
+    public void startGameLoop() {
+        TIMER.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
+    }
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
         // No need to handle QuestionPanel interaction for now
@@ -116,7 +121,6 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
      * Private game loop class.
      */
     public class GameLoop extends TimerTask {
-
         /**
          * Method that starts the game.
          */
@@ -125,12 +129,17 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
             if (myRunningGame) {
                 checkPlayerInteraction();
                 checkQuestionAnswered();
-                myGFrame.getMazePanel().repaint();
-                myGFrame.render();
+
+                // Execute the UI update on the EDT
+                SwingUtilities.invokeLater(() -> {
+                    myGFrame.getMazePanel().repaint();
+                    myGFrame.render();
+                });
             } else {
                 TIMER.cancel();
             }
         }
+
 
         private void checkPlayerInteraction() {
             // Placeholder for checking player interactions
