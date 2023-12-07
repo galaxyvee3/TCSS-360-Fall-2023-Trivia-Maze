@@ -227,22 +227,24 @@ public class Maze implements Serializable {
         return theDoor.getClosed();
     }
 
-    public String unlockDoor() {
-        if (myAttemptingDoor) {
-            myCurrentDoor.unlockDoor();
-            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-            return "Door unlocked";
-        }
-        return "No door being attempted";
+    /**
+     * CHEAT: unlock door with N key
+     */
+    public void unlockDoor() {
+        myAttemptingDoor = false;
+        myCurrentDoor.unlockDoor();
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        System.out.println("Door unlocked");
     }
 
-    public String closeDoor() {
-        if (myAttemptingDoor) {
-            myCurrentDoor.closeDoor();
-            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-            return "Door closed";
-        }
-        return "No door being attempted";
+    /**
+     * CHEAT: close door with M key
+     */
+    public void closeDoor() {
+        myAttemptingDoor = false;
+        myCurrentDoor.closeDoor();
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        System.out.println("Door closed");
     }
 
     /**
@@ -250,9 +252,9 @@ public class Maze implements Serializable {
      * @param theDoor door that is being attempted
      */
     private void promptQuestion(final Door theDoor) {
-        myCurrentDoor = theDoor;
-        //myAttemptingDoor = true;
         // player has encountered a locked door
+        myCurrentDoor = theDoor;
+        myAttemptingDoor = true;
         // prompt trivia question from door
         Question question = theDoor.getQuestion();
 
@@ -265,8 +267,6 @@ public class Maze implements Serializable {
             theDoor.closeDoor();
         }*/
         //myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, true, true);
-        // TODO: ATTEMPTING DOOR BECOMES FALSE TOO EARLY
-        //myAttemptingDoor = false;
     }
 
     /**
