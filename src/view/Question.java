@@ -26,7 +26,6 @@ public class Question {
         this.myQuestion = theQuestion;
         this.myAnswer = theAnswer;
     }
-
     /**
      * Return the question.
      * @return trivia question
@@ -34,7 +33,6 @@ public class Question {
     public String getQuestion() {
         return myQuestion;
     }
-
     /**
      * Get the answer to the trivia question.
      * @return String answer to trivia question
