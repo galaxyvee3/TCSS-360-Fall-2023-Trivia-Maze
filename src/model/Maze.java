@@ -6,6 +6,7 @@ import view.QuestionAnswer;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -104,9 +105,9 @@ public class Maze implements Serializable {
 
         // attach trivia question to doors
         // TODO: retrieve questions from database
-        QuestionAnswer questions = new QuestionAnswer();
-
-
+        QuestionAnswer qa = new QuestionAnswer();
+        ArrayList<Question> questions = qa.getQuestions();
+        int i = 0;
         // fill rooms with doors
         // horizontal doors
         for (int rows = 0; rows < MAZE_SIZE - 1; rows++) {
@@ -114,6 +115,8 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(rows, index); // room above
                 Room room2 = getRoom(rows + 1, index); // room below
                 Door door = new Door(room1, room2, Direction.SOUTH, Direction.NORTH);
+                //door.setQuestion(questions.get(i));
+                //i++;
                 if (index == 1 || rows == 0 || index == MAZE_SIZE - 1) {
                     // these doors will have default status to prevent assure a playable path
                 } else {
@@ -146,6 +149,10 @@ public class Maze implements Serializable {
                 }
             }
         }
+
+        Door door = getRoom(0,0).getDoor(Direction.EAST);
+        door.setQuestion(questions.get(0));
+        System.out.println(questions.get(0));
     }
 
     /**
@@ -247,11 +254,10 @@ public class Maze implements Serializable {
         //myAttemptingDoor = true;
         // player has encountered a locked door
         // prompt trivia question from door
-        Question oldQuestion = myQuestion;
-        //myQuestion = theDoor.getQuestion();
+        Question question = theDoor.getQuestion();
 
         // TODO: prompt question and validate player answer
-        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, oldQuestion, myQuestion);
+        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, question);
         // unlock or close door based on player answer
         /*if () { // player answered correctly, unlock door
             theDoor.unlockDoor();

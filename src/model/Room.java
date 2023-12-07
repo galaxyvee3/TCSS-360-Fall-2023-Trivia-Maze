@@ -106,23 +106,6 @@ public class Room implements PropertyChangeListener, Serializable {
     public Room(final int theRow, final int theColumn,
                 final int theRowCnt, final int theColCnt) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
-
-    }
-
-    /**
-     * Retrieve the current trivia question from the door.
-     * @param theDoor the current door the user is trying to get through
-     */
-    public String retrieveQuestion(final Door theDoor) {
-        return theDoor.getQuestion();
-    }
-
-    /**
-     * Retrieve the current answer for the trivia question from the door.
-     * @param theDoor the current door the user is trying to get through
-     */
-    public String retrieveAnswer(final Door theDoor) {
-        return theDoor.getAnswer();
     }
 
     /**

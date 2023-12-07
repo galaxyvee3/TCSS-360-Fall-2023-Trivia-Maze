@@ -25,10 +25,11 @@ public class Question {
     public Question(final String theQuestion, final String theAnswer) {
         this.myQuestion = theQuestion;
         this.myAnswer = theAnswer;
+        myType = Type.DEFAULT;
     }
 
     /**
-     * Return the question.
+     * Get the trivia question.
      * @return trivia question
      */
     public String getQuestion() {
@@ -62,7 +63,8 @@ public class Question {
     public enum Type {
         MULTIPLE_CHOICE,
         TRUE_FALSE,
-        SHORT_ANSWER
+        SHORT_ANSWER,
+        DEFAULT
     }
 
     /**

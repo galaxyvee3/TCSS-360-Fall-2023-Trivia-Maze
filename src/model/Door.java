@@ -21,16 +21,16 @@ public class Door implements Serializable, PropertyChangeListener {
 
 //=====================Fields==========================//
     /** The first connected Room. */
-    private Room myRoom1;
+    final private Room myRoom1;
 
     /** The second connected Room. */
-    private Room myRoom2;
+    final private Room myRoom2;
 
     /** Direction of Door relative to Room 1. */
-    private Direction myDir1;
+    final private Direction myDir1;
 
     /** Direction of Door relative to Room 2. */
-    private Direction myDir2;
+    final private Direction myDir2;
 
     /** Status of whether door is unlocked or not. */
     private boolean myUnlocked;
@@ -39,13 +39,7 @@ public class Door implements Serializable, PropertyChangeListener {
     private boolean myClosed;
 
     /** The trivia question assigned to this Door. */
-    private String myQuestion;
-
-    /** The answer to the trivia question. */
-    private String myAnswer;
-
-    /** The trivia question associated with this door. */
-    private Question associatedQuestion;
+    private Question myQuestion;
 
     /**
      * Default constructor.
@@ -59,7 +53,6 @@ public class Door implements Serializable, PropertyChangeListener {
         myUnlocked = false;
         myClosed = false;
         myQuestion = null;
-        myAnswer = null;
         // add door to rooms
         myRoom1.addDoor(myDir1, this);
         myRoom2.addDoor(myDir2, this);
@@ -117,17 +110,10 @@ public class Door implements Serializable, PropertyChangeListener {
      * Get the trivia question assigned to the door.
      * @return the trivia question
      */
-    public String getQuestion() {
+    public Question getQuestion() {
         return myQuestion;
     }
 
-    /**
-     * Get the answer to the trivia question.
-     * @return the answer
-     */
-    public String getAnswer() {
-        return myAnswer;
-    }
 
     /**
      * Unlock door if question is answered correctly.
@@ -147,32 +133,8 @@ public class Door implements Serializable, PropertyChangeListener {
      * Assigns a trivia question to the door.
      * @param theQuestion the trivia question
      */
-    public void setQuestion(final String theQuestion) {
+    public void setQuestion(final Question theQuestion) {
         myQuestion = theQuestion;
-    }
-
-    /**
-     * Assigns the answer of the trivia question.
-     * @param theAnswer the answer
-     */
-    public void setAnswer(final String theAnswer) {
-        myAnswer = theAnswer;
-    }
-
-    /**
-     * Set the associated question for this door.
-     * @param question The question to be associated with this door.
-     */
-    public void setAssociatedQuestion(final Question question) {
-        this.associatedQuestion = question;
-    }
-
-    /**
-     * Get the associated question for this door.
-     * @return The associated question for this door.
-     */
-    public Question getAssociatedQuestion() {
-        return associatedQuestion;
     }
 
     @Override
@@ -189,13 +151,5 @@ public class Door implements Serializable, PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        /*if ("myQuestion".equals(theEvent.getPropertyName())) {
-            Object newValue = theEvent.getNewValue();
-            if (newValue instanceof String newQuestion) {
-                // Assume the newValue is the new question
-            }
-        }*/
-
-
     }
 }

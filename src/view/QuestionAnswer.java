@@ -29,14 +29,14 @@ public class QuestionAnswer {
     private static int myCurrentIndex;
 
 
-    private static ArrayList<Question> myQuestions = new ArrayList<>();
+    private static ArrayList<Question> myQuestions;
 
     /**
      * Public constructor.
      */
     public QuestionAnswer() {
         myCurrentIndex = 0;
-        //myQuestions = new ArrayList<Question>();
+        myQuestions = new ArrayList<Question>();
         fetchQuestions();
     }
 
@@ -58,7 +58,7 @@ public class QuestionAnswer {
                 String choiceC = rs1.getString("choiceC");
                 Question mc = new MultipleChoiceQuestions(question, answer, choiceA, choiceB, choiceC);
                 myQuestions.add(mc);
-                System.out.println(mc);
+                //System.out.println(mc);
             }
             ResultSet rs2 = stmt.executeQuery(query2);
             while (rs2.next()) {
@@ -66,7 +66,7 @@ public class QuestionAnswer {
                 boolean answer = Boolean.parseBoolean(rs2.getString( "ANSWER" ));
                 Question tf = new TrueFalseQuestions(question, answer);
                 myQuestions.add(tf);
-                System.out.println(tf);
+                //System.out.println(tf);
             }
             ResultSet rs3 = stmt.executeQuery(query3);
             while (rs3.next()) {
@@ -74,7 +74,7 @@ public class QuestionAnswer {
                 String answer = rs3.getString( "ANSWER" );
                 Question sa = new ShortAnswerQuestions(question, answer);
                 myQuestions.add(sa);
-                System.out.println(sa);
+                //System.out.println(sa);
             }
         } catch (final SQLException e) {
             LOGGER.severe("Question fetch from DB has failed.");
@@ -82,9 +82,13 @@ public class QuestionAnswer {
     }
 
     /**
-     * Generated toString.
-     * @return Returns the raw QuestionAnswer class via string.
+     * Get the list of trivia questions.
+     * @return ArrayList of Questions
      */
+    public ArrayList<Question> getQuestions() {
+        return myQuestions;
+    }
+
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
