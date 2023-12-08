@@ -3,6 +3,7 @@ package model;
 import view.Question;
 import view.QuestionAnswer;
 
+import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
@@ -69,19 +70,19 @@ public class Maze implements Serializable {
      * Default constructor.
      */
     public Maze() {
+        myPCS = new PropertyChangeSupport(this);
         myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
         myCurrentRow = 0;
         myCurrentCol = 0;
         myGameOver = false;
         myAttemptingDoor = false;
         myCurrentDoor = null;
-        myQuestion = null;
-        myPCS = new PropertyChangeSupport(this);
+        myQuestion = new Question("", "");
         createRoomsAndDoors();
     }
 
     /**
-     * Return the room at the given location.
+     * Get the room at the given location.
      * @param theRow row of the room
      * @param theCol column of the room
      * @return the room at the given location
@@ -104,7 +105,6 @@ public class Maze implements Serializable {
         Random random = new Random();
 
         // attach trivia question to doors
-        // TODO: retrieve questions from database
         QuestionAnswer qa = new QuestionAnswer();
         ArrayList<Question> questions = qa.getQuestions();
         int i = 0;
@@ -115,8 +115,12 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(rows, index); // room above
                 Room room2 = getRoom(rows + 1, index); // room below
                 Door door = new Door(room1, room2, Direction.SOUTH, Direction.NORTH);
-                //door.setQuestion(questions.get(i));
-                //i++;
+                if (i < questions.size()) {
+                    if (questions.get(i) != null) { // attach question to door
+                        door.setQuestion(questions.get(i));
+                    }
+                }
+                i++;
                 if (index == 1 || rows == 0 || index == MAZE_SIZE - 1) {
                     // these doors will have default status to prevent assure a playable path
                 } else {
@@ -136,6 +140,12 @@ public class Maze implements Serializable {
                 Room room1 = getRoom(index, cols); // left room
                 Room room2 = getRoom(index, cols + 1); // right room
                 Door door = new Door(room1, room2, Direction.EAST, Direction.WEST);
+                if (i < questions.size()) {
+                    if (questions.get(i) != null) { // attach question to door
+                        door.setQuestion(questions.get(i));
+                    }
+                }
+                i++;
                 if (index == 0 || cols == 1 || index == MAZE_SIZE - 2) {
                     // these doors will have default status to prevent assure a playable path
                 } else {
@@ -152,7 +162,6 @@ public class Maze implements Serializable {
 
         Door door = getRoom(0,0).getDoor(Direction.EAST);
         door.setQuestion(questions.get(0));
-        System.out.println(questions.get(0));
     }
 
     /**
@@ -202,6 +211,8 @@ public class Maze implements Serializable {
     public void setMyCurrentCol(final int theCol) {
         myCurrentCol = theCol;
     }
+
+
 
     /**
      * Check if the door is unlocked and player can traverse through.
@@ -256,14 +267,32 @@ public class Maze implements Serializable {
         myCurrentDoor = theDoor;
         myAttemptingDoor = true;
         // prompt trivia question from door
-        Question question = theDoor.getQuestion();
-        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, question);
-        // unlock or close door based on player answer
-        /*if () { // player answered correctly, unlock door
-            theDoor.unlockDoor();
-        } else { // player answered incorrectly, close door
-            theDoor.closeDoor();
-        }*/
+        myQuestion = theDoor.getQuestion();
+        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
+
+        String message = "Please enter ";
+        if (myQuestion.getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE")) {
+            message += "A, B, or C";
+        } else if (myQuestion.getQuestionType().equalsIgnoreCase("TRUE_FALSE")) {
+            message += "true or false";
+        } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
+            message += "one word";
+        }
+
+        // prompt player to answer
+        String playerAnswer = JOptionPane.showInputDialog(null, message);
+        // check if player answer is correct
+        if (playerAnswer.equalsIgnoreCase("unlock")) {
+            unlockDoor(); // CHEAT TO UNLOCK DOOR
+        } else if (playerAnswer.equalsIgnoreCase("close")) {
+            closeDoor(); // CHEAT TO CLOSE DOOR
+        } else if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) { // unlock door bc player is correct
+            unlockDoor();
+            JOptionPane.showMessageDialog(null, "Correct! The door is unlocked.");
+        } else { // close door bc player is incorrect
+            closeDoor();
+            JOptionPane.showMessageDialog(null, "Incorrect. The correct answer is: " + myQuestion.getAnswer() + "\nThe door is closed.");
+        }
     }
 
     /**

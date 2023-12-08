@@ -4,8 +4,6 @@ import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,6 +17,11 @@ import static model.Maze.PROPERTY_TRIVIA_QUESTION;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
+//======================Constants======================//
+    /** Property name for changing the status of the door being attempted. */
+    public static final String PROPERTY_DOOR_STATUS = "Door status";
+
+//=====================Fields==========================//
     /** The current Trivia Maze being played. */
     private Maze myMaze;
 
@@ -40,7 +43,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponent(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
-        String answer = myQuestion.getAnswer();
         // repaint panel based off type of question
         String tq = "Trivia Question: " + myQuestion.getQuestion();
         g2d.setFont(new Font("Arial", Font.BOLD, 12));
@@ -63,32 +65,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
             ShortAnswerQuestions question = (ShortAnswerQuestions) myQuestion;
         } else { // default questions to prevent null
         }
-
-        JButton button = new JButton("Submit Answer");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Show a message dialog when the button is clicked
-                String message = "";
-                if (myQuestion.getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE")) {
-                    message = "Please Enter: A, B, or C";
-                } else if (myQuestion.getQuestionType().equalsIgnoreCase("TRUE_FALSE")) {
-                    message = "Please Enter: True or False";
-                } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
-                    message = "Please Enter: one word";
-                }
-
-                String playerAnswer = JOptionPane.showInputDialog(button, message);
-                if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) {
-                    myMaze.unlockDoor();
-                    JOptionPane.showMessageDialog(null, "Correct! The door is unlocked.");
-                } else {
-                    myMaze.closeDoor();
-                    JOptionPane.showMessageDialog(null, "Incorrect. The correct answer is: " + myQuestion.getAnswer() + "\nThe door is closed.");
-                }
-            }
-        });
-        add(button, BorderLayout.SOUTH);
     }
 
     @Override

@@ -256,6 +256,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             gameOver();
         }
     }
+
     /**
      * Private class that allows the player to traverse the maze using the keyboard.
      * @author Viktoria Dolojan
@@ -274,12 +275,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 System.out.println(myMaze.moveLeft());
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
                 System.out.println(myMaze.moveRight());
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_N) {
-                myMaze.unlockDoor();
-                System.out.println("unlock");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_M) {
-                myMaze.closeDoor();
-                System.out.println("close");
             }
         }
     }
