@@ -102,12 +102,13 @@ public class Maze implements Serializable {
             }
         }
 
-        Random random = new Random();
-
         // attach trivia question to doors
         QuestionAnswer qa = new QuestionAnswer();
         ArrayList<Question> questions = qa.getQuestions();
         int i = 0;
+
+        Random random = new Random();
+        // TODO: NEED MORE QUESTIONS FROM DATABASE
         // fill rooms with doors
         // horizontal doors
         for (int rows = 0; rows < MAZE_SIZE - 1; rows++) {
@@ -123,7 +124,7 @@ public class Maze implements Serializable {
                 i++;
                 if (index == 1 || rows == 0 || index == MAZE_SIZE - 1) {
                     // these doors will have default status to prevent assure a playable path
-                } else {
+                } else { // randomly set the status of doors
                     if (random.nextInt(101) < 20) {
                         door.unlockDoor();
                     } else {
@@ -148,7 +149,7 @@ public class Maze implements Serializable {
                 i++;
                 if (index == 0 || cols == 1 || index == MAZE_SIZE - 2) {
                     // these doors will have default status to prevent assure a playable path
-                } else {
+                } else { // randomly set the status of doors
                     if (random.nextInt(101) < 20) {
                         door.unlockDoor();
                     } else {

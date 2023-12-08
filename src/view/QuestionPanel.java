@@ -17,10 +17,6 @@ import static model.Maze.PROPERTY_TRIVIA_QUESTION;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
-//======================Constants======================//
-    /** Property name for changing the status of the door being attempted. */
-    public static final String PROPERTY_DOOR_STATUS = "Door status";
-
 //=====================Fields==========================//
     /** The current Trivia Maze being played. */
     private Maze myMaze;
@@ -63,6 +59,8 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
             g2d.drawString(tf, 10, 60);
         } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
             ShortAnswerQuestions question = (ShortAnswerQuestions) myQuestion;
+            String sa = "Short one word answer";
+            g2d.drawString(sa, 10, 60);
         } else { // default questions to prevent null
         }
     }

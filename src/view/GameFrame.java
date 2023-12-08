@@ -187,8 +187,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         endPanel.add(buttonPanel);
         endFrame.add(endPanel);
 
-        // TODO: fix buttons
-
         endFrame.setSize(300, 100);
         endFrame.setLocationRelativeTo(null); // make frame in center of screen
         endFrame.setVisible(true); // show frame
