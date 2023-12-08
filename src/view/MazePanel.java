@@ -1,6 +1,5 @@
 package view;
 
-import model.Maze;
 import model.Direction;
 import model.Door;
 import model.Maze;
@@ -30,6 +29,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
 
     /** Size of the doors. */
     private static final int DOOR_SIZE = 30;
+
     /**
      * Default constructor.
      * @param theMaze current maze being played
@@ -66,12 +66,10 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 HashMap<Direction, Door> allDoors = room.getAllDoors();
                 for (Direction direction : allDoors.keySet()) {
                     Door door = room.getDoor(direction);
-                    if (door.getUnlocked()) {
-                        // draw nothing if door is unlocked
-                    } else {
+                    if (!door.getUnlocked()) {
                         // set paint
-                        if (door.getClosed()) { // red for closed doors
-                            g2d.setPaint(Color.RED);
+                        if (door.getClosed()) { // black for closed doors
+                            g2d.setPaint(Color.BLACK);
                         } else { // brown for undiscovered doors
                             g2d.setPaint(new Color(100,75,50));
                         }

@@ -6,6 +6,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Door object in the maze.
@@ -19,6 +20,7 @@ public class Door implements Serializable, PropertyChangeListener {
     @Serial
     private static final long serialVersionUID = 1L;
 
+//=====================Fields==========================//
     /** The first connected Room. */
     private Room myRoom1;
 
@@ -43,6 +45,7 @@ public class Door implements Serializable, PropertyChangeListener {
     /** The answer to the trivia question. */
     private String myAnswer;
 
+    /** The trivia question associated with this door. */
     private Question associatedQuestion;
 
     /**
@@ -54,7 +57,8 @@ public class Door implements Serializable, PropertyChangeListener {
         myRoom2 = theRoom2;
         myDir1 = theDir1;
         myDir2 = theDir2;
-        myUnlocked = true;
+        Random random = new Random();
+        myUnlocked = false;
         myClosed = false;
         myQuestion = null;
         myAnswer = null;
@@ -191,8 +195,6 @@ public class Door implements Serializable, PropertyChangeListener {
             Object newValue = theEvent.getNewValue();
             if (newValue instanceof String newQuestion) {
                 // Assume the newValue is the new question
-
-
             }
         }*/
 

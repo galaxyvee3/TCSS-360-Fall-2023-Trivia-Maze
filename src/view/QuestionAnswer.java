@@ -1,9 +1,5 @@
 package view;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -33,11 +29,13 @@ public class QuestionAnswer {
 //================Fields====================//
     private static final List<Map<String, String>> myQuestions  = new ArrayList<>();
 
+    private static int myCurrentIndex;
+
     /**
      * Public constructor.
      */
     public QuestionAnswer() {
-
+        myCurrentIndex = 0;
         fetchQuestionsFromDatabase();
     }
 
@@ -45,14 +43,14 @@ public class QuestionAnswer {
      * Public accessor method for the questions.
      * @return returns a list of the questions.
      */
-    public List<Map<String, String>> getQuestions() {
-        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
-    }
+//    public List<Map<String, String>> getQuestions() {
+//        return Collections.singletonList(myQuestions.get(Integer.parseInt(QUESTION)));
+//    }
 
     /**
      * Fetches questions from the SQLite database.
      */
-    private void fetchQuestionsFromDatabase() {
+    public static void fetchQuestionsFromDatabase() {
         try (Connection conn = DriverManager.getConnection(URL)) {
             fetchQuestionsFromTable(conn,
                     "MultipleChoiceQuestions",
@@ -82,25 +80,27 @@ public class QuestionAnswer {
      * @param columns column names in string.
      * @throws SQLException throws an SQL exception if an invalid entry is made.
      */
-    private void fetchQuestionsFromTable(final Connection theConn,
-                                         final String tableName,
-                                         final String... columns) throws SQLException {
-        final Map<String, String> question = new ConcurrentHashMap <>();
+    private static void fetchQuestionsFromTable(final Connection theConn, final String tableName,
+                                                final String... columns) throws SQLException {
         final String query = "SELECT " + String.join(", ", columns) + " FROM " + tableName;
         try (Statement statement = theConn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
+                // Create a new Map for each question
+                final Map<String, String> question = new ConcurrentHashMap<>();
 
                 for (final String column : columns) {
                     question.put(column, resultSet.getString(column));
                 }
+
                 myQuestions.add(question);
             }
         }
     }
 
-    private List<String> fetchAnswersFromDatabase() {
+
+    public static List<String> fetchAnswersFromDatabase() {
         final List<String> allAnswers = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
             allAnswers.addAll(fetchFromTable(conn, "MultipleChoiceQuestions", ANSWER));
@@ -113,25 +113,23 @@ public class QuestionAnswer {
         return allAnswers;
     }
     public static List<String> fetchFromTable(final Connection theConn,
-                                        final String... theColumns) throws SQLException {
+                                              final String tableName,
+                                              final String... theColumns) throws SQLException {
         final List<String> answers = new ArrayList<>();
 
-        String queryTF = "SELECT " + String.join(", ", theColumns) + " FROM  + TrueFalseQuestions";
-        String queryMC = "SELECT " + String.join(", ", theColumns) + " FROM  + MultipleChoiceQuestions";
-        String querySA = "SELECT " + String.join(", ", theColumns) + " FROM  + ShortAnswerQuestions";
-        try (Statement statement = theConn.createStatement()) {
-            try (ResultSet resultSet = statement.executeQuery(queryTF)) {
-                statement.executeQuery(queryMC);
-                statement.executeQuery(querySA);
-                while (resultSet.next()) {
-                    for (String column : theColumns) {
-                        answers.add(resultSet.getString(column));
-                    }
+        String query = "SELECT " + String.join(", ", theColumns) + " FROM " + tableName;
+        try (Statement statement = theConn.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                for (String column : theColumns) {
+                    answers.add(resultSet.getString(column));
                 }
             }
         }
+        System.out.println(answers);
         return answers;
     }
+
 
     /**
      * Question maker that can be called to create question objects.
@@ -210,9 +208,85 @@ public class QuestionAnswer {
         final int randomIndex = RANDOM.nextInt(myQuestions.size());
         return myQuestions.get(randomIndex);
     }
+    /**
+     * Public accessor method for the questions.
+     *
+     * @return returns a list of the questions.
+     */
+    public static List<Map<String, String>> getQuestions() {
+        if (hasMoreQuestions()) {
+            return Collections.singletonList(myQuestions.get(myCurrentIndex));
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * Checks if there are more questions available.
+     *
+     * @return true if there are more questions, false otherwise
+     */
+    public static boolean hasMoreQuestions() {
+        return myCurrentIndex < myQuestions.size();
+    }
+
+    /**
+     * Gets the next question.
+     *
+     * @return the next question, or null if there are no more questions
+     */
+    public Map<String, String> getNextQuestion() {
+        if (hasMoreQuestions()) {
+            myCurrentIndex++;
+            return myQuestions.get(myCurrentIndex);
+        } else {
+            return null;
+        }
+    }
+    /**
+     * Retrieve and display information about the question tables.
+     */
+    public static void displayQuestionTableInfo() {
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            displayTableInfo(conn, "MultipleChoiceQuestions");
+            displayTableInfo(conn, "TrueFalseQuestions");
+            displayTableInfo(conn, "ShortAnswerQuestions");
+        } catch (final SQLException e) {
+            LOGGER.severe("Error fetching question table information.");
+        }
+    }
+    /**
+     * Display information about a specific question table.
+     * @param theConn SQL connection object.
+     * @param tableName Name of the question table.
+     */
+    private static void displayTableInfo(final Connection theConn, final String tableName) throws SQLException {
+        final DatabaseMetaData metaData = theConn.getMetaData();
+
+        try (ResultSet columns = metaData.getColumns(null, null, tableName, null)) {
+            System.out.println("Columns for table " + tableName + ":");
+            while (columns.next()) {
+                System.out.println("Column: " + columns.getString("COLUMN_NAME") +
+                                   ", Type: " + columns.getString("TYPE_NAME"));
+            }
+        }
+
+        try (ResultSet primaryKeys = metaData.getPrimaryKeys(null, null, tableName)) {
+            System.out.println("Primary keys for table " + tableName + ":");
+            while (primaryKeys.next()) {
+                System.out.println("Primary Key: " + primaryKeys.getString("COLUMN_NAME"));
+            }
+        }
+    }
+
+
 
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
+    }
+
+    public static void main(String[] args) {
+       displayQuestionTableInfo();
     }
 }

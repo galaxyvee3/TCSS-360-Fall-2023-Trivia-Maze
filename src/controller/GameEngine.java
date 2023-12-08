@@ -1,5 +1,11 @@
 package controller;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import model.Door;
 import model.Maze;
 import model.Room;
@@ -7,13 +13,6 @@ import view.GameFrame;
 import view.Question;
 import view.QuestionAnswer;
 import view.QuestionPanel;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -23,85 +22,102 @@ import java.util.Map;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class GameEngine implements PropertyChangeListener, Serializable {
+public class GameEngine implements PropertyChangeListener, ActionListener {
+    // Constants
+    private static final int TIMER_DELAY = 100;
 
-//================Constants===================//
-
-    private static final String PREVIOUS = "Nothing previous";
-
-//================Fields=====================//
-//    private final PropertyChangeSupport myPCS;
+    // Fields
     private final QuestionAnswer myQA;
-    private QuestionPanel myQuestionPanel;
-    private final GameFrame myGFrame = new GameFrame();
-    private Question myQuestion;
+    private final GameFrame myGFrame;
     private final Room myRoom;
-
     private final Maze myMaze;
-
     private final Door myDoor;
-
     private boolean myRunningGame;
 
-    /**
-     * Default constructor.
-     */
-    public GameEngine(final QuestionAnswer theQA, final QuestionPanel theQP, final Question theQuestion,
-                      final Room theRoom, final Door theDoor) throws SQLException {
-        super();
+    private PropertyChangeEvent myPcs;
+    private final Timer myTimer;
+
+    public GameEngine(QuestionAnswer theQA, Room theRoom, Door theDoor) {
         this.myQA = theQA;
-        this.myQuestionPanel = theQP;
-        this.myQuestion = theQuestion;
         this.myRoom = theRoom;
         this.myDoor = theDoor;
-        myMaze = new Maze();
-        myQuestionPanel = (QuestionPanel) myGFrame.getQuestionPanel();
-//        myPCS = new PropertyChangeSupport(this);
-//        myQuestionPanel.addPropertyChangeListener(this);
-//
-//        myQuestionPanel.addPropertyChangeListener(myRoom);
-//        myQuestionPanel.addPropertyChangeListener(myDoor);
-        showNextQuestion();
+        this.myMaze = new Maze();
+        this.myGFrame = new GameFrame();
+        this.myRunningGame = true;
+//        this.myPcs = new PropertyChangeEvent();
+        myTimer = new Timer();
+        myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
     }
 
-
-    public void setMyQuestion(Question theQuestion) {
-        Question oldQuestion = this.myQuestion;
-        this.myQuestion = theQuestion;
-//        myPCS.firePropertyChange("myQuestion", oldQuestion, theQuestion);
+    @Override
+    public void actionPerformed(ActionEvent theEvent) {
+        // No need to handle QuestionPanel interaction for now
     }
 
-    private void showNextQuestion() throws SQLException {
-        final List<Map<String, String>> questions = myQA.getQuestions();
-        if (!questions.isEmpty()) {
-            Map<String, String> questionData = questions.remove(0);
-            myQuestion = myQA.createQuestion(questionData.get("theType"),
-                                             questionData.get("param1"),
-                                             questionData.get("param2"));
-            myQuestionPanel.displayQuestion(myQuestion);
-
-//            myQuestionPanel.firePropertyChange("myQuestion", PREVIOUS, myQuestion);
-
-        } else {
-            myRunningGame = false; // End the game
-        }
-    }
-
-    /**
-     * This method gets called when a bound property is changed.
-     *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("myQuestion".equals(evt.getPropertyName())) {
-            final String newQuestion = (String) evt.getNewValue();
-            if (newQuestion != null) {
-                // Handle the non-null value
+        // Handle property changes if needed
+    }
+
+    public class GameLoop extends TimerTask {
+        @Override
+        public void run() {
+            if (myRunningGame) {
+                checkPlayerInteraction();
+                checkQuestionAnswered();
+                myGFrame.getMazePanel().repaint();
+                myGFrame.render();
             } else {
-                // Handle the case where newQuestion is null
+                myTimer.cancel();
             }
         }
+
+        private void checkPlayerInteraction() {
+            // Placeholder for checking player interactions
+            // Update the game state accordingly
+        }
+
+        private void checkQuestionAnswered() {
+            // Placeholder for checking if a question is answered
+            processAnswer();
+        }
+    }
+
+    private void processAnswer() {
+        String userAnswer = "User's Answer"; // Replace this with the actual user's answer
+
+        for (Map<String, String> questionData : myQA.getQuestions()) {
+            String correctAnswer = questionData.get("ANSWER");
+
+            if (correctAnswer.equals(userAnswer)) {
+                handleCorrectAnswer();
+                return;  // Exit the loop if the correct answer is found
+            }
+        }
+
+        // If the loop completes without finding a correct answer, handle an incorrect answer
+        handleIncorrectAnswer();
+    }
+
+    private void handleCorrectAnswer() {
+        if (myQA.hasMoreQuestions()) {
+            Map<String, String> nextQuestionData = myQA.getNextQuestion();
+            String questionText = nextQuestionData.get("QUESTION");
+            String answerText = nextQuestionData.get("ANSWER");
+            // Use a default constructor for QuestionAnswer
+            QuestionAnswer nextQuestion = new QuestionAnswer();
+//            myGFrame.getQuestionPanel().setCurrentQuestion(nextQuestion);
+        } else {
+            myRunningGame = false;
+//            myGFrame.getQuestionPanel().setCQuestion("Game Over!");
+        }
+    }
+
+    private void handleIncorrectAnswer() {
+//        myGFrame.getQuestionPanel().setFeedback("Incorrect answer. Try again.");
+    }
+
+    public void setRunningGame(boolean runningGame) {
+        this.myRunningGame = runningGame;
     }
 }
