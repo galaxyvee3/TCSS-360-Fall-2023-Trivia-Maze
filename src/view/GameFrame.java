@@ -201,13 +201,13 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         myMaze = new Maze(); // create new maze game
         final GameFrame gameFrame = new GameFrame(); // create frame for game
         // create panels
-        final MazePanel mazePanel = new MazePanel(myMaze);
         final InfoPanel infoPanel = new InfoPanel();
-        final QuestionPanel questionPanel = new QuestionPanel();
+        final MazePanel mazePanel = new MazePanel(myMaze);
+        final QuestionPanel questionPanel = new QuestionPanel(myMaze);
 
         // add panels to frame
-        gameFrame.add(mazePanel, BorderLayout.CENTER);
         gameFrame.add(infoPanel, BorderLayout.EAST);
+        gameFrame.add(mazePanel, BorderLayout.CENTER);
         gameFrame.add(questionPanel, BorderLayout.SOUTH);
 
         // add PCL to frame and panels

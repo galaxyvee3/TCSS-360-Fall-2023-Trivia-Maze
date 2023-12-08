@@ -4,8 +4,12 @@ import model.Maze;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import static model.Maze.PROPERTY_TRIVIA_QUESTION;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -15,14 +19,18 @@ import java.beans.PropertyChangeListener;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
+    /** The current Trivia Maze being played. */
+    private Maze myMaze;
+
     /** Keeps track of the trivia question being presented. */
     private Question myQuestion;
 
     /**
      * Public constructor.
      */
-    public QuestionPanel() {
-        super(new GridLayout(2, 1));
+    public QuestionPanel(final Maze theMaze) {
+        super(new BorderLayout());
+        myMaze = theMaze;
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 180));
         myQuestion = new Question("", ""); // dummy question
@@ -32,10 +40,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponent(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
-        //g2d.setPaint(Color.WHITE);
-        System.out.println("INIT QUESTION REPAINT"); // for testing purposes
-
-
+        String answer = myQuestion.getAnswer();
         // repaint panel based off type of question
         String tq = "Trivia Question: " + myQuestion.getQuestion();
         g2d.setFont(new Font("Arial", Font.BOLD, 12));
@@ -43,7 +48,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
 
         g2d.setFont(new Font("Arial", Font.PLAIN, 12));
         if (myQuestion.getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE")) {
-            System.out.println("mc");
             MultipleChoiceQuestions question = (MultipleChoiceQuestions) myQuestion;
             String choiceA = "A: " + question.getChoiceA();
             String choiceB = "B: " + question.getChoiceB();
@@ -52,25 +56,44 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
             g2d.drawString(choiceB, 10, 80);
             g2d.drawString(choiceC, 10, 100);
         } else if (myQuestion.getQuestionType().equalsIgnoreCase("TRUE_FALSE")) {
-            System.out.println("tf");
             TrueFalseQuestions question = (TrueFalseQuestions) myQuestion;
             String tf = "True or False";
             g2d.drawString(tf, 10, 60);
         } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
-            System.out.println("sa");
             ShortAnswerQuestions question = (ShortAnswerQuestions) myQuestion;
         } else { // default questions to prevent null
         }
+
+        JButton button = new JButton("Submit Answer");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Show a message dialog when the button is clicked
+                String message = "";
+                if (myQuestion.getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE")) {
+                    message = "Please Enter: A, B, or C";
+                } else if (myQuestion.getQuestionType().equalsIgnoreCase("TRUE_FALSE")) {
+                    message = "Please Enter: True or False";
+                } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
+                    message = "Please Enter: one word";
+                }
+
+                String playerAnswer = JOptionPane.showInputDialog(button, message);
+                if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) {
+                    myMaze.unlockDoor();
+                    JOptionPane.showMessageDialog(null, "Correct! The door is unlocked.");
+                } else {
+                    myMaze.closeDoor();
+                    JOptionPane.showMessageDialog(null, "Incorrect. The correct answer is: " + myQuestion.getAnswer() + "\nThe door is closed.");
+                }
+            }
+        });
+        add(button, BorderLayout.SOUTH);
     }
 
-    /**
-     * Repaint question whenever a new trivia question is encountered.
-     * @param theEvent A PropertyChangeEvent object describing the event source
-     *          and the property that has changed.
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
+        if (theEvent.getPropertyName().equalsIgnoreCase(PROPERTY_TRIVIA_QUESTION)) {
             Question question = (Question) theEvent.getNewValue();
             myQuestion = question;
             repaint();

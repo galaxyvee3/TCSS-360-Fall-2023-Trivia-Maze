@@ -257,8 +257,6 @@ public class Maze implements Serializable {
         myAttemptingDoor = true;
         // prompt trivia question from door
         Question question = theDoor.getQuestion();
-
-        // TODO: prompt question and validate player answer
         myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, question);
         // unlock or close door based on player answer
         /*if () { // player answered correctly, unlock door
@@ -266,7 +264,6 @@ public class Maze implements Serializable {
         } else { // player answered incorrectly, close door
             theDoor.closeDoor();
         }*/
-        //myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, true, true);
     }
 
     /**
