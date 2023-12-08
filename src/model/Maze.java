@@ -13,7 +13,6 @@ import java.util.Random;
 /**
  * Maze class for Trivia Maze, Team 2.
  * @author Viktoria Dolojan
- * @author Justin Ho
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
@@ -58,7 +57,7 @@ public class Maze implements Serializable {
     private boolean myGameOver;
 
     /** Boolean for whether player is currently attempting a door and should not move. */
-    private boolean myAttemptingDoor;
+    private boolean myAttemptDoor;
 
     /** The current Door being attempted. */
     private Door myCurrentDoor;
@@ -75,7 +74,7 @@ public class Maze implements Serializable {
         myCurrentRow = 0;
         myCurrentCol = 0;
         myGameOver = false;
-        myAttemptingDoor = false;
+        myAttemptDoor = false;
         myCurrentDoor = null;
         myQuestion = new Question("", "");
         createRoomsAndDoors();
@@ -243,7 +242,7 @@ public class Maze implements Serializable {
      * CHEAT: unlock door with N key
      */
     public void unlockDoor() {
-        myAttemptingDoor = false;
+        myAttemptDoor = false;
         myCurrentDoor.unlockDoor();
         myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
         System.out.println("Door unlocked");
@@ -253,7 +252,7 @@ public class Maze implements Serializable {
      * CHEAT: close door with M key
      */
     public void closeDoor() {
-        myAttemptingDoor = false;
+        myAttemptDoor = false;
         myCurrentDoor.closeDoor();
         myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
         System.out.println("Door closed");
@@ -266,7 +265,7 @@ public class Maze implements Serializable {
     private void promptQuestion(final Door theDoor) {
         // player has encountered a locked door
         myCurrentDoor = theDoor;
-        myAttemptingDoor = true;
+        myAttemptDoor = true;
         // prompt trivia question from door
         myQuestion = theDoor.getQuestion();
         myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
@@ -302,7 +301,7 @@ public class Maze implements Serializable {
      * @return true if move was successful
      */
     private boolean canMove(final String theString) {
-        if (myAttemptingDoor) { // player is currently attempting a door and should not move
+        if (myAttemptDoor) { // player is currently attempting a door and should not move
             System.out.println("Currently attempting a door");
             return false;
         } else { // player is not attempting a door
@@ -421,26 +420,34 @@ public class Maze implements Serializable {
      */
     public void newGame() {
         // save old values for firePropertyChange
-        final Room[][] maze = myMaze;
+        final Room[][] oldMaze = myMaze;
+        final int oldRow = myCurrentRow;
+        final int oldCol = myCurrentCol;
         final boolean oldGameOver = myGameOver;
-
+        final boolean oldAttemptDoor = myAttemptDoor;
+        final Door oldDoor = myCurrentDoor;
+        final Question oldQuestion = myQuestion;
 
         // replace old values with new values
         myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
-        createRoomsAndDoors();
         myCurrentRow = 0;
         myCurrentCol = 0;
         myGameOver = false;
+        myAttemptDoor = false;
+        myCurrentDoor = null;
+        myQuestion = new Question("", "");
 
-
-        // game over
+        // fire property change
         myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
+        myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
     }
+
     /**
      * @author Justin Ho
      * Saves the current game state to a file.
      */
-    public void saveGame(String filename)
+    public void saveGame(final String theFileName)
     {
         File file = new File("./GameState.txt");
 
@@ -476,13 +483,6 @@ public class Maze implements Serializable {
         catch (IOException e) {
             throw new IllegalArgumentException("FAILED TO SAVE GAME, TRIVIA MAZE CLASS" + " " + e);
         }
-    }
-
-    /**
-     * Checks the current location of the player in the maze.
-     */
-    public void checkCurrentLocation() {
-        System.out.println("Current Location: " + myCurrentRow + " " + myCurrentCol);
     }
 
     /**
