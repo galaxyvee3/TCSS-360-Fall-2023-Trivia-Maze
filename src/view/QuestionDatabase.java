@@ -1,8 +1,8 @@
 package view;
 
-import java.sql.SQLException;
 import org.sqlite.SQLiteDataSource;
-import java.util.logging.Logger;
+
+import java.sql.SQLException;
 
 /**
  * The question database that will be used for the trivia questions in the game.
@@ -11,21 +11,23 @@ import java.util.logging.Logger;
  * Trivia Maze - Team 2
  */
 public final class QuestionDatabase {
-    //======================Constants======================//
+//======================Constants======================//
     /** Logger constant. **/
 //    private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
+
     /** Path for SQLite database. **/
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
-    //=====================Fields==========================//
+
+//=====================Fields==========================//
     /** Data source object. **/
     private static SQLiteDataSource myDs;
 
     /**
      * Private constructor.
-     * No instantiation.
      */
     private QuestionDatabase() {
     }
+
     /**
      * Helper method that creates data source.
      * @return returns the data source.
@@ -39,6 +41,7 @@ public final class QuestionDatabase {
             return myDs;
         }
     }
+
     /**
      * Helper method to initialize the database.
      */

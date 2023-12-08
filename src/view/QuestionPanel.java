@@ -17,10 +17,6 @@ import static model.Maze.PROPERTY_TRIVIA_QUESTION;
  * Trivia Maze - Team 2
  */
 public class QuestionPanel extends JPanel implements PropertyChangeListener {
-//=====================Fields==========================//
-    /** The current Trivia Maze being played. */
-    private Maze myMaze;
-
     /** Keeps track of the trivia question being presented. */
     private Question myQuestion;
 
@@ -29,7 +25,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     public QuestionPanel(final Maze theMaze) {
         super(new BorderLayout());
-        myMaze = theMaze;
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 180));
         myQuestion = new Question("", ""); // dummy question

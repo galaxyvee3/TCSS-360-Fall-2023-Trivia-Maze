@@ -60,20 +60,15 @@ public class InfoPanel extends JPanel {
         g2d.drawString(exp4, 0, 340);
         g2d.drawString(exp5, 0, 360);
 
-        // player location
-        g2d.setPaint(Color.BLUE);
+        g2d.setPaint(Color.BLUE); // player location
         g2d.fillOval(0, 30, 10, 10);
-        // locked door
-        g2d.setPaint(new Color(100,75,50));
+        g2d.setPaint(new Color(100,75,50)); // locked door
         g2d.fillRect(0, 50, 10,10);
-        // closed door
-        g2d.setPaint(Color.BLACK);
+        g2d.setPaint(Color.BLACK); // closed door
         g2d.fillRect(0, 70, 10, 10);
-        // maze room
-        g2d.setPaint(Color.DARK_GRAY);
+        g2d.setPaint(Color.DARK_GRAY); // maze room
         g2d.fillRect(0, 90, 10, 10);
-        // exit room
-        g2d.setPaint(Color.LIGHT_GRAY);
+        g2d.setPaint(Color.LIGHT_GRAY); // exit room
         g2d.fillRect(0, 110, 10, 10);
     }
 }

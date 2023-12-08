@@ -225,18 +225,13 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
-
-    public void saveAndLoad() {
-
-    }
-
     public void setQuestionPanel(QuestionPanel questionPanel) {
         myQPanel = questionPanel;
     }
+
     public static QuestionPanel getQuestionPanel() {
         return myQPanel;
     }
-
 
     public MazePanel getMazePanel() {
         return myMazePanel;
@@ -277,8 +272,4 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         }
     }
     private final MovePlayer myMove = new MovePlayer();
-
-    public void inputHandler(final KeyEvent theEvent) {
-        myMove.keyPressed(theEvent);
-    }
 }

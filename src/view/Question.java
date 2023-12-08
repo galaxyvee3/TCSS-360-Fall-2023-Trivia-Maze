@@ -34,6 +34,7 @@ public class Question {
     public String getQuestion() {
         return myQuestion;
     }
+
     /**
      * Get the answer to the trivia question.
      * @return String answer to trivia question
@@ -58,6 +59,9 @@ public class Question {
         this.myType = myType;
     }
 
+    /**
+     * Enum class for types of trivia questions.
+     */
     public enum Type {
         MULTIPLE_CHOICE,
         TRUE_FALSE,
