@@ -28,8 +28,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     private static final int TIMER_DELAY = 100;
 
     private static final String ANSWER = "ANSWER";
-    /** Constant Timer object. */
-    private static final Timer TIMER = new Timer();
+
     //=====================Fields==========================//
     /** QuestionAnswer class object. */
     private final QuestionAnswer myQA;
@@ -45,6 +44,9 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     private boolean myRunningGame;
     /** MazePanel class object. */
     private MazePanel myMazePanel;
+
+    /** Constant Timer object. */
+    private final Timer myTimer;
 
     /**
      * Public constructor.
@@ -62,12 +64,13 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
         this.myGFrame = new GameFrame();
         myMazePanel = new MazePanel(myMaze);
         this.myRunningGame = true;
-        TIMER.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
+        this.myTimer = new Timer();
+        myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
         startGameLoop();
     }
 
     public void startGameLoop() {
-        TIMER.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
+        myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
     }
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
@@ -136,7 +139,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
                     myGFrame.render();
                 });
             } else {
-                TIMER.cancel();
+                myTimer.cancel();
             }
         }
 
