@@ -9,13 +9,13 @@ package view;
  */
 public class MultipleChoiceQuestions extends Question {
     /** The first choice for the question. */
-    private String myChoiceA;
+    private final String myChoiceA;
 
     /** The second choice for the question. */
-    private String myChoiceB;
+    private final String myChoiceB;
 
     /** The third choice for the question. */
-    private String myChoiceC;
+    private final String myChoiceC;
 
     /**
      * Public constructor for object instantiation.
