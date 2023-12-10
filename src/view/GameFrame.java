@@ -9,7 +9,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
@@ -20,8 +19,6 @@ import java.beans.PropertyChangeSupport;
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze = new Maze();
-
-    private final PropertyChangeSupport myChangeSupport;
 
     private static QuestionPanel myQPanel;
 
@@ -37,16 +34,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current column of the player in the maze. */
     private int myCurrentCol;
 
-    /** Boolean for whether player has escaped the maze. */
-    private static final boolean ESCAPE = false;
-
     /**
      * Default constructor.
      */
     public GameFrame() {
         super();
         setLayout(new BorderLayout());
-        myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         this.myMazePanel = new MazePanel(myMaze);
         myGameOver = false;
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
@@ -176,7 +169,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public static void gameOver() {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
-        JLabel endLabel = new JLabel();
+        JLabel endLabel;
         if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
         } else { // label for when player is trapped
@@ -275,5 +268,4 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             }
         }
     }
-    private final MovePlayer myMove = new MovePlayer();
 }

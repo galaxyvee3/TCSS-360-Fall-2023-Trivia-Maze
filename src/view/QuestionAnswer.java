@@ -27,7 +27,7 @@ public class QuestionAnswer {
      * Public constructor.
      */
     public QuestionAnswer() {
-        myQuestions = new ArrayList<Question>();
+        myQuestions = new ArrayList<>();
         fetchQuestions();
         Collections.shuffle(myQuestions);
     }
@@ -55,14 +55,13 @@ public class QuestionAnswer {
             while (rs2.next()) {
                 String question = rs2.getString( "QUESTION" );
                 String answer = rs2.getString( "ANSWER" );
-                Question tf = new TrueFalseQuestions(question, answer);
+                Question tf;
                 if (answer.equalsIgnoreCase("1")) {
                     tf = new TrueFalseQuestions(question, "true");
                 } else {
                     tf = new TrueFalseQuestions(question, "false");
                 }
                 myQuestions.add(tf);
-                System.out.println(tf);
             }
             ResultSet rs3 = stmt.executeQuery(query3);
             while (rs3.next()) {

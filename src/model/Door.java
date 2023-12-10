@@ -142,13 +142,6 @@ public class Door implements Serializable, PropertyChangeListener {
         return "Door init";
     }
 
-    /**
-     * This method gets called when a bound property is changed.
-     * This method reacts to different property change events by adjusting the game's status,
-     * showing messages, and engaging with the player
-     * @param theEvent A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
     }

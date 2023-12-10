@@ -45,12 +45,6 @@ public class Room implements PropertyChangeListener, Serializable {
 
     private int myColCnt;
 
-    /** Boolean for whether the Door is locked. */
-    private boolean myDoorLocked;
-
-    /** Boolean for whether the user answers the question correctly. */
-    private boolean myCorrectAnswer;
-
     /** Boolean for whether there is a clue available. */
     private boolean myClueStatus;
 
@@ -109,38 +103,6 @@ public class Room implements PropertyChangeListener, Serializable {
     }
 
     /**
-     * Takes the user's answer and opens the door if it is correct or block the door otherwise.
-     * @param thePlayerAnswer the user answer for the trivia question
-     */
-    public void answerTriviaQuestion(final String thePlayerAnswer) {
-        // Check if the player's answer is correct and update the state accordingly.
-        final String correctAnswer = "Your correct answer";
-        if (thePlayerAnswer.equals(correctAnswer)) {
-            myCorrectAnswer = true; // The player answered correctly.
-            myDoorLocked = false; // Door status
-        } else {
-            myCorrectAnswer = false; // The player answered incorrectly.
-            myDoorLocked = true;
-        }
-    }
-
-    /**
-     * Returns whether the door is locked.
-     * @return true if door is locked
-     */
-    public boolean isDoorLocked() {
-        return myDoorLocked;
-    }
-
-    /**
-     * Returns whether the user answered the question correctly.
-     * @return true if the user answered the question correctly
-     */
-    public boolean isQuestionAnsweredCorrectly() {
-        return myCorrectAnswer;
-    }
-
-    /**
      * Returns whether a clue is available.
      * @return true if there is a clue available
      */
@@ -170,20 +132,12 @@ public class Room implements PropertyChangeListener, Serializable {
         return myClueContent;
     }
 
-    /**
-     *
-     * @return
-     */
     private boolean isOnEdgeOfMaze() {
         // Check if the room is on the edge of the maze
         return myRow == 0 || myRow == myRowCnt - 1
                 || myColumn == 0 || myColumn == myColCnt - 1;
     }
 
-    /**
-     *
-     * @return
-     */
     private int doorCounter() {
         final int doorCount;
         if (isOnEdgeOfMaze()) {
@@ -194,10 +148,6 @@ public class Room implements PropertyChangeListener, Serializable {
         return doorCount;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getDoorCount() {
         return doorCounter();
     }
@@ -213,8 +163,6 @@ public class Room implements PropertyChangeListener, Serializable {
      *
      */
     private void initializeState() {
-        myDoorLocked = true;
-        myCorrectAnswer = false;
     }
 
     /**
@@ -240,12 +188,6 @@ public class Room implements PropertyChangeListener, Serializable {
         return "Room init";
     }
 
-    /**
-     * This method gets called when a bound property is changed.
-     *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
