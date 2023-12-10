@@ -59,9 +59,6 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
         } else { // default questions to prevent null
         }
     }
-    public void reset() {
-        repaint();
-    }
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {

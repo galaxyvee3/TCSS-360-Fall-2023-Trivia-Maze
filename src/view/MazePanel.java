@@ -105,9 +105,6 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
         g2d.setPaint(Color.BLUE);
         g2d.fillOval(curCol * ROOM_SIZE + 15, curRow * ROOM_SIZE + 15, DOOR_SIZE, DOOR_SIZE);
     }
-    public void reset() {
-        repaint();
-    }
 
     /**
      * Repaint maze whenever player has moved within the maze and when a door is unlocked or closed.
