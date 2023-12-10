@@ -1,10 +1,6 @@
 package view;
 
-import controller.GameEngine;
 import java.util.List;
-import model.Direction;
-import model.Door;
-import model.Room;
 
 /**
  * For testing purposes.
