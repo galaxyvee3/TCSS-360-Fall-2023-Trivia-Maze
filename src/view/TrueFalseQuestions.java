@@ -13,7 +13,7 @@ public class TrueFalseQuestions extends Question{
      * @param theQuestion Question text in string.
      * @param theAnswer Boolean indicating the correct answer.
      */
-    public TrueFalseQuestions(final String theQuestion, final boolean theAnswer) {
+    public TrueFalseQuestions(final String theQuestion, final String theAnswer) {
         super(theQuestion, String.valueOf(theAnswer));
         setMyType(Type.TRUE_FALSE);
     }

@@ -52,7 +52,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
             g2d.drawString(tf, 10, 60);
         } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
             ShortAnswerQuestions question = (ShortAnswerQuestions) myQuestion;
-            String sa = "Short one word answer";
+            String sa = "Short Answer";
             g2d.drawString(sa, 10, 60);
         } else { // default questions to prevent null
         }

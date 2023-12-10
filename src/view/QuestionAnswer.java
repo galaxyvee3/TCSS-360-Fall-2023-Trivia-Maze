@@ -54,9 +54,15 @@ public class QuestionAnswer {
             ResultSet rs2 = stmt.executeQuery(query2);
             while (rs2.next()) {
                 String question = rs2.getString( "QUESTION" );
-                boolean answer = Boolean.parseBoolean(rs2.getString( "ANSWER" ));
+                String answer = rs2.getString( "ANSWER" );
                 Question tf = new TrueFalseQuestions(question, answer);
+                if (answer.equalsIgnoreCase("1")) {
+                    tf = new TrueFalseQuestions(question, "true");
+                } else {
+                    tf = new TrueFalseQuestions(question, "false");
+                }
                 myQuestions.add(tf);
+                System.out.println(tf);
             }
             ResultSet rs3 = stmt.executeQuery(query3);
             while (rs3.next()) {
