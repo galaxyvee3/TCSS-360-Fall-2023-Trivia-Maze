@@ -245,7 +245,6 @@ public class Maze implements Serializable {
         myAttemptDoor = false;
         myCurrentDoor.unlockDoor();
         myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-        System.out.println("Door unlocked");
     }
 
     /**
@@ -255,7 +254,6 @@ public class Maze implements Serializable {
         myAttemptDoor = false;
         myCurrentDoor.closeDoor();
         myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
-        System.out.println("Door closed");
     }
 
     /**
@@ -323,23 +321,19 @@ public class Maze implements Serializable {
      * Moves the player up one row.
      * @return if move was successful or why it failed
      */
-    public String moveUp() {
+    public void moveUp() {
         if (canMove("Up")) {
             Room room = getRoom(getMyCurrentRow(), getMyCurrentCol());
             Door door = room.getDoor(Direction.NORTH);
             if (doorUnlocked(door)) { // unlocked door, move up
                 setMyCurrentRow(getMyCurrentRow() - 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved up " + getMyCurrentRow();
             } else if (doorClosed(door)) { // closed door, don't move
-                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentRow(getMyCurrentRow());
-            return "Cannot move";
         }
     }
 
@@ -347,23 +341,19 @@ public class Maze implements Serializable {
      * Moves the player down one row.
      * @return if move was successful or why it failed
      */
-    public String moveDown() {
+    public void moveDown() {
         if (canMove("Down")) {
             Room room = getRoom(getMyCurrentRow(), getMyCurrentCol());
             Door door = room.getDoor(Direction.SOUTH);
             if (doorUnlocked(door)) { // unlocked door, move down
                 setMyCurrentRow(getMyCurrentRow() + 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved down " + getMyCurrentRow();
             } else if (doorClosed(door)) { // closed door, don't move
-                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentRow(getMyCurrentRow());
-            return "Cannot move";
         }
     }
 
@@ -371,23 +361,19 @@ public class Maze implements Serializable {
      * Moves the player left one column.
      * @return if move was successful or why it failed
      */
-    public String moveLeft() {
+    public void moveLeft() {
         if (canMove("Left")) {
             Room room = getRoom(getMyCurrentRow(), getMyCurrentCol());
             Door door = room.getDoor(Direction.WEST);
             if (doorUnlocked(door)) { // unlocked door, move left
                 setMyCurrentCol(getMyCurrentCol() - 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved left " + getMyCurrentCol();
             } else if (doorClosed(door)) { // closed door, don't move
-                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentCol(getMyCurrentCol());
-            return "Cannot move";
         }
     }
 
@@ -395,23 +381,19 @@ public class Maze implements Serializable {
      * Moves the player right one column.
      * @return if move was successful or why it failed
      */
-    public String moveRight() {
+    public void moveRight() {
         if (canMove("Right")) {
             Room room = getRoom(getMyCurrentRow(), getMyCurrentCol());
             Door door = room.getDoor(Direction.EAST);
             if (doorUnlocked(door)) { // unlocked door, move right
                 setMyCurrentCol(getMyCurrentCol() + 1);
                 gameOverSuccess(); // check whether player has escaped the maze
-                return "Moved right " + getMyCurrentCol();
             } else if (doorClosed(door)) { // closed door, don't move
-                return "Door is closed";
             } else { // locked door, prompt question
                 promptQuestion(door);
-                return "Door is locked";
             }
         } else { // prevent player from leaving maze
             setMyCurrentCol(getMyCurrentCol());
-            return "Cannot move";
         }
     }
 

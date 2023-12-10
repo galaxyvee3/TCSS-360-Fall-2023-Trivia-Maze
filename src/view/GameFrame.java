@@ -206,7 +206,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         // create panels
         final InfoPanel infoPanel = new InfoPanel();
         final MazePanel mazePanel = new MazePanel(myMaze);
-        final QuestionPanel questionPanel = new QuestionPanel(myMaze);
+        final QuestionPanel questionPanel = new QuestionPanel();
 
         // add panels to frame
         gameFrame.add(infoPanel, BorderLayout.EAST);
@@ -265,13 +265,13 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         public void keyPressed(final KeyEvent theEvent) {
             // WASD and arrow keys
             if (theEvent.getKeyCode() == KeyEvent.VK_W || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                System.out.println(myMaze.moveUp());
+                myMaze.moveUp();
             } else if (theEvent.getKeyCode() == KeyEvent.VK_S || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                System.out.println(myMaze.moveDown());
+                myMaze.moveDown();
             } else if (theEvent.getKeyCode() == KeyEvent.VK_A || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                System.out.println(myMaze.moveLeft());
+                myMaze.moveLeft();
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                System.out.println(myMaze.moveRight());
+                myMaze.moveRight();
             }
         }
     }

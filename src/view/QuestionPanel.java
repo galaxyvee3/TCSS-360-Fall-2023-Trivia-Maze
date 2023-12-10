@@ -1,7 +1,5 @@
 package view;
 
-import model.Maze;
-
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -23,7 +21,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     /**
      * Public constructor.
      */
-    public QuestionPanel(final Maze theMaze) {
+    public QuestionPanel() {
         super(new BorderLayout());
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(200, 180));
