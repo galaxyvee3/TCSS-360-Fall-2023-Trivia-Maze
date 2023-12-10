@@ -39,8 +39,7 @@ public class ClueManager {
             final List <String> clueLines = Files.readAllLines(Paths.get(FILE_PATH));
             return String.join("\n", clueLines);
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING,
-                       "Something went wrong with ClueFile I/O", e);
+            LOGGER.severe("Something went wrong with ClueFile I/O");
             return "";
         }
     }

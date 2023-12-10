@@ -1,6 +1,10 @@
 package view;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Logger;
@@ -19,6 +23,7 @@ public class QuestionAnswer {
     /** URL constant. */
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
 
+
 //======================Fields======================//
     /** ArrayList of Trivia Questions for the maze. */
     private static ArrayList<Question> myQuestions;
@@ -27,7 +32,7 @@ public class QuestionAnswer {
      * Public constructor.
      */
     public QuestionAnswer() {
-        myQuestions = new ArrayList<Question>();
+        myQuestions = new ArrayList <>();
         fetchQuestions();
         Collections.shuffle(myQuestions);
     }
@@ -43,8 +48,8 @@ public class QuestionAnswer {
             Statement stmt = conn.createStatement();
             ResultSet rs1 = stmt.executeQuery(query1);
             while (rs1.next()) {
-                String question = rs1.getString( "QUESTION" );
-                String answer = rs1.getString( "ANSWER" );
+                String question = rs1.getString("QUESTION");
+                String answer = rs1.getString("ANSWER");
                 String choiceA = rs1.getString("choiceA");
                 String choiceB = rs1.getString("choiceB");
                 String choiceC = rs1.getString("choiceC");
@@ -53,8 +58,8 @@ public class QuestionAnswer {
             }
             ResultSet rs2 = stmt.executeQuery(query2);
             while (rs2.next()) {
-                String question = rs2.getString( "QUESTION" );
-                String answer = rs2.getString( "ANSWER" );
+                String question = rs2.getString("QUESTION");
+                String answer = rs2.getString("ANSWER");
                 Question tf = new TrueFalseQuestions(question, answer);
                 if (answer.equalsIgnoreCase("1")) {
                     tf = new TrueFalseQuestions(question, "true");
@@ -66,8 +71,8 @@ public class QuestionAnswer {
             }
             ResultSet rs3 = stmt.executeQuery(query3);
             while (rs3.next()) {
-                String question = rs3.getString( "QUESTION" );
-                String answer = rs3.getString( "ANSWER" );
+                String question = rs3.getString("QUESTION");
+                String answer = rs3.getString("ANSWER");
                 Question sa = new ShortAnswerQuestions(question, answer);
                 myQuestions.add(sa);
             }

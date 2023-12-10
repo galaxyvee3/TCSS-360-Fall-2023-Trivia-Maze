@@ -52,17 +52,6 @@ public class DoorTest {
     }
 
     @Test
-    public void testSetAssociatedQuestion() {
-
-        //MultipleChoiceQuestions sampleQuestion = new MultipleChoiceQuestions("What is the capital of France?",
-                //"A");
-        //myDoor.setAssociatedQuestion(sampleQuestion);
-        //System.out.println(sampleQuestion.getMyType());
-
-        //assertEquals(sampleQuestion, myDoor.getAssociatedQuestion());
-    }
-
-    @Test
     public void testUnlockDoor() {
 
         assertFalse(myDoor.getUnlocked()); // Door should be initially locked
