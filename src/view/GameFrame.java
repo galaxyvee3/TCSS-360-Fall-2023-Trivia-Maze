@@ -118,7 +118,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                             JOptionPane.showMessageDialog(null,
                                                           "Pick option to Save this game");
                         }
-
                     }
                 });
         fileMenu.add(exit);
@@ -155,9 +154,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 """
                         "Trivia Maze" is a collaborative project developed by Team 2.
                         Any similarities between this and any other projects, past, present, and/or future
-                        "Trivia Maze" projects is strictly coincidental,
-                        and in no way an omission that their project is superior;
-                        Because this one is better.\s"""));
+                        "Trivia Maze" projects is strictly coincidental.\s"""));
         infoMenu.add(about);
 
         return infoMenu;
