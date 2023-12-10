@@ -23,7 +23,7 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
      */
     public QuestionPanel() {
         super(new BorderLayout());
-        setBackground(Color.WHITE);
+        setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(200, 180));
         myQuestion = new Question("", ""); // dummy question
     }

@@ -41,6 +41,8 @@ public class Door implements Serializable, PropertyChangeListener {
     /** The trivia question assigned to this Door. */
     private Question myQuestion;
 
+    private boolean myBeingAttempted;
+
     /**
      * Default constructor.
      */
@@ -53,6 +55,7 @@ public class Door implements Serializable, PropertyChangeListener {
         myUnlocked = false;
         myClosed = false;
         myQuestion = null;
+        myBeingAttempted = false;
         // add door to rooms
         myRoom1.addDoor(myDir1, this);
         myRoom2.addDoor(myDir2, this);
@@ -114,6 +117,14 @@ public class Door implements Serializable, PropertyChangeListener {
         return myQuestion;
     }
 
+    /**
+     * Get the current door that is being attempted.
+     * @return current door
+     */
+    public boolean getAttempting() {
+        return myBeingAttempted;
+    }
+
 
     /**
      * Unlock door if question is answered correctly.
@@ -135,6 +146,14 @@ public class Door implements Serializable, PropertyChangeListener {
      */
     public void setQuestion(final Question theQuestion) {
         myQuestion = theQuestion;
+    }
+
+    /**
+     * Set whether the door is being attempted by the player.
+     * @param theAttempt true if door is being attempted
+     */
+    public void setAttempting(final boolean theAttempt) {
+        myBeingAttempted = theAttempt;
     }
 
     @Override

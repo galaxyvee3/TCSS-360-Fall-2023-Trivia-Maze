@@ -25,7 +25,7 @@ public class Maze implements Serializable {
     /** Property name for updating the maze when player has moved or status of doors has changed. */
     transient public static final String PROPERTY_UPDATE_MAZE = "Update maze";
 
-    /**  Property name for when there is a trivia question. */
+    /** Property name for when there is a trivia question. */
     transient public static final String PROPERTY_TRIVIA_QUESTION = "Trivia question";
 
     /** Property name for when the player has saved the games current state. */
@@ -215,7 +215,7 @@ public class Maze implements Serializable {
      */
     public boolean doorUnlocked(final Door theDoor) {
         if (theDoor.getUnlocked()) {
-            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         }
         return theDoor.getUnlocked();
     }
@@ -227,7 +227,7 @@ public class Maze implements Serializable {
      */
     public boolean doorClosed(final Door theDoor) {
         if (theDoor.getClosed()) {
-            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         }
         return theDoor.getClosed();
     }
@@ -237,8 +237,9 @@ public class Maze implements Serializable {
      */
     public void unlockDoor() {
         myAttemptDoor = false;
+        myCurrentDoor.setAttempting(false);
         myCurrentDoor.unlockDoor();
-        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
     }
 
     /**
@@ -246,8 +247,9 @@ public class Maze implements Serializable {
      */
     public void closeDoor() {
         myAttemptDoor = false;
+        myCurrentDoor.setAttempting(false);
         myCurrentDoor.closeDoor();
-        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
     }
 
     /**
@@ -258,8 +260,10 @@ public class Maze implements Serializable {
         // player has encountered a locked door
         myCurrentDoor = theDoor;
         myAttemptDoor = true;
+        myCurrentDoor.setAttempting(true);
         // prompt trivia question from door
         myQuestion = theDoor.getQuestion();
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
 
         String message = "Please enter ";
@@ -278,11 +282,11 @@ public class Maze implements Serializable {
             unlockDoor(); // CHEAT TO UNLOCK DOOR
         } else if (playerAnswer.equalsIgnoreCase("close")) {
             closeDoor(); // CHEAT TO CLOSE DOOR
-        } else if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) { // unlock door bc player is correct
-            unlockDoor();
+        } else if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) {
+            unlockDoor(); // unlock door bc player is correct
             JOptionPane.showMessageDialog(null, "Correct! The door is unlocked.");
-        } else { // close door bc player is incorrect
-            closeDoor();
+        } else {
+            closeDoor(); // close door bc player is incorrect
             JOptionPane.showMessageDialog(null, "Incorrect. The correct answer is: " + myQuestion.getAnswer() + "\nThe door is closed.");
         }
     }
