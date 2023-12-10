@@ -28,21 +28,9 @@ class RoomTest {
     void testAddDoorToRoom() {
         Room room = new Room();
         Door door = new Door(myRoom, room, Direction.SOUTH, Direction.NORTH);
-        HashMap<Direction, Door> map = new HashMap<Direction, Door>();
+        HashMap<Direction, Door> map = new HashMap<>();
         map.put(Direction.NORTH, door);
         assertEquals(map, myRoom.getAllDoors());
-    }
-
-    @Test
-    void testAnswerTriviaQuestionCorrectly() {
-        myRoom.answerTriviaQuestion("Your correct answer");
-        assertTrue(myRoom.isQuestionAnsweredCorrectly());
-    }
-
-    @Test
-    void testAnswerTriviaQuestionIncorrectly() {
-        myRoom.answerTriviaQuestion("Incorrect answer");
-        assertFalse(myRoom.isQuestionAnsweredCorrectly());
     }
 
     @Test
@@ -57,14 +45,5 @@ class RoomTest {
             }
         }
         assertTrue(cluePresent, "At least one room should have a clue.");
-    }
-
-    @Test
-    void testDoorQuestionAnswer() {
-        Door door = new Door(new Room(), new Room(), Direction.SOUTH, Direction.NORTH);
-        door.setQuestion("What are the 4 Pillars of OOP?");
-        door.setAnswer("Abstraction, Encapsulation, Inheritance, and Polymorphism");
-        assertEquals("What are the 4 Pillars of OOP?", myRoom.retrieveQuestion(door));
-        assertEquals("Abstraction, Encapsulation, Inheritance, and Polymorphism", myRoom.retrieveAnswer(door));
     }
 }

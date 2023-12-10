@@ -43,7 +43,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void paintComponent(final Graphics theGraphics) {
-        super.paintComponents(theGraphics);
+        super.paintComponent(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
         final int curRow = myMaze.getMyCurrentRow();
         final int curCol = myMaze.getMyCurrentCol();
@@ -56,6 +56,13 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 g2d.fillRect(cols * ROOM_SIZE, rows * ROOM_SIZE, ROOM_SIZE - 1, ROOM_SIZE - 1);
             }
         }
+        // draw exit room
+        g2d.setPaint(Color.LIGHT_GRAY);
+        g2d.fillRect(5 * ROOM_SIZE, 5 * ROOM_SIZE, ROOM_SIZE - 1, ROOM_SIZE - 1);
+        // draw exit word
+        g2d.setPaint(Color.BLACK);
+        g2d.setFont(new Font("Arial", Font.ITALIC, 12));
+        g2d.drawString("EXIT", 5 * ROOM_SIZE + 15, 5 * ROOM_SIZE + DOOR_SIZE);
 
         // draw doors
         g2d.setPaint(new Color(100,75,50));
@@ -66,28 +73,34 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
                 HashMap<Direction, Door> allDoors = room.getAllDoors();
                 for (Direction direction : allDoors.keySet()) {
                     Door door = room.getDoor(direction);
-                    if (!door.getUnlocked()) {
-                        // set paint
+                    if (!door.getUnlocked()) { // draw doors
                         if (door.getClosed()) { // black for closed doors
                             g2d.setPaint(Color.BLACK);
+                            if (direction.equals(Direction.NORTH)) {
+                                g2d.fillRect(k * ROOM_SIZE, i * ROOM_SIZE - 5, ROOM_SIZE, DOOR_SIZE / 3);
+                            } else if (direction == Direction.SOUTH) {
+                                g2d.fillRect(k * ROOM_SIZE, (i + 1) * ROOM_SIZE - 5, ROOM_SIZE, DOOR_SIZE / 3);
+                            } else if (direction == Direction.WEST) {
+                                g2d.fillRect(k * ROOM_SIZE - 5, i * ROOM_SIZE, DOOR_SIZE / 3, ROOM_SIZE);
+                            } else if (direction == Direction.EAST) {
+                                g2d.fillRect((k + 1) * ROOM_SIZE - 5, i * ROOM_SIZE, DOOR_SIZE / 3, ROOM_SIZE);
+                            }
                         } else { // brown for undiscovered doors
                             g2d.setPaint(new Color(100,75,50));
-                        }
-                        // draw doors
-                        if (direction.equals(Direction.NORTH)) {
-                            g2d.fillRect(k * ROOM_SIZE + 15, i * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
-                        } else if (direction == Direction.SOUTH) {
-                            g2d.fillRect(k * ROOM_SIZE + 15, (i + 1) * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
-                        } else if (direction == Direction.WEST) {
-                            g2d.fillRect(k * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
-                        } else if (direction == Direction.EAST) {
-                            g2d.fillRect((k + 1) * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                            if (direction.equals(Direction.NORTH)) {
+                                g2d.fillRect(k * ROOM_SIZE + 15, i * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
+                            } else if (direction == Direction.SOUTH) {
+                                g2d.fillRect(k * ROOM_SIZE + 15, (i + 1) * ROOM_SIZE - 5, DOOR_SIZE, DOOR_SIZE / 3);
+                            } else if (direction == Direction.WEST) {
+                                g2d.fillRect(k * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                            } else if (direction == Direction.EAST) {
+                                g2d.fillRect((k + 1) * ROOM_SIZE - 5, i * ROOM_SIZE + 15, DOOR_SIZE / 3, DOOR_SIZE);
+                            }
                         }
                     }
                 }
             }
         }
-
         // draw user current location
         g2d.setPaint(Color.BLUE);
         g2d.fillOval(curCol * ROOM_SIZE + 15, curRow * ROOM_SIZE + 15, DOOR_SIZE, DOOR_SIZE);

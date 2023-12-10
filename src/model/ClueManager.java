@@ -14,13 +14,12 @@ import java.util.logging.Logger;
  * Trivia Maze - Team 2
  */
 public class ClueManager {
-
+//==================Constants========================//
     /** .txt file that contains the bonus clues. */
     private static final String FILE_PATH = "ClueFile.txt";
     /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(ClueManager.class.getName());
-
-
+//===================Fields=======================//
     /** String to hold clues. */
     private transient final String myClues;
     /**
@@ -41,7 +40,7 @@ public class ClueManager {
             return String.join("\n", clueLines);
         } catch (IOException e) {
             LOGGER.log(Level.WARNING,
-                       "Something went wrong with ClueFile I/O", e);
+                    "Something went wrong with ClueFile I/O", e);
             return "";
         }
     }

@@ -27,9 +27,9 @@ public class Room implements PropertyChangeListener, Serializable {
     /** Random object. */
     private static final Random RANDOM = new Random();
 
-    transient private static final int EDGE_COUNT = 2;
+    private static final int EDGE_COUNT = 2;
 
-    transient private static final int INNER_COUNT = 4;
+    private static final int INNER_COUNT = 4;
 
 //=====================Fields==========================//
     /** Map of all the Door objects in the Room. */
@@ -64,7 +64,7 @@ public class Room implements PropertyChangeListener, Serializable {
      * Default constructor.
      */
     public Room() {
-        myDoors = new HashMap <>();
+        myDoors = new HashMap<>();
         myCM = new ClueManager();
         initializeState();
         initializeClue();
@@ -106,23 +106,6 @@ public class Room implements PropertyChangeListener, Serializable {
     public Room(final int theRow, final int theColumn,
                 final int theRowCnt, final int theColCnt) {
         initializePosition(theRow, theColumn, theRowCnt, theColCnt);
-
-    }
-
-    /**
-     * Retrieve the current trivia question from the door.
-     * @param theDoor the current door the user is trying to get through
-     */
-    public String retrieveQuestion(final Door theDoor) {
-        return theDoor.getQuestion();
-    }
-
-    /**
-     * Retrieve the current answer for the trivia question from the door.
-     * @param theDoor the current door the user is trying to get through
-     */
-    public String retrieveAnswer(final Door theDoor) {
-        return theDoor.getAnswer();
     }
 
     /**

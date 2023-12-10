@@ -41,7 +41,7 @@ public class MazeTest {
         expectedValue.put(Direction.EAST, new Door(room, roomRight, Direction.EAST, Direction.WEST));
         expectedValue.put(Direction.SOUTH, new Door(room, roomBelow, Direction.SOUTH, Direction.NORTH));
         assertEquals(expectedValue, room.getAllDoors());
-        
+
     }
 
     @Test

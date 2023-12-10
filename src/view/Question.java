@@ -3,62 +3,83 @@ package view;
 /**
  * Abstract class extended to question classes.
  * @author Rick Adams
+ * @author Viktoria Dolojan
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public abstract class Question {
+public class Question {
     /** The trivia question. */
-    private final String myQuestionText;
+    private final String myQuestion;
 
     /** The answer to the trivia question. */
-    private final String myAnswerText;
+    private final String myAnswer;
 
+    /** The type of trivia question. */
     private Type myType;
 
     /**
      * Public constructor for object instantiation.
-     * @param theQuestionText Question text in string.
-     * @param theAnswerText Answer text in string.
+     * @param theQuestion Question text in string.
+     * @param theAnswer Answer text in string.
      */
-    public Question(final String theQuestionText, final String theAnswerText) {
-        this.myQuestionText = theQuestionText;
-        this.myAnswerText = theAnswerText;
+    public Question(final String theQuestion, final String theAnswer) {
+        this.myQuestion = theQuestion;
+        this.myAnswer = theAnswer;
+        myType = Type.DEFAULT;
     }
-
     /**
-     * Accessor method that returns the question type.
-     * @return the question type.
-     */
-    public abstract String getQuestionType();
-
-    /**
-     * Return the question.
+     * Get the trivia question.
      * @return trivia question
      */
-    public String getQuestionText() {
-        return myQuestionText;
+    public String getQuestion() {
+        return myQuestion;
     }
 
     /**
-     * Return the answer.
-     * @return answer to trivia question
+     * Get the answer to the trivia question.
+     * @return String answer to trivia question
      */
     public String getAnswer() {
-        return myAnswerText;
+        return myAnswer;
     }
+
+    /**
+     * Get the type of trivia question.
+     * @return String question type
+     */
+    public String getQuestionType() {
+        return myType.toString();
+    }
+
+    /**
+     * Set the type of trivia question.
+     * @param myType Type of trivia question
+     */
+    public void setMyType(final Type myType) {
+        this.myType = myType;
+    }
+
+    /**
+     * Enum class for types of trivia questions.
+     */
     public enum Type {
         MULTIPLE_CHOICE,
         TRUE_FALSE,
-        SHORT_ANSWER
+        SHORT_ANSWER,
+        DEFAULT
     }
 
-    private Type type;
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
+    /**
+     * Generated toString, mostly for debugging/testing.
+     * @return Returns the raw Question class via String.
+     */
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Trivia Question {");
+        sb.append("Question = '").append(myQuestion).append('\'');
+        sb.append(", Answer = '").append(myAnswer).append('\'');
+        sb.append(", Type = ").append(myType);
+        sb.append('}');
+        return sb.toString();
     }
 }

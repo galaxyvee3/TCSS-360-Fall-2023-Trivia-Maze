@@ -1,13 +1,11 @@
 package view;
 
-import model.Maze;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import static model.Maze.PROPERTY_TRIVIA_QUESTION;
 
 /**
  * Class creates the visual representation of the Trivia Questions for the game.
@@ -20,111 +18,51 @@ public class QuestionPanel extends JPanel implements PropertyChangeListener {
     /** Keeps track of the trivia question being presented. */
     private Question myQuestion;
 
-    /** JLabel to display trivia question. */
-    private JLabel myLabel;
-
-    /** JPanel to prompt the player for an answer. */
-    private JPanel myPanel;
-
     /**
      * Public constructor.
      */
     public QuestionPanel() {
-        super(new GridLayout(2, 1));
+        super(new BorderLayout());
         setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(200, 150));
-        myLabel = new JLabel("Trivia Question: ");
-        myPanel = promptUser();
-        add(myLabel);
-        add(myPanel);
-    }
-
-    /**
-     * Prompt the player for an answer.
-     * @return JPanel
-     */
-    public JPanel promptUser() {
-        // TODO: UPDATE PANEL BASED ON TYPE OF QUESTION
-        if (myQuestion != null) {
-            if (myQuestion.getQuestionType().equalsIgnoreCase("multiple choice")) {
-                System.out.println("mc");
-            } else if (myQuestion.getQuestionType().equalsIgnoreCase("short answer")) {
-                System.out.println("sa");
-            } else if (myQuestion.getQuestionType().equalsIgnoreCase("true/false")) {
-                System.out.println("tf");
-            }
-        }
-        JPanel panel = new JPanel(new GridLayout(4,1));
-        JLabel label = new JLabel("Answer");
-        JLabel result = new JLabel("");
-
-        JTextField input = new JTextField();
-
-        JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String userInput = input.getText();
-                // TODO: UPDATE TEXT TO SHOW PLAYER IF THEY WERE CORRECT OR NOT
-                result.setText(userInput);
-            }
-        });
-        panel.add(label);
-        panel.add(input);
-        panel.add(submitButton);
-        panel.add(result);
-        return panel;
+        setPreferredSize(new Dimension(200, 180));
+        myQuestion = new Question("", ""); // dummy question
     }
 
     @Override
     public void paintComponent(final Graphics theGraphics) {
-        super.paintComponents(theGraphics);
+        super.paintComponent(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
-
-        System.out.println("INIT QUESTION REPAINT"); // for testing purposes
-
         // repaint panel based off type of question
-        promptUser();
-        remove(1); // remove previous answer options
-        //myPanel = promptUser(); // update player answer panel
-        add(myPanel);
+        String tq = "Trivia Question: " + myQuestion.getQuestion();
+        g2d.setFont(new Font("Arial", Font.BOLD, 12));
+        g2d.drawString(tq, 10, 40);
+
+        g2d.setFont(new Font("Arial", Font.PLAIN, 12));
+        if (myQuestion.getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE")) {
+            MultipleChoiceQuestions question = (MultipleChoiceQuestions) myQuestion;
+            String choiceA = "A: " + question.getChoiceA();
+            String choiceB = "B: " + question.getChoiceB();
+            String choiceC = "C: " + question.getChoiceC();
+            g2d.drawString(choiceA, 10, 60);
+            g2d.drawString(choiceB, 10, 80);
+            g2d.drawString(choiceC, 10, 100);
+        } else if (myQuestion.getQuestionType().equalsIgnoreCase("TRUE_FALSE")) {
+            TrueFalseQuestions question = (TrueFalseQuestions) myQuestion;
+            String tf = "True or False";
+            g2d.drawString(tf, 10, 60);
+        } else if (myQuestion.getQuestionType().equalsIgnoreCase("SHORT_ANSWER")) {
+            ShortAnswerQuestions question = (ShortAnswerQuestions) myQuestion;
+            String sa = "Short Answer";
+            g2d.drawString(sa, 10, 60);
+        } else { // default questions to prevent null
+        }
     }
 
-    /**
-     * Sets the current trivia question to be displayed.
-     * @param theQuestion current trivia question
-     */
-    public void setCurrentQuestion(final String theQuestion) {
-        myLabel.setText("Trivia Question: " + theQuestion);
-    }
-
-    /**
-     * Displays the current trivia question.
-     * @param theQuestion current trivia question
-     */
-    public void displayQuestion(final Question theQuestion) {
-    }
-
-    /**
-     * Sets the current trivia question from the database.
-     * @param theQuestion current trivia question
-     */
-    public void setQuestionFromDatabase(final String theQuestion) {
-        myLabel.setText("Trivia Question: " + theQuestion);
-        repaint();
-    }
-
-    /**
-     * Repaint question whenever a new trivia question is encountered.
-     * @param theEvent A PropertyChangeEvent object describing the event source
-     *          and the property that has changed.
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        // TODO: QUESTIONS ARE NULL
-        if (theEvent.getPropertyName().equalsIgnoreCase(Maze.PROPERTY_TRIVIA_QUESTION)) {
-            Question newQuestion = (Question) theEvent.getNewValue();
-            myQuestion = newQuestion;
+        if (theEvent.getPropertyName().equalsIgnoreCase(PROPERTY_TRIVIA_QUESTION)) {
+            Question question = (Question) theEvent.getNewValue();
+            myQuestion = question;
             repaint();
         }
     }

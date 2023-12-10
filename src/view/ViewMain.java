@@ -7,9 +7,6 @@ import java.util.List;
  */
 public class ViewMain {
     public static void main(String[] args) {
-        QuestionAnswer qa = new QuestionAnswer();
-        List <String> myCorrectAnswers;
 
-        QuestionAnswer.displayQuestionTableInfo();
     }
 }
