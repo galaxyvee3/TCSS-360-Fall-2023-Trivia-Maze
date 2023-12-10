@@ -17,6 +17,10 @@ public class InfoPanel extends JPanel {
         add(new JLabel("Information"));
     }
 
+    public void reset() {
+        repaint();
+    }
+
     @Override
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponent(theGraphics);

@@ -55,7 +55,7 @@ public class Question {
      * Set the type of trivia question.
      * @param myType Type of trivia question
      */
-    public void setMyType(Type myType) {
+    public void setMyType(final Type myType) {
         this.myType = myType;
     }
 

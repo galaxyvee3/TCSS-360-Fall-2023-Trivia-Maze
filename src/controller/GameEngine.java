@@ -7,11 +7,6 @@ import model.Room;
 import view.GameFrame;
 import view.MazePanel;
 import view.QuestionAnswer;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,12 +17,10 @@ import java.util.TimerTask;
  * @version Fall 2023.
  * Trivia Maze - Team 2.
  */
-public class GameEngine implements PropertyChangeListener, ActionListener {
+public class GameEngine {
     //=====================Constants==========================//
     /** Constant int for loop delay. */
     private static final int TIMER_DELAY = 100;
-
-    private static final String ANSWER = "ANSWER";
 
     //=====================Fields==========================//
     /** QuestionAnswer class object. */
@@ -45,7 +38,7 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
     /** MazePanel class object. */
     private MazePanel myMazePanel;
 
-    /** Constant Timer object. */
+    /** Timer object. */
     private final Timer myTimer;
 
     /**
@@ -62,77 +55,45 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
         this.myDoor = theDoor;
         this.myMaze = new Maze();
         this.myGFrame = new GameFrame();
-        myMazePanel = new MazePanel(myMaze);
+        this.myMazePanel = new MazePanel(myMaze);
         this.myRunningGame = true;
         this.myTimer = new Timer();
         myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
         startGameLoop();
     }
 
-    public void startGameLoop() {
+    /**
+     * Mutator method to start the game timer.
+     */
+    protected final void startGameLoop() {
         myTimer.scheduleAtFixedRate(new GameLoop(), 0, TIMER_DELAY);
     }
-    @Override
-    public void actionPerformed(final ActionEvent theEvent) {
-        // No need to handle QuestionPanel interaction for now
-    }
 
-    @Override
-    public void propertyChange(final PropertyChangeEvent theEvt) {
-        // Handle property changes if needed
-    }
-
-    /*
-    private void processAnswer() {
-        // Replace this with the actual user's answer.
-        final String userAnswer = "User's Answer";
-
-        for (Map<String, String> questionData : myQA.getQuestions()) {
-            final String correctAnswer = questionData.get(ANSWER);
-            if (correctAnswer.equals(userAnswer)) {
-                handleCorrectAnswer();
-                return;  // Exit the loop if the correct answer is found.
-            }
-        }
-        // Otherwise, handle an incorrect answer.
-        handleIncorrectAnswer();
-    }
-
-    private void handleCorrectAnswer() {
-        if (myQA.hasMoreQuestions()) {
-            final Map<String, String> nextQuestionData = myQA.getNextQuestion();
-            final String questionText = nextQuestionData.get("QUESTION");
-            final String answerText = nextQuestionData.get(ANSWER);
-            // Use a default constructor for QuestionAnswer
-            final QuestionAnswer nextQuestion = new QuestionAnswer();
-//            myGFrame.getQuestionPanel().setCurrentQuestion(nextQuestion);
-        } else {
-            myRunningGame = false;
-           //myGFrame.getQuestionPanel().setCQuestion("Game Over!");
-        }
-    }
-    */
-
-    private void handleIncorrectAnswer() {
-    }
-
+    /**
+     * Mutator that sets game status.
+     * @param theRunningGame returns the status boolean.
+     */
     public void setRunningGame(final boolean theRunningGame) {
         this.myRunningGame = theRunningGame;
     }
 
     /**
-     * Private game loop class.
+     * Inner game loop class.
+     * @author rick_adams.
+     * Team 2 - Trivia Maze.
+     * @version 2023.
      */
     public class GameLoop extends TimerTask {
+        /** Package - protected Constructor. */
+        protected GameLoop() {
+            super();
+        }
         /**
          * Method that starts the game.
          */
         @Override
         public void run() {
             if (myRunningGame) {
-                checkPlayerInteraction();
-                checkQuestionAnswered();
-
                 // Execute the UI update on the EDT
                 SwingUtilities.invokeLater(() -> {
                     myGFrame.getMazePanel().repaint();
@@ -141,17 +102,6 @@ public class GameEngine implements PropertyChangeListener, ActionListener {
             } else {
                 myTimer.cancel();
             }
-        }
-
-
-        private void checkPlayerInteraction() {
-            // Placeholder for checking player interactions
-            // Update the game state accordingly
-        }
-
-        private void checkQuestionAnswered() {
-            // Placeholder for checking if a question is answered
-            //processAnswer();
         }
     }
 }

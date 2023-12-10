@@ -12,9 +12,6 @@ import java.sql.SQLException;
  */
 public final class QuestionDatabase {
 //======================Constants======================//
-    /** Logger constant. **/
-//    private static final Logger LOGGER = Logger.getLogger(QuestionDatabase.class.getName());
-
     /** Path for SQLite database. **/
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
 

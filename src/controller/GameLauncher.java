@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import model.ClueManager;
 import model.Direction;
 import model.Door;
 import model.Room;
@@ -14,8 +16,12 @@ import view.QuestionAnswer;
  * Team 2 - Trivia Maze.
  */
 public final class GameLauncher {
+    //=============Constant===============//
+    /** Logger constant. */
+    private static final Logger LOGGER = Logger.getLogger(ClueManager.class.getName());
     /** Constant for timer delay. */
     private static final int DELAY = 1000;
+
     /** Private contractor. */
     private GameLauncher() {
     }
@@ -38,7 +44,7 @@ public final class GameLauncher {
         try {
             Thread.sleep(DELAY);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.severe("Thread sleep interrupted");
         }
         // Stop the game engine after the desired duration
         gameEngine.setRunningGame(false);

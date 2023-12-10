@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameLauncher;
 import model.Maze;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     private static QuestionPanel myQPanel;
 
-    private MazePanel myMazePanel;
+    private final MazePanel myMazePanel;
 
 
     /** Boolean for whether the game is over. */
@@ -58,7 +59,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /**
      * Helps add details to the game frame.
      */
-    private void frameHelper() {
+    public final void frameHelper() {
         setTitle("Trivia Maze");
         setJMenuBar(menuBarHelper());
         setSize(new Dimension(600, 600));
@@ -71,7 +72,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * Create the menu bar for the Trivia Maze frame.
      * @return JMenuBar
      */
-    public JMenuBar menuBarHelper() {
+    public final JMenuBar menuBarHelper() {
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu());
         menuBar.add(infoMenu());
@@ -86,22 +87,24 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     private static JMenu fileMenu() {
         final JMenu fileMenu = new JMenu("File");
         final JMenuItem exit = new JMenuItem("Exit");
-        final JMenuItem start = new JMenuItem("Start");
+        final JMenuItem restart = new JMenuItem("Restart");
         final JMenuItem quit = new JMenuItem("Quit");
         final JMenuItem save = new JMenuItem("Save");
 
-        fileMenu.add(start); // TODO: Install game commencement logic.
-        fileMenu.add(quit); // TODO: Install game end logic.
+        fileMenu.add(restart);
+        fileMenu.add(quit);
         fileMenu.add(save);
         exit.addActionListener(
                 e -> System.exit(0));
-
+        restart.addActionListener(e -> GameLauncher.launcher());
+        quit.addActionListener(e -> gameOver());
         save.addActionListener(
                 e -> {
                     String filename = "";
-                    String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
+                    final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
 
-                    int choice = JOptionPane.showOptionDialog(null, "Choose Option to save",
+                    final int choice = JOptionPane.showOptionDialog(null,
+                                                                    "Choose Option to save",
                             "Save Game", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
                             null, chooseSave, null);
 
@@ -118,8 +121,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                             myMaze.saveGame(filename);
 
                             // Method for serialization of object
-                        } catch (final RuntimeException re) {
-                            JOptionPane.showMessageDialog(null, "Pick option to Save this game");
+                        } catch (final IllegalArgumentException err) {
+                            JOptionPane.showMessageDialog(null,
+                                                          "Pick option to Save this game");
                         }
 
                     }
@@ -186,7 +190,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         endPanel.add(endLabel);
         endPanel.add(buttonPanel);
         endFrame.add(endPanel);
-
+        gameButton.addActionListener(e -> GameLauncher.launcher());
+        quitButton.addActionListener(e -> System.exit(0));
         endFrame.setSize(300, 100);
         endFrame.setLocationRelativeTo(null); // make frame in center of screen
         endFrame.setVisible(true); // show frame
@@ -218,15 +223,14 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public void render() {
         // Update the maze display
         myMazePanel.repaint();
-
         // Ensure myQPanel is not null before invoking methods on it
         if (myQPanel != null) {
             myQPanel.repaint();
         }
     }
 
-    public void setQuestionPanel(QuestionPanel questionPanel) {
-        myQPanel = questionPanel;
+    public void setQuestionPanel(final QuestionPanel theQuestionPanel) {
+        myQPanel = theQuestionPanel;
     }
 
     public static QuestionPanel getQuestionPanel() {
@@ -238,7 +242,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     }
 
     /**
-     * Show game over GUI when player has completed the game, either in success or failure.
+     * Show game over GUI when player has completed the game.
      * @param theEvent A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
