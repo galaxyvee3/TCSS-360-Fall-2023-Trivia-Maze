@@ -99,8 +99,6 @@ public class GameEngine {
                     myGFrame.getMazePanel().repaint();
                     myGFrame.render();
                 });
-            } else {
-                myTimer.cancel();
             }
         }
     }
