@@ -20,8 +20,8 @@ public class DoorTest {
 
     @BeforeEach
     void setUp() {
-        myRoom1 = new Room();
-        myRoom2 = new Room();
+        myRoom1 = new Room(0, 0);
+        myRoom2 = new Room(1, 0);
         myDoor = new Door(myRoom1, myRoom2, Direction.SOUTH, Direction.NORTH);
     }
 

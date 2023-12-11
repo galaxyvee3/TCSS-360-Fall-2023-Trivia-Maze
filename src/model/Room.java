@@ -24,7 +24,6 @@ public class Room implements PropertyChangeListener, Serializable {
 //======================Constants======================//
     private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
 
-    /** Random object. */
     private static final Random RANDOM = new Random();
 
     private static final int EDGE_COUNT = 2;
@@ -57,8 +56,10 @@ public class Room implements PropertyChangeListener, Serializable {
     /**
      * Default constructor.
      */
-    public Room() {
+    public Room(final int theRow, final int theColumn) {
         myDoors = new HashMap<>();
+        myRow = theRow;
+        myColumn = theColumn;
         myCM = new ClueManager();
         initializeState();
         initializeClue();
@@ -72,6 +73,22 @@ public class Room implements PropertyChangeListener, Serializable {
      */
     public HashMap<Direction, Door> getAllDoors() {
         return myDoors;
+    }
+
+    /**
+     * Get the row of the room in the maze.
+     * @return int row
+     */
+    public int getRow() {
+        return myRow;
+    }
+
+    /**
+     * Get the column of the room in the maze.
+     * @return int column
+     */
+    public int getColumn() {
+        return myColumn;
     }
 
     /**
@@ -159,15 +176,9 @@ public class Room implements PropertyChangeListener, Serializable {
         myColCnt = theColCnt;
     }
 
-    /**
-     *
-     */
     private void initializeState() {
     }
 
-    /**
-     *
-     */
     private void initializeClue() {
         myClueStatus = RANDOM.nextBoolean();
         if (myClueStatus) {
@@ -175,9 +186,6 @@ public class Room implements PropertyChangeListener, Serializable {
         }
     }
 
-    /**
-     *
-     */
     private void logDoorCount() {
         final int doorCount = doorCounter();
         LOGGER.info("Door Count: " + doorCount);
@@ -185,7 +193,7 @@ public class Room implements PropertyChangeListener, Serializable {
 
     @Override
     public String toString() {
-        return "Room init";
+        return "\nRoom: " + myRow + ", " + myColumn;
     }
 
     @Override

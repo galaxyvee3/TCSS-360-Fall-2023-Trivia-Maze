@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Maze class for Trivia Maze, Team 2.
@@ -94,7 +93,7 @@ public class Maze implements Serializable {
         // fill maze with rooms
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int k = 0; k < MAZE_SIZE; k++) {
-                myMaze[i][k] = new Room();
+                myMaze[i][k] = new Room(i, k);
             }
         }
 
@@ -205,8 +204,6 @@ public class Maze implements Serializable {
     public void setMyCurrentCol(final int theCol) {
         myCurrentCol = theCol;
     }
-
-
 
     /**
      * Check if the door is unlocked and player can traverse through.
@@ -325,6 +322,7 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move up
                 setMyCurrentRow(getMyCurrentRow() - 1);
                 gameOverSuccess(); // check whether player has escaped the maze
+                gameOverFail(); // check whether there is still a path to the exit
             } else if (doorClosed(door)) { // closed door, don't move
             } else { // locked door, prompt question
                 promptQuestion(door);
@@ -344,6 +342,7 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move down
                 setMyCurrentRow(getMyCurrentRow() + 1);
                 gameOverSuccess(); // check whether player has escaped the maze
+                gameOverFail(); // check whether there is still a path to the exit
             } else if (doorClosed(door)) { // closed door, don't move
             } else { // locked door, prompt question
                 promptQuestion(door);
@@ -363,6 +362,7 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move left
                 setMyCurrentCol(getMyCurrentCol() - 1);
                 gameOverSuccess(); // check whether player has escaped the maze
+                gameOverFail(); // check whether there is still a path to the exit
             } else if (doorClosed(door)) { // closed door, don't move
             } else { // locked door, prompt question
                 promptQuestion(door);
@@ -382,6 +382,7 @@ public class Maze implements Serializable {
             if (doorUnlocked(door)) { // unlocked door, move right
                 setMyCurrentCol(getMyCurrentCol() + 1);
                 gameOverSuccess(); // check whether player has escaped the maze
+                gameOverFail(); // check whether there is still a path to the exit
             } else if (doorClosed(door)) { // closed door, don't move
             } else { // locked door, prompt question
                 promptQuestion(door);
@@ -463,9 +464,8 @@ public class Maze implements Serializable {
      */
     public void gameOverSuccess() {
         if(myCurrentRow == (MAZE_SIZE - 1) && myCurrentCol == (MAZE_SIZE - 1)) {
-            final boolean oldGameOver = myGameOver;
             myGameOver = true;
-            myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, true);
+            myPCS.firePropertyChange(PROPERTY_GAME_OVER, false, true);
         }
     }
 
@@ -473,6 +473,10 @@ public class Maze implements Serializable {
      * Checks if player is trapped in the maze because all possible doors are locked.
      */
     public void gameOverFail() {
+
+
+        myGameOver = true;
+        myPCS.firePropertyChange(PROPERTY_GAME_OVER, false, false);
     }
 
     /**
@@ -485,6 +489,6 @@ public class Maze implements Serializable {
 
     @Override
     public String toString() {
-        return "Maze init";
+        return "Maze: " + myGameOver;
     }
 }

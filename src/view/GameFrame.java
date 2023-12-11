@@ -24,9 +24,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     private final MazePanel myMazePanel;
 
-
     /** Boolean for whether the game is over. */
-    private static boolean myGameOver = true;
+    private static boolean myGameOver;
+
+    private static boolean myEscape;
 
     /** The current row of the player in the maze. */
     private int myCurrentRow;
@@ -42,6 +43,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         setLayout(new BorderLayout());
         this.myMazePanel = new MazePanel(myMaze);
         myGameOver = false;
+        myEscape = false;
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
         setFocusable(true);
@@ -167,7 +169,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
         JLabel endLabel;
-        if (myMaze.getGameOver()) { // label for when player successfully escaped
+        if (myEscape) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze. Try again.");
@@ -231,15 +233,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         return myMazePanel;
     }
 
-    /**
-     * Show game over GUI when player has completed the game.
-     * @param theEvent A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER)) {
-            myGameOver = (boolean) theEvent.getNewValue();
+            myEscape = (boolean) theEvent.getNewValue();
             gameOver();
         }
     }

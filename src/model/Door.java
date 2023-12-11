@@ -125,7 +125,6 @@ public class Door implements Serializable, PropertyChangeListener {
         return myBeingAttempted;
     }
 
-
     /**
      * Unlock door if question is answered correctly.
      */
@@ -158,7 +157,17 @@ public class Door implements Serializable, PropertyChangeListener {
 
     @Override
     public String toString() {
-        return "Door init";
+        String status = "";
+        if (myUnlocked) {
+            status = "unlocked";
+        } else if (myClosed) {
+            status = "closed";
+        } else {
+            status = "locked";
+        }
+        return "\nDoor:" + status +
+                "\n1 " + myRoom1.toString() + ", " + myDir1 +
+                "\n2 " + myRoom2.toString() + ", " + myDir2;
     }
 
     @Override

@@ -15,7 +15,7 @@ class RoomTest {
 
     @BeforeEach
     void setUp() {
-        myRoom = new Room();
+        myRoom = new Room(0, 0);
     }
 
     @Test
@@ -26,7 +26,7 @@ class RoomTest {
 
     @Test
     void testAddDoorToRoom() {
-        Room room = new Room();
+        Room room = new Room(1, 0);
         Door door = new Door(myRoom, room, Direction.SOUTH, Direction.NORTH);
         HashMap<Direction, Door> map = new HashMap<>();
         map.put(Direction.NORTH, door);
@@ -38,7 +38,7 @@ class RoomTest {
         boolean cluePresent = false;
         // Create multiple instances to check clue presence.
         for (int i = 0; i < 100; i++) {
-            Room room = new Room();
+            Room room = new Room(0, i);
             if (room.isCluePresent()) {
                 cluePresent = true;
                 break; // Exit the loop if a clue is present in any room.

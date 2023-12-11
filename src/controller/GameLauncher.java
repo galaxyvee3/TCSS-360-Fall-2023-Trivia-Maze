@@ -1,13 +1,14 @@
 package controller;
 
-import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
 import model.ClueManager;
 import model.Direction;
 import model.Door;
 import model.Room;
 import view.GameFrame;
 import view.QuestionAnswer;
+
+import javax.swing.*;
+import java.util.logging.Logger;
 
 /**
  *Utility class that helps launch game.
@@ -28,7 +29,7 @@ public final class GameLauncher {
     /** Launch method. */
     public static void launcher() {
         final QuestionAnswer questionAnswer = new QuestionAnswer();
-        final Room room = new Room();
+        final Room room = new Room(0, 0);
         final Door door = new Door(room, room,
                                    Direction.NORTH, Direction.SOUTH);
 
