@@ -54,7 +54,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /**
      * Helps add details to the game frame.
      */
-    public final void frameHelper() {
+    private void frameHelper() {
         setTitle("Trivia Maze");
         setJMenuBar(menuBarHelper());
         setSize(new Dimension(600, 600));
@@ -67,7 +67,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
      * Create the menu bar for the Trivia Maze frame.
      * @return JMenuBar
      */
-    public final JMenuBar menuBarHelper() {
+    private JMenuBar menuBarHelper() {
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu());
         menuBar.add(infoMenu());
