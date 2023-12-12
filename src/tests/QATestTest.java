@@ -2,7 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import view.QuestionAnswer;
+import model.QuestionAnswer;
 
 class QATestTest {
     QuestionAnswer questionAnswer;

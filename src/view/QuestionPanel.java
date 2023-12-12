@@ -1,5 +1,8 @@
 package view;
 
+import model.MultipleChoiceQuestions;
+import model.Question;
+
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;

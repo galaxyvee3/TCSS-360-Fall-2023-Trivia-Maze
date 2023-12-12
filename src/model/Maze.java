@@ -1,8 +1,5 @@
 package model;
 
-import view.Question;
-import view.QuestionAnswer;
-
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -473,7 +470,6 @@ public class Maze implements Serializable {
      * Checks if player is trapped in the maze because all possible doors are locked.
      */
     public void gameOverFail() {
-
 
         myGameOver = true;
         myPCS.firePropertyChange(PROPERTY_GAME_OVER, false, false);

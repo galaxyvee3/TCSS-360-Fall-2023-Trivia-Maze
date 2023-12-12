@@ -1,4 +1,4 @@
-package view;
+package model;
 
 /**
  * Abstract class extended to question classes.

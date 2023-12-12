@@ -1,7 +1,5 @@
 package model;
 
-import view.Question;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;

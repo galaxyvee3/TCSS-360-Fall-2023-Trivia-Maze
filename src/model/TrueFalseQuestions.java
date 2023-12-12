@@ -1,4 +1,6 @@
-package view;
+package model;
+
+import model.Question;
 
 /**
  * Class for true/false questions.
@@ -7,7 +9,7 @@ package view;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class TrueFalseQuestions extends Question{
+public class TrueFalseQuestions extends Question {
     /**
      * Public constructor for object instantiation.
      * @param theQuestion Question text in string.

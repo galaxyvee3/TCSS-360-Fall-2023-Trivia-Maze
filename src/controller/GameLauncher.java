@@ -5,7 +5,7 @@ import model.Direction;
 import model.Door;
 import model.Room;
 import view.GameFrame;
-import view.QuestionAnswer;
+import model.QuestionAnswer;
 
 import javax.swing.*;
 import java.util.logging.Logger;
