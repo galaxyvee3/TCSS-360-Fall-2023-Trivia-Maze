@@ -230,7 +230,7 @@ public class Maze implements Serializable {
     }
 
     /**
-     * CHEAT: unlock door with N key
+     * Unlock the door being attempted.
      */
     public void unlockDoor() {
         myAttemptDoor = false;
@@ -240,7 +240,7 @@ public class Maze implements Serializable {
     }
 
     /**
-     * CHEAT: close door with M key
+     * Close the door being attempted.
      */
     public void closeDoor() {
         myAttemptDoor = false;

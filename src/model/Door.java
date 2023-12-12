@@ -41,6 +41,7 @@ public class Door implements Serializable, PropertyChangeListener {
     /** The trivia question assigned to this Door. */
     private Question myQuestion;
 
+    /** Keeps track of whether this door is currently being attempted by the player. */
     private boolean myBeingAttempted;
 
     /**
