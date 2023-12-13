@@ -9,24 +9,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
  * @author Rick Adams
  * @author Viktoria Dolojan
+ * @author Justin Ho
  * @version Fall 2023
  */
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze = new Maze();
 
-    private final PropertyChangeSupport myChangeSupport;
-
     private static QuestionPanel myQPanel;
 
     private final MazePanel myMazePanel;
-
 
     /** Boolean for whether the game is over. */
     private static boolean myGameOver = true;
@@ -37,8 +36,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current column of the player in the maze. */
     private int myCurrentCol;
 
-    /** Boolean for whether player has escaped the maze. */
-    private static final boolean ESCAPE = false;
 
     /**
      * Default constructor.
@@ -46,7 +43,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public GameFrame() {
         super();
         setLayout(new BorderLayout());
-        myChangeSupport = new PropertyChangeSupport(this); // create new pcs
         this.myMazePanel = new MazePanel(myMaze);
         myGameOver = false;
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
@@ -90,10 +86,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JMenuItem restart = new JMenuItem("Restart");
         final JMenuItem quit = new JMenuItem("Quit");
         final JMenuItem save = new JMenuItem("Save");
+        final JMenuItem load = new JMenuItem("Load");
 
         fileMenu.add(restart);
         fileMenu.add(quit);
         fileMenu.add(save);
+        fileMenu.add(load);
         exit.addActionListener(
                 e -> System.exit(0));
         restart.addActionListener(e -> GameLauncher.launcher());
@@ -101,6 +99,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         save.addActionListener(
                 e -> {
                     String filename = "";
+
                     final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
 
                     final int choice = JOptionPane.showOptionDialog(null,
@@ -119,6 +118,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                     if (myMaze != null) {
                         try {
                             myMaze.saveGame(filename);
+                            int option = JOptionPane.showConfirmDialog(null, "SUCCESS! GAME SAVED.", "GAME SAVED", JOptionPane.DEFAULT_OPTION);
+                            if (option == JOptionPane.OK_OPTION) {
+                                System.exit(0);
+                            }
 
                             // Method for serialization of object
                         } catch (final IllegalArgumentException err) {
@@ -128,6 +131,41 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
                     }
                 });
+            load.addActionListener(e -> {
+                String filename = "";
+
+                final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
+
+                int choice = JOptionPane.showOptionDialog(null,
+                    "Choose the game to load",
+                    "Load Game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, chooseSave, null);
+
+
+                        if (choice == 0) {
+                            filename = "saveGame1.ser";
+                        } else if (choice == 1) {
+                            filename = "saveGame2.ser";
+                        } else if (choice == 2) {
+                            filename = "saveGame3.ser";
+                        }
+
+                        try {
+                            File file = new File(filename);
+                            if (file.exists()) {
+                                myMaze.loadGame(filename);
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(null,
+                                        "The selected file does not contain a previously saved game state.");
+                            }
+                    } catch (final IllegalArgumentException | IOException | ClassNotFoundException err) {
+                            JOptionPane.showMessageDialog(null,
+                                    "The selected file does not contain a previously saved game state.");
+                        }
+            }
+
+        );
         fileMenu.add(exit);
         return fileMenu;
     }
@@ -176,7 +214,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     public static void gameOver() {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
-        JLabel endLabel = new JLabel();
+        JLabel endLabel;
         if (myMaze.getGameOver()) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
         } else { // label for when player is trapped
@@ -275,5 +313,4 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             }
         }
     }
-    private final MovePlayer myMove = new MovePlayer();
 }

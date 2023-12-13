@@ -34,9 +34,6 @@ public class Maze implements Serializable {
     /** Property name for when the player returns to the last saved game state. */
     transient private static final String PROPERTY_PREV = "PREV GAME STATE";
 
-    /** Property name for when the player has reached the exit and has won the game.*/
-    transient private static final String PROPERTY_WIN = "PLAYER WINS";
-
     /** The size of the maze. */
     transient private static final int MAZE_SIZE = 6;
 
@@ -101,14 +98,11 @@ public class Maze implements Serializable {
             }
         }
 
-        // attach trivia question to doors
+        // fill rooms with doors attach trivia question to doors
+        Random random = new Random();
         QuestionAnswer qa = new QuestionAnswer();
         ArrayList<Question> questions = qa.getQuestions();
         int i = 0;
-
-        Random random = new Random();
-        // TODO: NEED MORE QUESTIONS FROM DATABASE
-        // fill rooms with doors
         // horizontal doors
         for (int rows = 0; rows < MAZE_SIZE - 1; rows++) {
             for (int index = 0; index < MAZE_SIZE; index++) {
@@ -319,7 +313,6 @@ public class Maze implements Serializable {
 
     /**
      * Moves the player up one row.
-     * @return if move was successful or why it failed
      */
     public void moveUp() {
         if (canMove("Up")) {
@@ -339,7 +332,6 @@ public class Maze implements Serializable {
 
     /**
      * Moves the player down one row.
-     * @return if move was successful or why it failed
      */
     public void moveDown() {
         if (canMove("Down")) {
@@ -359,7 +351,6 @@ public class Maze implements Serializable {
 
     /**
      * Moves the player left one column.
-     * @return if move was successful or why it failed
      */
     public void moveLeft() {
         if (canMove("Left")) {
@@ -379,7 +370,6 @@ public class Maze implements Serializable {
 
     /**
      * Moves the player right one column.
-     * @return if move was successful or why it failed
      */
     public void moveRight() {
         if (canMove("Right")) {
@@ -406,9 +396,6 @@ public class Maze implements Serializable {
         final int oldRow = myCurrentRow;
         final int oldCol = myCurrentCol;
         final boolean oldGameOver = myGameOver;
-        final boolean oldAttemptDoor = myAttemptDoor;
-        final Door oldDoor = myCurrentDoor;
-        final Question oldQuestion = myQuestion;
 
         // replace old values with new values
         myMaze = new Room[MAZE_SIZE][MAZE_SIZE];
@@ -420,7 +407,7 @@ public class Maze implements Serializable {
         myQuestion = new Question("", "");
 
         // fire property change
-        myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
+        myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, false);
         myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
     }
@@ -431,7 +418,7 @@ public class Maze implements Serializable {
      */
     public void saveGame(final String theFileName)
     {
-        File file = new File("./GameState.txt");
+        File file = new File(theFileName);
 
         try
         {
@@ -453,8 +440,6 @@ public class Maze implements Serializable {
             objectStream.writeObject(myMaze);
             objectStream.writeObject(myCurrentRow);
             objectStream.writeObject(myCurrentCol);
-            objectStream.writeObject(myGameOver);
-            objectStream.writeObject(myQuestion);
             objectStream.close();
             fileStream.close();
 
@@ -468,13 +453,37 @@ public class Maze implements Serializable {
     }
 
     /**
+     * @author Justin Ho
+     * Loads the previous game state.
+     */
+    public void loadGame (final String loadString) throws IOException, ClassNotFoundException {
+        File file = new File(loadString);
+        try (FileInputStream fileStream = new FileInputStream(file);
+            ObjectInputStream objectStream = new ObjectInputStream(fileStream)) {
+                Room[][] loadedMaze = (Room[][]) objectStream.readObject();
+                int loadedRow = (int) objectStream.readObject();
+                int loadedCol = (int) objectStream.readObject();
+                this.myCurrentRow = loadedRow;
+                this.myCurrentCol = loadedCol;
+                this.myMaze = loadedMaze;
+
+            myPCS.firePropertyChange(PROPERTY_PREV, null, this);
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    /**
      * Checks if the player has reached the end of the maze.
      */
     public void gameOverSuccess() {
         if(myCurrentRow == (MAZE_SIZE - 1) && myCurrentCol == (MAZE_SIZE - 1)) {
             final boolean oldGameOver = myGameOver;
             myGameOver = true;
-            myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, myGameOver);
+            myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, true);
         }
     }
 
@@ -490,14 +499,6 @@ public class Maze implements Serializable {
      */
     public void addPropertyChangeListener(final PropertyChangeListener theListener) {
         myPCS.addPropertyChangeListener(theListener);
-    }
-
-    /**
-     * Removes a PropertyChangeListener from PropertyChangeSupport.
-     * @param theListener the PropertyChangeListener to be removed
-     */
-    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
-        myPCS.removePropertyChangeListener(theListener);
     }
 
     @Override

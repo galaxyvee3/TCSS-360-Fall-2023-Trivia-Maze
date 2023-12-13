@@ -1,5 +1,7 @@
 package view;
 
+import java.io.Serializable;
+
 /**
  * Class for multiple choice questions.
  * @author Rick Adams
@@ -7,7 +9,7 @@ package view;
  * @version Fall 2023
  * Trivia Maze - Team 2.
  */
-public class MultipleChoiceQuestions extends Question {
+public class MultipleChoiceQuestions extends Question implements Serializable {
     /** The first choice for the question. */
     private final String myChoiceA;
 

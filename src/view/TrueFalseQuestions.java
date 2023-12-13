@@ -1,5 +1,7 @@
 package view;
 
+import java.io.Serializable;
+
 /**
  * Class for true/false questions.
  * @author Rick Adams
@@ -7,7 +9,7 @@ package view;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class TrueFalseQuestions extends Question{
+public class TrueFalseQuestions extends Question implements Serializable {
     /**
      * Public constructor for object instantiation.
      * @param theQuestion Question text in string.

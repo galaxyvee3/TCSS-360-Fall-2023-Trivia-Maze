@@ -75,11 +75,9 @@ public class Question {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Trivia Question {");
-        sb.append("Question = '").append(myQuestion).append('\'');
-        sb.append(", Answer = '").append(myAnswer).append('\'');
-        sb.append(", Type = ").append(myType);
-        sb.append('}');
-        return sb.toString();
+        return "Trivia Question" +
+                "\n{ Question = " + myQuestion +
+                "\nAnswer = " + myAnswer +
+                "\nType = " + myType + " }\n";
     }
 }

@@ -19,31 +19,50 @@ import java.util.TimerTask;
  */
 public class GameEngine {
     //=====================Constants==========================//
-    /** Constant int for loop delay. */
+    /**
+     * Constant int for loop delay.
+     */
     private static final int TIMER_DELAY = 100;
 
     //=====================Fields==========================//
-    /** QuestionAnswer class object. */
+    /**
+     * QuestionAnswer class object.
+     */
     private final QuestionAnswer myQA;
-    /** GameFrame class object. */
+    /**
+     * GameFrame class object.
+     */
     private final GameFrame myGFrame;
-    /** Room class object. */
+    /**
+     * Room class object.
+     */
     private final Room myRoom;
-    /** Maze class object. */
+    /**
+     * Maze class object.
+     */
     private final Maze myMaze;
-    /** Door class object. */
+    /**
+     * Door class object.
+     */
     private final Door myDoor;
-    /** Game status boolean. */
+    /**
+     * Game status boolean.
+     */
     private boolean myRunningGame;
-    /** MazePanel class object. */
+    /**
+     * MazePanel class object.
+     */
     private MazePanel myMazePanel;
 
-    /** Timer object. */
+    /**
+     * Timer object.
+     */
     private final Timer myTimer;
 
     /**
      * Public constructor.
-     * @param theQA QuestionAnswer object.
+     *
+     * @param theQA   QuestionAnswer object.
      * @param theRoom Room object.
      * @param theDoor Door object.
      */
@@ -71,6 +90,7 @@ public class GameEngine {
 
     /**
      * Mutator that sets game status.
+     *
      * @param theRunningGame returns the status boolean.
      */
     public void setRunningGame(final boolean theRunningGame) {
@@ -79,15 +99,19 @@ public class GameEngine {
 
     /**
      * Inner game loop class.
+     *
      * @author rick_adams.
      * Team 2 - Trivia Maze.
      * @version 2023.
      */
     public class GameLoop extends TimerTask {
-        /** Package - protected Constructor. */
+        /**
+         * Package - protected Constructor.
+         */
         protected GameLoop() {
             super();
         }
+
         /**
          * Method that starts the game.
          */
