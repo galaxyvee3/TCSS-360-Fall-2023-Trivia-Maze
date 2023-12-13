@@ -17,7 +17,7 @@ public class QuestionAnswer {
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
     /** URL constant. */
-    private static final String URL = "jdbc:sqlite:QuestionsDB.db";
+    private static final String URL = QuestionDatabase.dataSourceString();
 
 //======================Fields======================//
     /** ArrayList of Trivia Questions for the maze. */

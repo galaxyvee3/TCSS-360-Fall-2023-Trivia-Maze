@@ -28,7 +28,9 @@ public class MultipleChoiceQuestions extends Question {
                                    final String theChoiceB,
                                    final String theChoiceC) {
         super(theQuestion, theAnswer);
+
         setMyType(Type.MULTIPLE_CHOICE);
+
         myChoiceA = theChoiceA;
         myChoiceB = theChoiceB;
         myChoiceC = theChoiceC;

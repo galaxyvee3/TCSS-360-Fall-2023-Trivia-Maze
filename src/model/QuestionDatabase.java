@@ -2,7 +2,6 @@ package model;
 
 import org.sqlite.SQLiteDataSource;
 
-import java.sql.SQLException;
 
 /**
  * The question database that will be used for the trivia questions in the game.
@@ -42,7 +41,7 @@ public final class QuestionDatabase {
     /**
      * Helper method to initialize the database.
      */
-    public static void initializeDatabase() throws SQLException {
+    public static void initializeDatabase() {
         myDs = createDataSource();
     }
 
@@ -50,10 +49,18 @@ public final class QuestionDatabase {
      * Data source accessor method.
      * @return returns public data source.
      */
-    public static SQLiteDataSource getDataSource() throws SQLException {
+    public static SQLiteDataSource getDataSource() {
         if (myDs == null) {
             initializeDatabase();
         }
         return myDs;
+    }
+
+    /**
+     * Accessor method for the data source.
+     * @return returns the data source as a string.
+     */
+    public static String dataSourceString() {
+        return URL;
     }
 }

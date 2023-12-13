@@ -1,5 +1,4 @@
 import controller.GameLauncher;
-import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 /**
@@ -20,8 +19,7 @@ public final class Main {
      * Main method.
      * @param theArgs command line args
      */
-    public static void main(final String[] theArgs) throws SQLException {
-//        QuestionDatabase.initializeDatabase();
+    public static void main(final String[] theArgs) {
         SwingUtilities.invokeLater(GameLauncher::launcher);
     }
 }
