@@ -1,7 +1,5 @@
 package model;
 
-import model.Question;
-
 /**
  * Class for short answer questions.
  * @author Rick Adams

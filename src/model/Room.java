@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Room implements PropertyChangeListener, Serializable {
+public class Room implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2L;
@@ -64,7 +64,6 @@ public class Room implements PropertyChangeListener, Serializable {
         initializeState();
         initializeClue();
         generateClueContent();
-//        logDoorCount();
     }
 
     /**
@@ -196,7 +195,4 @@ public class Room implements PropertyChangeListener, Serializable {
         return "\nRoom: " + myRow + ", " + myColumn;
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-    }
 }

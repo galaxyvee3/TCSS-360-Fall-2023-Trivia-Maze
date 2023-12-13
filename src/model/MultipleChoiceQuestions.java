@@ -22,8 +22,11 @@ public class MultipleChoiceQuestions extends Question {
      * @param theQuestion Question text in string
      * @param theAnswer Answer text in string
      */
-    public MultipleChoiceQuestions(final String theQuestion, final String theAnswer,
-               final String theChoiceA, final String theChoiceB, final String theChoiceC) {
+    public MultipleChoiceQuestions(final String theQuestion,
+                                   final String theAnswer,
+                                   final String theChoiceA,
+                                   final String theChoiceB,
+                                   final String theChoiceC) {
         super(theQuestion, theAnswer);
         setMyType(Type.MULTIPLE_CHOICE);
         myChoiceA = theChoiceA;

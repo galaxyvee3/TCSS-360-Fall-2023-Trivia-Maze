@@ -1,7 +1,5 @@
 package model;
 
-import model.Question;
-
 /**
  * Class for true/false questions.
  * @author Rick Adams

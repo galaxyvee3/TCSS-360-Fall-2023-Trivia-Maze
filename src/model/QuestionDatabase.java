@@ -11,11 +11,11 @@ import java.sql.SQLException;
  * Trivia Maze - Team 2
  */
 public final class QuestionDatabase {
-//======================Constants======================//
+    //======================Constants======================//
     /** Path for SQLite database. **/
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
 
-//=====================Fields==========================//
+    //=====================Fields==========================//
     /** Data source object. **/
     private static SQLiteDataSource myDs;
 
