@@ -156,7 +156,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     @Override
     public String toString() {
-        String status = "";
+        String status;
         if (myUnlocked) {
             status = "unlocked";
         } else if (myClosed) {

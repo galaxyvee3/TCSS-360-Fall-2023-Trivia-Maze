@@ -9,11 +9,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
  * @author Rick Adams
  * @author Viktoria Dolojan
+ * @author Justin Ho
  * @version Fall 2023
  */
 public class GameFrame extends JFrame implements PropertyChangeListener {
@@ -34,6 +37,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /** The current column of the player in the maze. */
     private int myCurrentCol;
+
 
     /**
      * Default constructor.
@@ -85,10 +89,12 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JMenuItem restart = new JMenuItem("Restart");
         final JMenuItem quit = new JMenuItem("Quit");
         final JMenuItem save = new JMenuItem("Save");
+        final JMenuItem load = new JMenuItem("Load");
 
         fileMenu.add(restart);
         fileMenu.add(quit);
         fileMenu.add(save);
+        fileMenu.add(load);
         exit.addActionListener(
                 e -> System.exit(0));
         restart.addActionListener(e -> GameLauncher.launcher());
@@ -96,10 +102,11 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         save.addActionListener(
                 e -> {
                     String filename = "";
+
                     final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
 
                     final int choice = JOptionPane.showOptionDialog(null,
-                                                                    "Choose Option to save",
+                            "Choose Option to save",
                             "Save Game", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
                             null, chooseSave, null);
 
@@ -114,14 +121,53 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                     if (myMaze != null) {
                         try {
                             myMaze.saveGame(filename);
+                            int option = JOptionPane.showConfirmDialog(null, "SUCCESS! GAME SAVED.", "GAME SAVED", JOptionPane.DEFAULT_OPTION);
+                            if (option == JOptionPane.OK_OPTION) {
+                                System.exit(0);
+                            }
 
                             // Method for serialization of object
                         } catch (final IllegalArgumentException err) {
                             JOptionPane.showMessageDialog(null,
-                                                          "Pick option to Save this game");
+                                    "Pick option to Save this game");
                         }
                     }
                 });
+            load.addActionListener(e -> {
+                String filename = "";
+
+                final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
+
+                int choice = JOptionPane.showOptionDialog(null,
+                    "Choose the game to load",
+                    "Load Game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, chooseSave, null);
+
+
+                        if (choice == 0) {
+                            filename = "saveGame1.ser";
+                        } else if (choice == 1) {
+                            filename = "saveGame2.ser";
+                        } else if (choice == 2) {
+                            filename = "saveGame3.ser";
+                        }
+
+                        try {
+                            File file = new File(filename);
+                            if (file.exists()) {
+                                myMaze.loadGame(filename);
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(null,
+                                        "The selected file does not contain a previously saved game state.");
+                            }
+                    } catch (final IllegalArgumentException | IOException | ClassNotFoundException err) {
+                            JOptionPane.showMessageDialog(null,
+                                    "The selected file does not contain a previously saved game state.");
+                        }
+            }
+
+        );
         fileMenu.add(exit);
         return fileMenu;
     }
@@ -235,8 +281,11 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER)) {
-            myEscape = myMaze.getGameOver();
+        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_SUCCESS)) {
+            myEscape = true;
+            gameOver();
+        } else if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_FAIL)) {
+            myEscape = false;
             gameOver();
         }
     }

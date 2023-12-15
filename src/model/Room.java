@@ -32,9 +32,6 @@ public class Room implements Serializable {
     /** Map of all the Door objects in the Room. */
     private HashMap<Direction, Door> myDoors;
 
-    /** Keeps track of whether the room has been visited. */
-    private boolean myVisited;
-
     /** The row of the Room in the Maze. */
     private int myRow;
 
@@ -59,28 +56,12 @@ public class Room implements Serializable {
      */
     public Room(final int theRow, final int theColumn) {
         myDoors = new HashMap<>();
-        myVisited = false;
         myRow = theRow;
         myColumn = theColumn;
         myCM = new ClueManager();
         initializeState();
         initializeClue();
         generateClueContent();
-    }
-
-    /**
-     * Checks whether room has been visited or not.
-     * @return true if room has been visited
-     */
-    public boolean getVisited() {
-        return myVisited;
-    }
-
-    /**
-     * Sets visited to true to prevent infinite recursion for maze traversal algorithm.
-     */
-    public void setVisited() {
-        myVisited = true;
     }
 
     /**
