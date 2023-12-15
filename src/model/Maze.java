@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -102,7 +103,7 @@ public class Maze implements Serializable {
         // fill rooms with doors attach trivia question to doors
         Random random = new Random();
         QuestionAnswer qa = new QuestionAnswer();
-        ArrayList<Question> questions = qa.getQuestions();
+        List <Question> questions = qa.getQuestions();
         int i = 0;
         // horizontal doors
         for (int rows = 0; rows < MAZE_SIZE - 1; rows++) {

@@ -2,9 +2,10 @@ package model;
 
 /**
  * Class for multiple choice questions.
- * @author Rick Adams
- * @author Viktoria Dolojan
- * @version Fall 2023
+ *
+ * @author Rick Adams.
+ * @author Viktoria Dolojan.
+ * @version Fall 2023.
  * Trivia Maze - Team 2.
  */
 public class MultipleChoiceQuestions extends Question {
@@ -19,8 +20,11 @@ public class MultipleChoiceQuestions extends Question {
 
     /**
      * Public constructor for object instantiation.
-     * @param theQuestion Question text in string
+     * @param theQuestion Question text in string.
      * @param theAnswer Answer text in string
+     * @param theChoiceA the choice A.
+     * @param theChoiceB choice B.
+     * @param theChoiceC the choice C.
      */
     public MultipleChoiceQuestions(final String theQuestion,
                                    final String theAnswer,
@@ -38,7 +42,8 @@ public class MultipleChoiceQuestions extends Question {
 
     /**
      * Get the first choice for the trivia question.
-     * @return choice A
+     *
+     * @return choice A.
      */
     public String getChoiceA() {
         return myChoiceA;
@@ -46,7 +51,8 @@ public class MultipleChoiceQuestions extends Question {
 
     /**
      * Get the second choice for the trivia question.
-     * @return choice B
+     *
+     * @return choice B.
      */
     public String getChoiceB() {
         return myChoiceB;
@@ -54,7 +60,8 @@ public class MultipleChoiceQuestions extends Question {
 
     /**
      * Get the third choice for the trivia question.
-     * @return choice C
+     *
+     * @return choice C.
      */
     public String getChoiceC() {
         return myChoiceC;

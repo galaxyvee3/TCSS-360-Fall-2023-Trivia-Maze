@@ -32,13 +32,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     private static boolean myEscape;
 
-    /** The current row of the player in the maze. */
-    private int myCurrentRow;
-
-    /** The current column of the player in the maze. */
-    private int myCurrentCol;
-
-
     /**
      * Default constructor.
      */
@@ -121,7 +114,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                     if (myMaze != null) {
                         try {
                             myMaze.saveGame(filename);
-                            int option = JOptionPane.showConfirmDialog(null, "SUCCESS! GAME SAVED.", "GAME SAVED", JOptionPane.DEFAULT_OPTION);
+                            final int option = JOptionPane.showConfirmDialog(null,
+                                                                       "SUCCESS! GAME SAVED.",
+                                                                       "GAME SAVED",
+                                                                       JOptionPane.DEFAULT_OPTION);
                             if (option == JOptionPane.OK_OPTION) {
                                 System.exit(0);
                             }
@@ -138,11 +134,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
                 final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
 
-                int choice = JOptionPane.showOptionDialog(null,
+                final int choice = JOptionPane.showOptionDialog(null,
                     "Choose the game to load",
                     "Load Game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
                     null, chooseSave, null);
-
 
                         if (choice == 0) {
                             filename = "saveGame1.ser";
@@ -151,9 +146,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                         } else if (choice == 2) {
                             filename = "saveGame3.ser";
                         }
-
                         try {
-                            File file = new File(filename);
+                            final File file = new File(filename);
                             if (file.exists()) {
                                 myMaze.loadGame(filename);
                             }
@@ -269,10 +263,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     public void setQuestionPanel(final QuestionPanel theQuestionPanel) {
         myQPanel = theQuestionPanel;
-    }
-
-    public static QuestionPanel getQuestionPanel() {
-        return myQPanel;
     }
 
     public MazePanel getMazePanel() {

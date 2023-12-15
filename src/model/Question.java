@@ -2,10 +2,10 @@ package model;
 
 /**
  * Abstract class extended to question classes.
- * @author Rick Adams
- * @author Viktoria Dolojan
- * @version Fall 2023
- * Trivia Maze - Team 2
+ * @author Rick Adams.
+ * @author Viktoria Dolojan.
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
 public class Question {
     /** The trivia question. */
@@ -53,20 +53,20 @@ public class Question {
 
     /**
      * Set the type of trivia question.
-     * @param myType Type of trivia question
+     * @param myType Type of trivia question.
      */
-    public void setMyType(final Type myType) {
+    protected void setMyType(final Type myType) {
         this.myType = myType;
     }
 
+    public Type getMyType() {
+        return this.myType;
+    }
     /**
      * Enum class for types of trivia questions.
      */
     public enum Type {
-        MULTIPLE_CHOICE,
-        TRUE_FALSE,
-        SHORT_ANSWER,
-        DEFAULT
+        MULTIPLE_CHOICE, TRUE_FALSE, SHORT_ANSWER, DEFAULT
     }
 
     /**
@@ -75,9 +75,9 @@ public class Question {
      */
     @Override
     public String toString() {
-        return "Trivia Question" +
-                "\n{ Question = " + myQuestion +
-                "\nAnswer = " + myAnswer +
-                "\nType = " + myType + " }\n";
+        return "Trivia Question"
+               + "\n{ Question = " + myQuestion
+               + "\nAnswer = " + myAnswer
+               + "\nType = " + myType + " }\n";
     }
 }

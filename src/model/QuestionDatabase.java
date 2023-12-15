@@ -5,9 +5,10 @@ import org.sqlite.SQLiteDataSource;
 
 /**
  * The question database that will be used for the trivia questions in the game.
- * @author Rick Adams
- * @version Fall 2023
- * Trivia Maze - Team 2
+ *
+ * @author Rick Adams.
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
 public final class QuestionDatabase {
     //======================Constants======================//
@@ -21,7 +22,7 @@ public final class QuestionDatabase {
     /**
      * Private constructor.
      */
-    private QuestionDatabase() {
+    public QuestionDatabase() {
     }
 
     /**
@@ -41,8 +42,8 @@ public final class QuestionDatabase {
     /**
      * Helper method to initialize the database.
      */
-    public static void initializeDatabase() {
-        myDs = createDataSource();
+    public static SQLiteDataSource initializeDatabase() {
+        return myDs = createDataSource();
     }
 
     /**
