@@ -235,8 +235,11 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER)) {
-            myEscape = myMaze.getGameOver();
+        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_SUCCESS)) {
+            myEscape = true;
+            gameOver();
+        } else if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_FAIL)) {
+            myEscape = false;
             gameOver();
         }
     }
