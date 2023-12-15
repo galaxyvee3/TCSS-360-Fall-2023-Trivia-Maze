@@ -1,7 +1,8 @@
 package model;
 
 /**
- * Abstract class extended to question classes.
+ * Class extended to question classes.
+ *
  * @author Rick Adams.
  * @author Viktoria Dolojan.
  * @version Fall 2023.
@@ -19,6 +20,7 @@ public class Question {
 
     /**
      * Public constructor for object instantiation.
+     *
      * @param theQuestion Question text in string.
      * @param theAnswer Answer text in string.
      */
@@ -29,6 +31,7 @@ public class Question {
     }
     /**
      * Get the trivia question.
+     *
      * @return trivia question
      */
     public String getQuestion() {
@@ -37,6 +40,7 @@ public class Question {
 
     /**
      * Get the answer to the trivia question.
+     *
      * @return String answer to trivia question
      */
     public String getAnswer() {
@@ -45,6 +49,7 @@ public class Question {
 
     /**
      * Get the type of trivia question.
+     *
      * @return String question type
      */
     public String getQuestionType() {
@@ -53,12 +58,18 @@ public class Question {
 
     /**
      * Set the type of trivia question.
+     *
      * @param myType Type of trivia question.
      */
     protected void setMyType(final Type myType) {
         this.myType = myType;
     }
 
+    /**
+     * Accessor for the question type.
+     *
+     * @return Returns the type.
+     */
     public Type getMyType() {
         return this.myType;
     }
@@ -71,6 +82,7 @@ public class Question {
 
     /**
      * Generated toString, mostly for debugging/testing.
+     *
      * @return Returns the raw Question class via String.
      */
     @Override

@@ -32,6 +32,7 @@ class TrueFalseQuestionsTest {
     @Test
     void getAnswer() {
         assertEquals("false", myQuestion.getAnswer());
+        assertNotEquals("true", myQuestion.getAnswer());
     }
 
     @Test

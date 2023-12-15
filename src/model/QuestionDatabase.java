@@ -20,7 +20,7 @@ public final class QuestionDatabase {
     private static SQLiteDataSource myDs;
 
     /**
-     * Private constructor.
+     * Default constructor.
      */
     public QuestionDatabase() {
     }

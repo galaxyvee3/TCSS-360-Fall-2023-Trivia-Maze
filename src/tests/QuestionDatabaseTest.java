@@ -19,18 +19,24 @@ class QuestionDatabaseTest {
     @Test
     void initializeDatabase() {
         // Test if the database is initialized successfully
-        assertNotNull(questionDatabase.initializeDatabase());
+        assertNotNull(QuestionDatabase.initializeDatabase());
     }
 
     @Test
     void getDataSource() {
         // Test if the data source is not null after initialization
-        assertNotNull(questionDatabase.getDataSource());
+        assertNotNull(QuestionDatabase.getDataSource());
     }
 
     @Test
     void dataSourceString() {
         // Test if the data source string is not null after initialization
-        assertNotNull(questionDatabase.dataSourceString());
+        assertNotNull(QuestionDatabase.dataSourceString());
+    }
+
+    @Test
+    void sourceStringTrue() {
+        assertNotEquals(null,
+                QuestionDatabase.dataSourceString());
     }
 }

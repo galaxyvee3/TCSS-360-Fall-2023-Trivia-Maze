@@ -92,8 +92,13 @@ public class QuestionAnswer {
         return myQuestions;
     }
 
+    /**
+     * Overridden toString representation of Q&A.class.
+     * @return Returns Q&A.class via raw String.
+     */
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
     }
+
 }
