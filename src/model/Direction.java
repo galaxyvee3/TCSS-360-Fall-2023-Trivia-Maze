@@ -1,6 +1,5 @@
 package model;
 
-import java.io.Serializable;
 
 /**
  * Direction enumeration class for Trivia Maze Fall 2023 Team 2.
@@ -8,6 +7,6 @@ import java.io.Serializable;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public enum Direction implements Serializable {
+public enum Direction  {
     NORTH,SOUTH,EAST,WEST
 }

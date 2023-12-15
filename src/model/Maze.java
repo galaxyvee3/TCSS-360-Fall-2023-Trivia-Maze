@@ -540,7 +540,7 @@ public class Maze implements Serializable {
      */
     public void saveGame(final String theFileName)
     {
-        File file = new File("./GameState.txt");
+        File file = new File(theFileName);
 
         try
         {
@@ -562,8 +562,6 @@ public class Maze implements Serializable {
             objectStream.writeObject(myMaze);
             objectStream.writeObject(myCurrentRow);
             objectStream.writeObject(myCurrentCol);
-            objectStream.writeObject(myGameOver);
-            objectStream.writeObject(myQuestion);
             objectStream.close();
             fileStream.close();
 
@@ -575,6 +573,30 @@ public class Maze implements Serializable {
             throw new IllegalArgumentException("FAILED TO SAVE GAME, TRIVIA MAZE CLASS" + " " + e);
         }
     }
+
+    /**
+     * @author Justin Ho
+     * Loads the previous game state.
+     */
+    public void loadGame (final String loadString) throws IOException, ClassNotFoundException {
+        File file = new File(loadString);
+        try (FileInputStream fileStream = new FileInputStream(file);
+            ObjectInputStream objectStream = new ObjectInputStream(fileStream)) {
+                Room[][] loadedMaze = (Room[][]) objectStream.readObject();
+                int loadedRow = (int) objectStream.readObject();
+                int loadedCol = (int) objectStream.readObject();
+                this.myCurrentRow = loadedRow;
+                this.myCurrentCol = loadedCol;
+                this.myMaze = loadedMaze;
+
+            myPCS.firePropertyChange(PROPERTY_PREV, null, this);
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
     /**
      * Checks if the player has reached the end of the maze.

@@ -31,7 +31,7 @@ public final class GameLauncher {
         final QuestionAnswer questionAnswer = new QuestionAnswer();
         final Room room = new Room(0, 0);
         final Door door = new Door(room, room,
-                                   Direction.NORTH, Direction.SOUTH);
+                Direction.NORTH, Direction.SOUTH);
 
         // Create and start the game engine
         final GameEngine gameEngine = new GameEngine(questionAnswer, room, door);
