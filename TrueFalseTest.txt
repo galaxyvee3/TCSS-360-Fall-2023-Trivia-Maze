@@ -1,3 +1,0 @@
-1	Is this going to work?	1
-2	Are you sure?	0
-3	But what if?	1
