@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 
 import static model.Maze.PROPERTY_TRIVIA_QUESTION;
 
@@ -14,7 +15,7 @@ import static model.Maze.PROPERTY_TRIVIA_QUESTION;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class QuestionPanel extends JPanel implements PropertyChangeListener {
+public class QuestionPanel extends JPanel implements PropertyChangeListener, Serializable {
     /** Keeps track of the trivia question being presented. */
     private Question myQuestion;
 

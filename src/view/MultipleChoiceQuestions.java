@@ -1,5 +1,6 @@
 package view;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * Trivia Maze - Team 2.
  */
 public class MultipleChoiceQuestions extends Question implements Serializable {
+
     /** The first choice for the question. */
     private final String myChoiceA;
 

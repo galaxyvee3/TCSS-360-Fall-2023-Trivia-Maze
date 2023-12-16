@@ -53,6 +53,7 @@ public class Maze implements Serializable {
     /** Boolean of whether player has reached the exit of the maze. */
     private boolean myGameOver;
 
+
     /** Boolean for whether player is currently attempting a door and should not move. */
     private boolean myAttemptDoor;
 
@@ -440,9 +441,14 @@ public class Maze implements Serializable {
             objectStream.writeObject(myMaze);
             objectStream.writeObject(myCurrentRow);
             objectStream.writeObject(myCurrentCol);
+
             objectStream.close();
             fileStream.close();
 
+            if(myGameOver)
+            {
+                myPCS.firePropertyChange(PROPERTY_GAME_OVER, null, myMaze);
+            }
             myPCS.firePropertyChange(PROPERTY_SAVE, null, myMaze);
 
 
@@ -460,15 +466,20 @@ public class Maze implements Serializable {
         File file = new File(loadString);
         try (FileInputStream fileStream = new FileInputStream(file);
             ObjectInputStream objectStream = new ObjectInputStream(fileStream)) {
-                Room[][] loadedMaze = (Room[][]) objectStream.readObject();
-                int loadedRow = (int) objectStream.readObject();
-                int loadedCol = (int) objectStream.readObject();
-                this.myCurrentRow = loadedRow;
-                this.myCurrentCol = loadedCol;
-                this.myMaze = loadedMaze;
+            myMaze = (Room[][]) objectStream.readObject();
+
+            // Deserialize myCurrentRow
+            myCurrentRow = (int) objectStream.readObject();
+
+            // Deserialize myCurrentCol
+            myCurrentCol = (int) objectStream.readObject();
 
             myPCS.firePropertyChange(PROPERTY_PREV, null, this);
 
+            if(myGameOver)
+            {
+                myPCS.firePropertyChange(PROPERTY_GAME_OVER, null, myMaze);
+            }
             }
             catch (IOException e) {
                 e.printStackTrace();

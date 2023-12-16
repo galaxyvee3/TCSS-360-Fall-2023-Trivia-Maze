@@ -1,5 +1,7 @@
 package view;
 
+import java.io.Serializable;
+
 /**
  * Abstract class extended to question classes.
  * @author Rick Adams
@@ -7,7 +9,7 @@ package view;
  * @version Fall 2023
  * Trivia Maze - Team 2
  */
-public class Question {
+public class Question implements Serializable {
     /** The trivia question. */
     private final String myQuestion;
 

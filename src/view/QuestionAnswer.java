@@ -1,5 +1,6 @@
 package view;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +12,7 @@ import java.util.logging.Logger;
  * @author Rick Adams
  * @version Fall 2023
  */
-public class QuestionAnswer {
+public class QuestionAnswer implements Serializable {
 //======================Constants======================//
     /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
