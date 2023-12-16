@@ -1,6 +1,6 @@
 package tests;
 
-import model.Direction; // Replace with the actual package where your Direction class is located
+import model.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
