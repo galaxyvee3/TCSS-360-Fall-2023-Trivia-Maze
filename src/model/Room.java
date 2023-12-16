@@ -3,16 +3,16 @@ package model;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Random;
-import java.util.logging.Logger;
+import java.util.Map;
 
 /**
  * Room object in the maze.
- * @author Rick Adams
- * @author Viktoria Dolojan
- * @author Justin Ho
- * @version Fall 2023
- * Trivia Maze - Team 2
+ *
+ * @author Rick Adams.
+ * @author Viktoria Dolojan.
+ * @author Justin Ho.
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
 public class Room implements Serializable {
     //======================Constants======================//
@@ -22,20 +22,17 @@ public class Room implements Serializable {
 
     //=====================Fields==========================//
     /** Map of all the Door objects in the Room. */
-    private HashMap<Direction, Door> myDoors;
+    private Map <Direction, Door> myDoors;
 
     /** The row of the Room in the Maze. */
     private int myRow;
-
-    private  int myRowCnt;
-
     /** The column of the Room in the Maze. */
     private int myColumn;
-
-    private int myColCnt;
-
     /**
-     * Default constructor.
+     * Constructs a Room object.
+     *
+     * @param theRow row of Room in maze
+     * @param theColumn column of Room in maze
      */
     public Room(final int theRow, final int theColumn) {
         myDoors = new HashMap<>();
@@ -43,20 +40,10 @@ public class Room implements Serializable {
         myColumn = theColumn;
     }
     /**
-     * Constructs a Room object.
-     *
-     * @param theRow row of Room in maze
-     * @param theColumn column of Room in maze
-     */
-    public Room(final int theRow, final int theColumn,
-                final int theRowCnt, final int theColCnt) {
-    }
-
-    /**
      * Get all the Doors in the Room.
      * @return Doors in Room
      */
-    public HashMap<Direction, Door> getAllDoors() {
+    public Map<Direction, Door> getAllDoors() {
         return myDoors;
     }
 
@@ -94,9 +81,13 @@ public class Room implements Serializable {
         myDoors.put(theDir, theDoor);
     }
 
+    /**
+     * Overridden toString representation of Room.class.
+     *
+     * @return Returns raw version of Room.class via String.
+     */
     @Override
     public String toString() {
         return "\nRoom: " + myRow + ", " + myColumn;
     }
-
 }

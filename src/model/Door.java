@@ -1,34 +1,31 @@
 package model;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * Door object in the maze.
- * @author Viktoria Dolojan
- * @author Rick Adams
- * @author Justin Ho
- * @version Fall 2023
- * Trivia Maze - Team 2
+ * @author Viktoria Dolojan.
+ * @author Rick Adams.
+ * @author Justin Ho.
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
-public class Door implements Serializable, PropertyChangeListener {
+public class Door implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
-//=====================Fields==========================//
+    //=====================Fields==========================//
     /** The first connected Room. */
-    final private Room myRoom1;
+    private final Room myRoom1;
 
     /** The second connected Room. */
-    final private Room myRoom2;
+    private final  Room myRoom2;
 
     /** Direction of Door relative to Room 1. */
-    final private Direction myDir1;
+    private final Direction myDir1;
 
     /** Direction of Door relative to Room 2. */
-    final private Direction myDir2;
+    private final  Direction myDir2;
 
     /** Status of whether door is unlocked or not. */
     private boolean myUnlocked;
@@ -43,7 +40,12 @@ public class Door implements Serializable, PropertyChangeListener {
     private boolean myBeingAttempted;
 
     /**
-     * Default constructor.
+     *Constructor for Door.class, for obj instantiation.
+     *
+     * @param theRoom1 The 1st room obj.
+     * @param theRoom2 The 2nd room obj.
+     * @param theDir1 The 1st directional obj.
+     * @param theDir2 The 2nd direction obj.
      */
     public Door(final Room theRoom1, final Room theRoom2,
                 final Direction theDir1, final Direction theDir2) {
@@ -62,7 +64,8 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get the first Room the Door is connected to.
-     * @return first Room
+     *
+     * @return first Room.
      */
     public Room getRoom1() {
         return myRoom1;
@@ -70,7 +73,8 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get the second Room the Door is connected to.
-     * @return second Room
+     *
+     * @return second Room.
      */
     public Room getRoom2() {
         return myRoom2;
@@ -78,7 +82,8 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get Direction 1 of Door.
-     * @return Direction 1
+     *
+     * @return Direction 1.
      */
     public Direction getMyDir1() {
         return myDir1;
@@ -86,7 +91,8 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get Direction 2 of Door.
-     * @return Direction 2
+     *
+     * @return Direction 2.
      */
     public Direction getMyDir2() {
         return myDir2;
@@ -94,7 +100,8 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get the unlock status of the door.
-     * @return true if door is unlocked
+     *
+     * @return true if door is unlocked.
      */
     public boolean getUnlocked() {
         return myUnlocked;
@@ -102,7 +109,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get the close status of the door.
-     * @return true if door is closed forever
+     * @return true if door is closed forever.
      */
     public boolean getClosed() {
         return myClosed;
@@ -110,7 +117,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get the trivia question assigned to the door.
-     * @return the trivia question
+     * @return the trivia question.
      */
     public Question getQuestion() {
         return myQuestion;
@@ -118,7 +125,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Get the current door that is being attempted.
-     * @return current door
+     * @return current door.
      */
     public boolean getAttempting() {
         return myBeingAttempted;
@@ -140,7 +147,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Assigns a trivia question to the door.
-     * @param theQuestion the trivia question
+     * @param theQuestion the trivia question.
      */
     public void setQuestion(final Question theQuestion) {
         myQuestion = theQuestion;
@@ -148,7 +155,7 @@ public class Door implements Serializable, PropertyChangeListener {
 
     /**
      * Set whether the door is being attempted by the player.
-     * @param theAttempt true if door is being attempted
+     * @param theAttempt true if door is being attempted.
      */
     public void setAttempting(final boolean theAttempt) {
         myBeingAttempted = theAttempt;
@@ -167,9 +174,5 @@ public class Door implements Serializable, PropertyChangeListener {
         return "\nDoor:" + status +
                 "\n1 " + myRoom1.toString() + ", " + myDir1 +
                 "\n2 " + myRoom2.toString() + ", " + myDir2;
-    }
-
-    @Override
-    public void propertyChange(final PropertyChangeEvent theEvent) {
     }
 }

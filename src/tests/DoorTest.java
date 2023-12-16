@@ -70,13 +70,4 @@ public class DoorTest {
 
         assertTrue(myDoor.getClosed()); // Door should be closed forever after calling closeDoor
     }
-
-    @Test
-    public void testPropertyChange() {
-        myDoor = new Door(myRoom1, myRoom2, Direction.SOUTH, Direction.NORTH);
-        PropertyChangeEvent event = new PropertyChangeEvent(this,
-                "myQuestion", null,
-                "New Question");
-        myDoor.propertyChange(event);
-    }
 }

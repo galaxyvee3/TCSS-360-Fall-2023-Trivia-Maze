@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Map;
 import model.Direction;
 import model.Door;
 import model.Maze;
@@ -72,7 +73,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
             for(int k = 0; k < MAZE_SIZE; k++) {
                 Room[][] maze = myMaze.getRooms();
                 Room room = maze[i][k];
-                HashMap<Direction, Door> allDoors = room.getAllDoors();
+                Map <Direction, Door> allDoors = room.getAllDoors();
                 for (Direction direction : allDoors.keySet()) {
                     Door door = room.getDoor(direction);
                     if (!door.getUnlocked()) { // draw doors

@@ -1,13 +1,10 @@
 package model;
 
-import java.util.List;
+import java.util.*;
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
 
 /**
  * Maze class for Trivia Maze, Team 2.
@@ -276,7 +273,7 @@ public class Maze implements Serializable {
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int k = 0; k < MAZE_SIZE; k++) {
                 Room room = theMaze[i][k];
-                HashMap<Direction, Door> allDoors = room.getAllDoors();
+                Map <Direction, Door> allDoors = room.getAllDoors();
                 for (Direction direction : allDoors.keySet()) {
                     Door door = room.getDoor(direction);
                     if (door.getClosed()) {
