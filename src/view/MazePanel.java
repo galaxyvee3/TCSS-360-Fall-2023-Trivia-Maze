@@ -128,6 +128,7 @@ public class MazePanel extends JPanel implements PropertyChangeListener {
 
     /**
      * Repaint maze whenever player has moved within the maze and when a door is unlocked or closed.
+     *
      * @param theEvent A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
      */

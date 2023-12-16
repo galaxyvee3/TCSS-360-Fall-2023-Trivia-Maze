@@ -1,3 +1,0 @@
-Clue 1: This is the first clue.
-Clue 2: This is the second clue.
-Clue 3: This is the third clue.

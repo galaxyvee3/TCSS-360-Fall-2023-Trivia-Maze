@@ -15,20 +15,12 @@ import java.util.logging.Logger;
  * Trivia Maze - Team 2
  */
 public class Room implements Serializable {
-
+    //======================Constants======================//
+    /** Constant for serializable. */
     @Serial
     private static final long serialVersionUID = 2L;
 
-//======================Constants======================//
-    private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
-
-    private static final Random RANDOM = new Random();
-
-    private static final int EDGE_COUNT = 2;
-
-    private static final int INNER_COUNT = 4;
-
-//=====================Fields==========================//
+    //=====================Fields==========================//
     /** Map of all the Door objects in the Room. */
     private HashMap<Direction, Door> myDoors;
 
@@ -42,15 +34,6 @@ public class Room implements Serializable {
 
     private int myColCnt;
 
-    /** Boolean for whether there is a clue available. */
-    private boolean myClueStatus;
-
-    /** The clue for the trivia question. */
-    private String myClueContent;
-
-    /** The clue manager for the Room. */
-    private ClueManager myCM;
-
     /**
      * Default constructor.
      */
@@ -58,10 +41,15 @@ public class Room implements Serializable {
         myDoors = new HashMap<>();
         myRow = theRow;
         myColumn = theColumn;
-        myCM = new ClueManager();
-        initializeState();
-        initializeClue();
-        generateClueContent();
+    }
+    /**
+     * Constructs a Room object.
+     *
+     * @param theRow row of Room in maze
+     * @param theColumn column of Room in maze
+     */
+    public Room(final int theRow, final int theColumn,
+                final int theRowCnt, final int theColCnt) {
     }
 
     /**
@@ -104,88 +92,6 @@ public class Room implements Serializable {
      */
     public void addDoor(final Direction theDir, final Door theDoor) {
         myDoors.put(theDir, theDoor);
-    }
-
-    /**
-     * Constructs a Room object.
-     * @param theRow row of Room in maze
-     * @param theColumn column of Room in maze
-     */
-    public Room(final int theRow, final int theColumn,
-                final int theRowCnt, final int theColCnt) {
-        initializePosition(theRow, theColumn, theRowCnt, theColCnt);
-    }
-
-    /**
-     * Returns whether a clue is available.
-     * @return true if there is a clue available
-     */
-    public boolean isCluePresent() {
-        return myClueStatus;
-    }
-
-    /**
-     * Returns the clue to help the user answer the trivia question.
-     * @return clue
-     */
-    public String getMyClueContent() {
-        return myClueContent;
-    }
-
-    /**
-     * Generates a clue for the trivia question.
-     * @return clue
-     */
-    private String generateClueContent() {
-        myClueStatus = RANDOM.nextBoolean();
-        if (myClueStatus) {
-            myClueContent = myCM.getClues();
-        } else {
-            myClueContent = "No bonus item present.";
-        }
-        return myClueContent;
-    }
-
-    private boolean isOnEdgeOfMaze() {
-        // Check if the room is on the edge of the maze
-        return myRow == 0 || myRow == myRowCnt - 1
-                || myColumn == 0 || myColumn == myColCnt - 1;
-    }
-
-    private int doorCounter() {
-        final int doorCount;
-        if (isOnEdgeOfMaze()) {
-            doorCount = EDGE_COUNT;
-        } else {
-            doorCount = INNER_COUNT;
-        }
-        return doorCount;
-    }
-
-    public int getDoorCount() {
-        return doorCounter();
-    }
-    private void initializePosition(final int theRow, final int theColumn,
-                                    final int theRowCnt, final int theColCnt) {
-        myRow = theRow;
-        myColumn = theColumn;
-        myRowCnt = theRowCnt;
-        myColCnt = theColCnt;
-    }
-
-    private void initializeState() {
-    }
-
-    private void initializeClue() {
-        myClueStatus = RANDOM.nextBoolean();
-        if (myClueStatus) {
-            myClueContent = generateClueContent();
-        }
-    }
-
-    private void logDoorCount() {
-        final int doorCount = doorCounter();
-        LOGGER.info("Door Count: " + doorCount);
     }
 
     @Override

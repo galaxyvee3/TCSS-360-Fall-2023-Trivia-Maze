@@ -1,10 +1,18 @@
 package view;
 
 import controller.GameLauncher;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import model.Maze;
-
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -14,6 +22,7 @@ import java.io.IOException;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
+ *
  * @author Rick Adams
  * @author Viktoria Dolojan
  * @author Justin Ho
@@ -22,14 +31,13 @@ import java.io.IOException;
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze = new Maze();
-
+    /** QuestionPanel object. */
     private static QuestionPanel myQPanel;
-
+    /** MazePanel object. */
     private final MazePanel myMazePanel;
-
     /** Boolean for whether the game is over. */
     private static boolean myGameOver;
-
+    /** Boolean for user escape. */
     private static boolean myEscape;
 
     /**
@@ -62,6 +70,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * Create the menu bar for the Trivia Maze frame.
+     *
      * @return JMenuBar
      */
     private JMenuBar menuBarHelper() {
@@ -74,6 +83,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * GUI for game file menu.
+     *
      * @return JMenu menu for game file
      */
     private static JMenu fileMenu() {
@@ -168,6 +178,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * GUI for game information menu.
+     *
      * @return JMenu menu for game info
      */
     private static JMenu infoMenu() {
@@ -252,6 +263,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         gameFrame.setVisible(true);
     }
 
+    /**
+     * Helper method to render question & maze panels.
+     */
     public void render() {
         // Update the maze display
         myMazePanel.repaint();
@@ -261,14 +275,30 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Mutator for the question panel.
+     *
+     * @param theQuestionPanel returns question panel object.
+     */
     public void setQuestionPanel(final QuestionPanel theQuestionPanel) {
         myQPanel = theQuestionPanel;
     }
 
+    /**
+     * Accessor for MazePanel.
+     *
+     * @return returns MazePAnel object.
+     */
     public MazePanel getMazePanel() {
         return myMazePanel;
     }
 
+    /**
+     * Property change method for handling end-game status change.
+     *
+     * @param theEvent A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_SUCCESS)) {
@@ -282,6 +312,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * Private class that allows the player to traverse the maze using the keyboard.
+     *
      * @author Viktoria Dolojan
      * @version Fall 2023.
      */
