@@ -1,13 +1,14 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.lang.reflect.InvocationTargetException;
 import model.Question;
 import model.QuestionAnswer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionAnswerTest {
 
@@ -20,14 +21,9 @@ public class QuestionAnswerTest {
 
     @Test
     void fetchQuestions() throws Exception {
-
         QuestionAnswer questionAnswer = new QuestionAnswer();
-
         Method fetchQuestionsMethod = QuestionAnswer.class.getDeclaredMethod("fetchQuestions");
-
-
         fetchQuestionsMethod.setAccessible(true);
-
         fetchQuestionsMethod.invoke(questionAnswer);
         assertNotNull(questionAnswer.getQuestions());
     }
@@ -66,8 +62,6 @@ public class QuestionAnswerTest {
         // Verify that the list of questions is empty
         assertFalse(questionAnswerMock.getQuestions().isEmpty());
     }
-
-
 
     // Mock class for Question
     private static class MockQuestion extends Question {

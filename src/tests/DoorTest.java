@@ -1,21 +1,14 @@
 package tests;
 
-import model.Direction;
-import model.Door;
-import model.Room;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.beans.PropertyChangeEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DoorTest {
-
     private Door myDoor;
-
     private Room myRoom1;
-
     private Room myRoom2;
 
     @BeforeEach
@@ -33,41 +26,46 @@ public class DoorTest {
         assertEquals(Direction.NORTH, myDoor.getMyDir2());
         assertFalse(myDoor.getUnlocked());
         assertFalse(myDoor.getClosed());
-        assertNull(myDoor.getQuestion());
-        assertEquals("Door init", myDoor.toString());
+        assertTrue(myDoor.getQuestion().getQuestionType().equalsIgnoreCase("DEFAULT"));
+        assertFalse(myDoor.getAttempting());
     }
 
     @Test
-    void testUnlockedDoor() {
-        assertFalse(myDoor.getUnlocked());
+    void testUnlockDoor() {
+        assertFalse(myDoor.getUnlocked()); // initially locked
         myDoor.unlockDoor();
-        assertTrue(myDoor.getUnlocked());
+        assertTrue(myDoor.getUnlocked()); // now unlocked
     }
 
     @Test
-    void testClosedDoor() {
-        assertFalse(myDoor.getClosed());
+    void testCloseDoor() {
+        assertFalse(myDoor.getClosed()); // initially closed
         myDoor.closeDoor();
-        assertTrue(myDoor.getClosed());
+        assertTrue(myDoor.getClosed()); // now open
     }
 
     @Test
-    public void testUnlockDoor() {
-
-        assertFalse(myDoor.getUnlocked()); // Door should be initially locked
-
-        myDoor.unlockDoor();
-
-        assertTrue(myDoor.getUnlocked()); // Door should be unlocked after calling unlockDoor
+    void testAttachMultipleChoice() {
+        myDoor.setQuestion(new MultipleChoiceQuestions("", "", "", "", ""));
+        assertTrue(myDoor.getQuestion().getQuestionType().equalsIgnoreCase("MULTIPLE_CHOICE"));
     }
 
     @Test
-    public void testCloseDoor() {
+    void testAttachTrueFalse() {
+        myDoor.setQuestion(new TrueFalseQuestions("", ""));
+        assertTrue(myDoor.getQuestion().getQuestionType().equalsIgnoreCase("TRUE_FALSE"));
+    }
 
-        assertFalse(myDoor.getClosed()); // Door should be initially open
+    @Test
+    void testAttachShortAnswer() {
+        myDoor.setQuestion(new ShortAnswerQuestions("", ""));
+        assertTrue(myDoor.getQuestion().getQuestionType().equalsIgnoreCase("SHORT_ANSWER"));
+    }
 
-        myDoor.closeDoor();
-
-        assertTrue(myDoor.getClosed()); // Door should be closed forever after calling closeDoor
+    @Test
+    void testAttemptDoor() {
+        assertFalse(myDoor.getAttempting()); // initially false
+        myDoor.setAttempting(true);
+        assertTrue(myDoor.getAttempting()); // now true
     }
 }

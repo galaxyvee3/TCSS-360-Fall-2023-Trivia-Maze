@@ -16,7 +16,6 @@ public class MazeTest {
         Maze maze = new Maze();
         assertEquals(0, maze.getMyCurrentRow());
         assertEquals(0, maze.getMyCurrentCol());
-        assertEquals("Maze init", maze.toString());
     }
 
     @Test

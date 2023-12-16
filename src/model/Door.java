@@ -40,7 +40,7 @@ public class Door implements Serializable {
     private boolean myBeingAttempted;
 
     /**
-     *Constructor for Door.class, for obj instantiation.
+     * Constructor for Door, for obj instantiation.
      *
      * @param theRoom1 The 1st room obj.
      * @param theRoom2 The 2nd room obj.
@@ -55,7 +55,7 @@ public class Door implements Serializable {
         myDir2 = theDir2;
         myUnlocked = false;
         myClosed = false;
-        myQuestion = null;
+        myQuestion = new Question("", "");
         myBeingAttempted = false;
         // add door to rooms
         myRoom1.addDoor(myDir1, this);
