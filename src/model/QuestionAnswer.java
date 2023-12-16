@@ -12,19 +12,20 @@ import java.util.logging.Logger;
 
 /**
  * QuestionAnswer class for Trivia Maze.
- * @author Viktoria Dolojan
- * @author Rick Adams
- * @version Fall 2023
+ *
+ * @author Viktoria Dolojan.
+ * @author Rick Adams.
+ * @version Fall 2023.
  */
 public class QuestionAnswer {
-//======================Constants======================//
+    //======================Constants======================//
     /** Logger constant. */
     private static final Logger LOGGER = Logger.getLogger(QuestionAnswer.class.getName());
 
     /** URL constant. */
     private static final String URL = QuestionDatabase.dataSourceString();
 
-//======================Fields======================//
+    //======================Fields======================//
     /** ArrayList of Trivia Questions for the maze. */
     private static List <Question> myQuestions;
 
@@ -86,6 +87,7 @@ public class QuestionAnswer {
 
     /**
      * Get the list of trivia questions.
+     *
      * @return ArrayList of Questions
      */
     public List<Question> getQuestions() {
@@ -94,11 +96,11 @@ public class QuestionAnswer {
 
     /**
      * Overridden toString representation of Q&A.class.
+     *
      * @return Returns Q&A.class via raw String.
      */
     @Override
     public String toString() {
         return "QuestionAnswer { " + "myQuestions  = " + myQuestions + " }";
     }
-
 }
