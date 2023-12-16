@@ -1,6 +1,5 @@
 package controller;
 
-import model.ClueManager;
 import model.Direction;
 import model.Door;
 import model.Room;
@@ -12,6 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *Utility class that helps launch game.
+ *
  * @author rick_adams.
  * @version Fall 2023.
  * Team 2 - Trivia Maze.
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public final class GameLauncher {
     //=============Constant===============//
     /** Logger constant. */
-    private static final Logger LOGGER = Logger.getLogger(ClueManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GameLauncher.class.getName());
     /** Constant for timer delay. */
     private static final int DELAY = 1000;
 
