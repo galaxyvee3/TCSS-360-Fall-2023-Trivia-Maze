@@ -6,7 +6,7 @@ import model.Maze;
 import model.Room;
 import view.GameFrame;
 import view.MazePanel;
-import view.QuestionAnswer;
+import model.QuestionAnswer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -123,8 +123,6 @@ public class GameEngine {
                     myGFrame.getMazePanel().repaint();
                     myGFrame.render();
                 });
-            } else {
-                myTimer.cancel();
             }
         }
     }

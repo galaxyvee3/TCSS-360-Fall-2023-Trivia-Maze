@@ -1,49 +1,66 @@
 package tests;
 
+
 import model.Direction;
 import model.Door;
 import model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoomTest {
-    private Room myRoom;
+
+    private Room room;
 
     @BeforeEach
     void setUp() {
-        myRoom = new Room();
+        room = new Room(1, 2);
     }
 
     @Test
-    void testRoomInit() {
-        assertEquals(new HashMap<Direction, Door>(), myRoom.getAllDoors());
-        assertEquals("Room init", myRoom.toString());
+    void getAllDoors() {
+        assertNotNull(room.getAllDoors());
+        assertTrue(room.getAllDoors().isEmpty());
     }
 
     @Test
-    void testAddDoorToRoom() {
-        Room room = new Room();
-        Door door = new Door(myRoom, room, Direction.SOUTH, Direction.NORTH);
-        HashMap<Direction, Door> map = new HashMap<>();
-        map.put(Direction.NORTH, door);
-        assertEquals(map, myRoom.getAllDoors());
+    void getRow() {
+        assertEquals(1, room.getRow());
     }
 
     @Test
-    void testCluePresence() {
-        boolean cluePresent = false;
-        // Create multiple instances to check clue presence.
-        for (int i = 0; i < 100; i++) {
-            Room room = new Room();
-            if (room.isCluePresent()) {
-                cluePresent = true;
-                break; // Exit the loop if a clue is present in any room.
-            }
-        }
-        assertTrue(cluePresent, "At least one room should have a clue.");
+    void getColumn() {
+        assertEquals(2, room.getColumn());
+    }
+
+    @Test
+    void getDoor() {
+        Direction north = Direction.NORTH; // Replace with your actual Direction implementation
+        Room otherRoom = new Room(2, 2); // Create another room for the door
+
+        Door door = new Door(room, otherRoom, Direction.EAST, Direction.WEST);
+        room.addDoor(north, door);
+
+        assertNotNull(room.getDoor(north));
+        assertEquals(door, room.getDoor(north));
+    }
+
+    @Test
+    void addDoor() {
+        Direction east = Direction.EAST; // Replace with your actual Direction implementation
+        Room otherRoom = new Room(1, 3); // Create another room for the door
+
+        Door door = new Door(room, otherRoom, Direction.WEST, Direction.EAST);
+        room.addDoor(east, door);
+
+        assertNotNull(room.getDoor(east));
+        assertEquals(door, room.getDoor(east));
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("\nRoom: 1, 2", room.toString());
     }
 }

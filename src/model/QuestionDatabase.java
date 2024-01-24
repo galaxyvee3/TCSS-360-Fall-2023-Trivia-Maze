@@ -1,28 +1,28 @@
-package view;
+package model;
 
 import org.sqlite.SQLiteDataSource;
 
-import java.sql.SQLException;
 
 /**
  * The question database that will be used for the trivia questions in the game.
- * @author Rick Adams
- * @version Fall 2023
- * Trivia Maze - Team 2
+ *
+ * @author Rick Adams.
+ * @version Fall 2023.
+ * Trivia Maze - Team 2.
  */
 public final class QuestionDatabase {
-//======================Constants======================//
+    //======================Constants======================//
     /** Path for SQLite database. **/
     private static final String URL = "jdbc:sqlite:QuestionsDB.db";
 
-//=====================Fields==========================//
+    //=====================Fields==========================//
     /** Data source object. **/
     private static SQLiteDataSource myDs;
 
     /**
-     * Private constructor.
+     * Default constructor.
      */
-    private QuestionDatabase() {
+    public QuestionDatabase() {
     }
 
     /**
@@ -42,18 +42,26 @@ public final class QuestionDatabase {
     /**
      * Helper method to initialize the database.
      */
-    public static void initializeDatabase() throws SQLException {
-        myDs = createDataSource();
+    public static SQLiteDataSource initializeDatabase() {
+        return myDs = createDataSource();
     }
 
     /**
      * Data source accessor method.
      * @return returns public data source.
      */
-    public static SQLiteDataSource getDataSource() throws SQLException {
+    public static SQLiteDataSource getDataSource() {
         if (myDs == null) {
             initializeDatabase();
         }
         return myDs;
+    }
+
+    /**
+     * Accessor method for the data source.
+     * @return returns the data source as a string.
+     */
+    public static String dataSourceString() {
+        return URL;
     }
 }

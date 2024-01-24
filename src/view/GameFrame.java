@@ -1,10 +1,18 @@
 package view;
 
 import controller.GameLauncher;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import model.Maze;
-
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -14,6 +22,7 @@ import java.io.IOException;
 
 /**
  * Frame class for the GUI representing the Trivia Maze.
+ *
  * @author Rick Adams
  * @author Viktoria Dolojan
  * @author Justin Ho
@@ -22,20 +31,14 @@ import java.io.IOException;
 public class GameFrame extends JFrame implements PropertyChangeListener {
     /** The current Trivia Maze being played. */
     private static Maze myMaze = new Maze();
-
+    /** QuestionPanel object. */
     private static QuestionPanel myQPanel;
-
+    /** MazePanel object. */
     private final MazePanel myMazePanel;
-
     /** Boolean for whether the game is over. */
-    private static boolean myGameOver = true;
-
-    /** The current row of the player in the maze. */
-    private int myCurrentRow;
-
-    /** The current column of the player in the maze. */
-    private int myCurrentCol;
-
+    private static boolean myGameOver;
+    /** Boolean for user escape. */
+    private static boolean myEscape;
 
     /**
      * Default constructor.
@@ -45,6 +48,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         setLayout(new BorderLayout());
         this.myMazePanel = new MazePanel(myMaze);
         myGameOver = false;
+        myEscape = false;
         addKeyListener(new MovePlayer()); // add key listener to allow player to move
         frameHelper(); // add info to frame
         setFocusable(true);
@@ -55,7 +59,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     /**
      * Helps add details to the game frame.
      */
-    public final void frameHelper() {
+    private void frameHelper() {
         setTitle("Trivia Maze");
         setJMenuBar(menuBarHelper());
         setSize(new Dimension(600, 600));
@@ -66,9 +70,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * Create the menu bar for the Trivia Maze frame.
+     *
      * @return JMenuBar
      */
-    public final JMenuBar menuBarHelper() {
+    private JMenuBar menuBarHelper() {
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(fileMenu());
         menuBar.add(infoMenu());
@@ -78,6 +83,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * GUI for game file menu.
+     *
      * @return JMenu menu for game file
      */
     private static JMenu fileMenu() {
@@ -118,7 +124,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                     if (myMaze != null) {
                         try {
                             myMaze.saveGame(filename);
-                            int option = JOptionPane.showConfirmDialog(null, "SUCCESS! GAME SAVED.", "GAME SAVED", JOptionPane.DEFAULT_OPTION);
+                            final int option = JOptionPane.showConfirmDialog(null,
+                                                                       "SUCCESS! GAME SAVED.",
+                                                                       "GAME SAVED",
+                                                                       JOptionPane.DEFAULT_OPTION);
                             if (option == JOptionPane.OK_OPTION) {
                                 System.exit(0);
                             }
@@ -128,7 +137,6 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                             JOptionPane.showMessageDialog(null,
                                     "Pick option to Save this game");
                         }
-
                     }
                 });
             load.addActionListener(e -> {
@@ -136,11 +144,10 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
                 final String[] chooseSave = {"Game 1", "Game 2", "Game 3"};
 
-                int choice = JOptionPane.showOptionDialog(null,
+                final int choice = JOptionPane.showOptionDialog(null,
                     "Choose the game to load",
                     "Load Game", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
                     null, chooseSave, null);
-
 
                         if (choice == 0) {
                             filename = "saveGame1.ser";
@@ -149,9 +156,8 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                         } else if (choice == 2) {
                             filename = "saveGame3.ser";
                         }
-
                         try {
-                            File file = new File(filename);
+                            final File file = new File(filename);
                             if (file.exists()) {
                                 myMaze.loadGame(filename);
                             }
@@ -172,6 +178,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * GUI for game information menu.
+     *
      * @return JMenu menu for game info
      */
     private static JMenu infoMenu() {
@@ -200,9 +207,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
                 """
                         "Trivia Maze" is a collaborative project developed by Team 2.
                         Any similarities between this and any other projects, past, present, and/or future
-                        "Trivia Maze" projects is strictly coincidental,
-                        and in no way an omission that their project is superior;
-                        Because this one is better.\s"""));
+                        "Trivia Maze" projects is strictly coincidental.\s"""));
         infoMenu.add(about);
 
         return infoMenu;
@@ -215,7 +220,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         final JFrame endFrame = new JFrame("GAME OVER");
         final JPanel endPanel = new JPanel();
         JLabel endLabel;
-        if (myMaze.getGameOver()) { // label for when player successfully escaped
+        if (myEscape) { // label for when player successfully escaped
             endLabel = new JLabel("You escaped the maze!");
         } else { // label for when player is trapped
             endLabel = new JLabel("You could not escape the maze. Try again.");
@@ -258,6 +263,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         gameFrame.setVisible(true);
     }
 
+    /**
+     * Helper method to render question & maze panels.
+     */
     public void render() {
         // Update the maze display
         myMazePanel.repaint();
@@ -267,33 +275,44 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Mutator for the question panel.
+     *
+     * @param theQuestionPanel returns question panel object.
+     */
     public void setQuestionPanel(final QuestionPanel theQuestionPanel) {
         myQPanel = theQuestionPanel;
     }
 
-    public static QuestionPanel getQuestionPanel() {
-        return myQPanel;
-    }
-
+    /**
+     * Accessor for MazePanel.
+     *
+     * @return returns MazePAnel object.
+     */
     public MazePanel getMazePanel() {
         return myMazePanel;
     }
 
     /**
-     * Show game over GUI when player has completed the game.
+     * Property change method for handling end-game status change.
+     *
      * @param theEvent A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
+     *          and the property that has changed.
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER)) {
-            myGameOver = (boolean) theEvent.getNewValue();
+        if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_SUCCESS)) {
+            myEscape = true;
+            gameOver();
+        } else if (theEvent.getPropertyName().equals(Maze.PROPERTY_GAME_OVER_FAIL)) {
+            myEscape = false;
             gameOver();
         }
     }
 
     /**
      * Private class that allows the player to traverse the maze using the keyboard.
+     *
      * @author Viktoria Dolojan
      * @version Fall 2023.
      */

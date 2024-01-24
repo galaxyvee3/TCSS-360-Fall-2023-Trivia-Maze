@@ -1,14 +1,10 @@
 package model;
 
-import view.Question;
-import view.QuestionAnswer;
-
+import java.util.*;
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Maze class for Trivia Maze, Team 2.
@@ -19,13 +15,16 @@ import java.util.Random;
 
 public class Maze implements Serializable {
 //======================Constants======================//
-    /** Property name for game over. */
-    transient public static final String PROPERTY_GAME_OVER = "Game over";
+    /** Property name for game over success. */
+    transient public static final String PROPERTY_GAME_OVER_SUCCESS = "Game over success";
+
+    /** Property name for game over fail. */
+    transient public static final String PROPERTY_GAME_OVER_FAIL = "Game over fail";
 
     /** Property name for updating the maze when player has moved or status of doors has changed. */
     transient public static final String PROPERTY_UPDATE_MAZE = "Update maze";
 
-    /**  Property name for when there is a trivia question. */
+    /** Property name for when there is a trivia question. */
     transient public static final String PROPERTY_TRIVIA_QUESTION = "Trivia question";
 
     /** Property name for when the player has saved the games current state. */
@@ -95,14 +94,14 @@ public class Maze implements Serializable {
         // fill maze with rooms
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int k = 0; k < MAZE_SIZE; k++) {
-                myMaze[i][k] = new Room();
+                myMaze[i][k] = new Room(i, k);
             }
         }
 
         // fill rooms with doors attach trivia question to doors
         Random random = new Random();
         QuestionAnswer qa = new QuestionAnswer();
-        ArrayList<Question> questions = qa.getQuestions();
+        List <Question> questions = qa.getQuestions();
         int i = 0;
         // horizontal doors
         for (int rows = 0; rows < MAZE_SIZE - 1; rows++) {
@@ -207,8 +206,6 @@ public class Maze implements Serializable {
         myCurrentCol = theCol;
     }
 
-
-
     /**
      * Check if the door is unlocked and player can traverse through.
      * @param theDoor the door being checked
@@ -216,7 +213,7 @@ public class Maze implements Serializable {
      */
     public boolean doorUnlocked(final Door theDoor) {
         if (theDoor.getUnlocked()) {
-            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         }
         return theDoor.getUnlocked();
     }
@@ -228,27 +225,148 @@ public class Maze implements Serializable {
      */
     public boolean doorClosed(final Door theDoor) {
         if (theDoor.getClosed()) {
-            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+            myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         }
         return theDoor.getClosed();
     }
 
     /**
-     * CHEAT: unlock door with N key
+     * Unlock the door being attempted.
      */
     public void unlockDoor() {
         myAttemptDoor = false;
+        myCurrentDoor.setAttempting(false);
         myCurrentDoor.unlockDoor();
-        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
     }
 
     /**
-     * CHEAT: close door with M key
+     * Close the door being attempted.
      */
     public void closeDoor() {
         myAttemptDoor = false;
+        myCurrentDoor.setAttempting(false);
         myCurrentDoor.closeDoor();
-        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, false, true);
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
+        char[][] maze = charMaze(myMaze);
+        if (!move(maze, myCurrentRow, myCurrentCol)) {
+            gameOverFail(); // check whether there is still a path to the exit
+        }
+    }
+
+    /**
+     * Creates a 2D char array representing the maze for traversal algorithm.
+     * @param theMaze trivia maze
+     * @return 2D char array representing the maze
+     */
+    private static char[][] charMaze(Room[][] theMaze) {
+        char[][] maze = {{'.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.'},
+                        {' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' '},
+                        {'.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.'},
+                        {' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' '},
+                        {'.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.'},
+                        {' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' '},
+                        {'.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.'},
+                        {' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' '},
+                        {'.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.'},
+                        {' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X', ' '},
+                        {'.', ' ', '.', ' ', '.', ' ', '.', ' ', '.', ' ', '.'}};
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int k = 0; k < MAZE_SIZE; k++) {
+                Room room = theMaze[i][k];
+                Map <Direction, Door> allDoors = room.getAllDoors();
+                for (Direction direction : allDoors.keySet()) {
+                    Door door = room.getDoor(direction);
+                    if (door.getClosed()) {
+                        if (direction == Direction.SOUTH) {
+                            maze[i * 2 + 1][k * 2] = 'X';
+                        } else if (direction == Direction.EAST) {
+                            maze[i * 2][k * 2 + 1] = 'X';
+                        }
+                    } else {
+                        if (direction == Direction.SOUTH) {
+                            maze[i * 2 + 1][k * 2] = '.';
+                        } else if (direction == Direction.EAST) {
+                            maze[i * 2][k * 2 + 1] = '.';
+                        }
+                    }
+                }
+            }
+        }
+        return maze;
+    }
+
+    /**
+     * Recursive maze traversal algorithm that checks whether there is still a playable path to the maze exit.
+     * @param theMaze 2D char array representing the maze
+     * @param theRow current row in maze traversal
+     * @param theCol current column in maze traversal
+     * @return true if there is a playable path to the exit
+     */
+    private static boolean move(char[][] theMaze, int theRow, int theCol) {
+        boolean success = false;
+        if (validMove(theMaze,theRow, theCol)) {
+            markVisited(theMaze, theRow, theCol); // drop a bread crumb to track we've been here
+            if (atExit(theMaze, theRow, theCol))
+                return true;
+
+            // not at exit so need to try other directions
+            success = move(theMaze, theRow + 1, theCol); // down
+            if (!success)
+                success = move(theMaze, theRow, theCol + 1); // right
+            if (!success)
+                success = move(theMaze, theRow - 1, theCol); // up
+            if (!success)
+                success = move(theMaze, theRow, theCol - 1); // left
+            if (!success)
+                markDeadEnd(theMaze, theRow, theCol);
+        }
+        return success;
+    }
+
+    /**
+     * Mark whether the path is a dead end.
+     * @param theMaze 2D char array representing the maze
+     * @param theRow current row in maze traversal
+     * @param theCol current column in maze traversal
+     */
+    private static void markDeadEnd(char[][] theMaze, int theRow, int theCol) {
+        theMaze[theRow][theCol] = 'd';
+    }
+
+    /**
+     * Mark whether the path has been visited.
+     * @param theMaze 2D char array representing the maze
+     * @param theRow current row in maze traversal
+     * @param theCol current column in maze traversal
+     */
+    private static void markVisited(char[][] theMaze, int theRow, int theCol) {
+        theMaze[theRow][theCol] = '*';
+    }
+
+    /**
+     * Check whether the maze traversal algorithm has reached the exit.
+     * @param theMaze 2D char array representing the maze
+     * @param theRow current row in maze traversal
+     * @param theCol current column in maze traversal
+     * @return true if the maze traversal is at the exit
+     */
+    private static boolean atExit(char[][] theMaze, int theRow, int theCol) {
+        return theRow == theMaze.length - 1 && theCol == theMaze[theRow].length - 1;
+    }
+
+    /**
+     * Check whether the maze traversal can move to an unvisited path.
+     * @param theMaze 2D char array representing the maze
+     * @param theRow current row in maze traversal
+     * @param theCol current column in maze traversal
+     * @return true if the path has not been visited yet
+     */
+    private static boolean validMove(char[][] theMaze, int theRow, int theCol) {
+        // inside maze and non visited room
+        return theRow >= 0 && theRow < theMaze.length
+                && theCol >= 0 && theCol < theMaze[theRow].length
+                && theMaze[theRow][theCol] == '.';
     }
 
     /**
@@ -259,8 +377,10 @@ public class Maze implements Serializable {
         // player has encountered a locked door
         myCurrentDoor = theDoor;
         myAttemptDoor = true;
+        myCurrentDoor.setAttempting(true);
         // prompt trivia question from door
         myQuestion = theDoor.getQuestion();
+        myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
 
         String message = "Please enter ";
@@ -279,11 +399,11 @@ public class Maze implements Serializable {
             unlockDoor(); // CHEAT TO UNLOCK DOOR
         } else if (playerAnswer.equalsIgnoreCase("close")) {
             closeDoor(); // CHEAT TO CLOSE DOOR
-        } else if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) { // unlock door bc player is correct
-            unlockDoor();
+        } else if (myQuestion.getAnswer().equalsIgnoreCase(playerAnswer)) {
+            unlockDoor(); // unlock door bc player is correct
             JOptionPane.showMessageDialog(null, "Correct! The door is unlocked.");
-        } else { // close door bc player is incorrect
-            closeDoor();
+        } else {
+            closeDoor(); // close door bc player is incorrect
             JOptionPane.showMessageDialog(null, "Incorrect. The correct answer is: " + myQuestion.getAnswer() + "\nThe door is closed.");
         }
     }
@@ -408,7 +528,7 @@ public class Maze implements Serializable {
         myQuestion = new Question("", "");
 
         // fire property change
-        myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, false);
+        myPCS.firePropertyChange(PROPERTY_GAME_OVER_SUCCESS, oldGameOver, false);
         myPCS.firePropertyChange(PROPERTY_UPDATE_MAZE, null, null);
         myPCS.firePropertyChange(PROPERTY_TRIVIA_QUESTION, null, myQuestion);
     }
@@ -492,9 +612,8 @@ public class Maze implements Serializable {
      */
     public void gameOverSuccess() {
         if(myCurrentRow == (MAZE_SIZE - 1) && myCurrentCol == (MAZE_SIZE - 1)) {
-            final boolean oldGameOver = myGameOver;
             myGameOver = true;
-            myPCS.firePropertyChange(PROPERTY_GAME_OVER, oldGameOver, true);
+            myPCS.firePropertyChange(PROPERTY_GAME_OVER_SUCCESS, false, true);
         }
     }
 
@@ -502,6 +621,8 @@ public class Maze implements Serializable {
      * Checks if player is trapped in the maze because all possible doors are locked.
      */
     public void gameOverFail() {
+        myGameOver = true;
+        myPCS.firePropertyChange(PROPERTY_GAME_OVER_FAIL, false, true);
     }
 
     /**
@@ -514,6 +635,6 @@ public class Maze implements Serializable {
 
     @Override
     public String toString() {
-        return "Maze init";
+        return "Maze: " + myGameOver;
     }
 }

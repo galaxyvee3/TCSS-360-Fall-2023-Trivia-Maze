@@ -1,17 +1,14 @@
-package view;
-
-import java.io.Serial;
-import java.io.Serializable;
+package model;
 
 /**
  * Class for multiple choice questions.
- * @author Rick Adams
- * @author Viktoria Dolojan
- * @version Fall 2023
+ *
+ * @author Rick Adams.
+ * @author Viktoria Dolojan.
+ * @version Fall 2023.
  * Trivia Maze - Team 2.
  */
-public class MultipleChoiceQuestions extends Question implements Serializable {
-
+public class MultipleChoiceQuestions extends Question {
     /** The first choice for the question. */
     private final String myChoiceA;
 
@@ -23,13 +20,21 @@ public class MultipleChoiceQuestions extends Question implements Serializable {
 
     /**
      * Public constructor for object instantiation.
-     * @param theQuestion Question text in string
+     * @param theQuestion Question text in string.
      * @param theAnswer Answer text in string
+     * @param theChoiceA the choice A.
+     * @param theChoiceB choice B.
+     * @param theChoiceC the choice C.
      */
-    public MultipleChoiceQuestions(final String theQuestion, final String theAnswer,
-                                   final String theChoiceA, final String theChoiceB, final String theChoiceC) {
+    public MultipleChoiceQuestions(final String theQuestion,
+                                   final String theAnswer,
+                                   final String theChoiceA,
+                                   final String theChoiceB,
+                                   final String theChoiceC) {
         super(theQuestion, theAnswer);
+
         setMyType(Type.MULTIPLE_CHOICE);
+
         myChoiceA = theChoiceA;
         myChoiceB = theChoiceB;
         myChoiceC = theChoiceC;
@@ -37,7 +42,8 @@ public class MultipleChoiceQuestions extends Question implements Serializable {
 
     /**
      * Get the first choice for the trivia question.
-     * @return choice A
+     *
+     * @return choice A.
      */
     public String getChoiceA() {
         return myChoiceA;
@@ -45,7 +51,8 @@ public class MultipleChoiceQuestions extends Question implements Serializable {
 
     /**
      * Get the second choice for the trivia question.
-     * @return choice B
+     *
+     * @return choice B.
      */
     public String getChoiceB() {
         return myChoiceB;
@@ -53,7 +60,8 @@ public class MultipleChoiceQuestions extends Question implements Serializable {
 
     /**
      * Get the third choice for the trivia question.
-     * @return choice C
+     *
+     * @return choice C.
      */
     public String getChoiceC() {
         return myChoiceC;
